@@ -1,19 +1,18 @@
 <template>
   <div id="app">
     <b-navbar toggleable="lg" type="dark" variant="info" id="nav">
-      <b-nav-item to="/" class="navbar-brand">Vue Recipes</b-nav-item>|
+      <b-nav-item to="/" tag="router-link">Home</b-nav-item>|
+     <router-link :to="{ name: 'search' }">Search</router-link>|
+      {{ !$root.store.username }}
       <span v-if="!$root.store.username">
         Guest:
-        <router-link to="/register">Register</router-link>|
-        <router-link to="/login">Login</router-link>|
+        <router-link :to="{ name: 'register' }">Register</router-link>|
+        <router-link :to="{ name: 'login' }">Login</router-link>|
       </span>
       <span v-else>
-        {{ $root.store.username }}:
-        <button @click="Logout">Logout</button>|
+        {{ $root.store.username }}: <button @click="Logout">Logout</button>|
       </span>
-      <span>
-        <router-link to="/search">Search</router-link>|
-      </span>
+      <!-- </b-collapse> -->
     </b-navbar>
     <router-view />
   </div>

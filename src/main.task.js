@@ -1,5 +1,5 @@
 import Vue from "vue";
-import App from "./App.task.vue";
+import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
 

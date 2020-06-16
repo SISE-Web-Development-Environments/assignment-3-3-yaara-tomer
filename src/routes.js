@@ -12,11 +12,20 @@ const routes = [
     name: "search",
     component:  () => import("./pages/SearchPage")
   },
-
+  {
+    path: "/register",
+    name: "register",
+    component: () => import("./pages/RegisterPage")
+  },
   {
     path: "/login",
     name: "login",
     component: () => import("./pages/LoginPage")
+  },
+  {
+    path: "/recipe/:recipeId",
+    name: "recipe",
+    component: () => import("./pages/FullRecipeViewPage")
   },
   {
     path: "*",
