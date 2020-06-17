@@ -3,10 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve_task": "vue-cli-service serve src/main.task.js",
-    "serve_solution": "vue-cli-service serve src/main.solution.js",
-    "build_task": "vue-cli-service build src/main.task.js",
-    "build_solution": "vue-cli-service build src/main.solution.js"
+    "serve_task": "vue-cli-service serve src/main.js",
+    "build_task": "vue-cli-service build src/main.js"
   },
   "dependencies": {
     "axios": "^0.19.2",
