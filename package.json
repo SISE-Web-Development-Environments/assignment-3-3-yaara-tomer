@@ -1,5 +1,5 @@
 {
-  "name": "lab12-vue-3",
+  "name": "My Recipe Website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
+    "vue-cli-plugin-mdb": "^2.1.0",
     "vue-router": "^3.2.0",
     "vuelidate": "^0.7.5"
   },
