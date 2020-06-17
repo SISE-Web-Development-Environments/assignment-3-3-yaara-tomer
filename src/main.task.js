@@ -2,13 +2,17 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
-
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import routes from "./routes";
 import VueRouter from "vue-router";
+
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
 Vue.use(VueRouter);
 const router = new VueRouter({
   routes
 });
+
 
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
@@ -41,7 +45,9 @@ Vue.use(Vuelidate);
 
 axios.interceptors.request.use(
   function(config) {
-    // Do something before request is sent
+    // Do something before request is sent 
+     console.log('Starting Request', config)
+
     return config;
   },
   function(error) {
@@ -53,7 +59,6 @@ axios.interceptors.request.use(
 // Add a response interceptor
 axios.interceptors.response.use(
   function(response) {
-    // Do something with response data
     return response;
   },
   function(error) {
@@ -64,23 +69,12 @@ axios.interceptors.response.use(
 
 Vue.use(VueAxios, axios);
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = false; 
 
-const shared_data = {
-  username: localStorage.username,
-  login(username) {
-    localStorage.setItem("username", username);
-    this.username = username;
-    console.log("login", this.username);
-  },
-  logout() {
-    console.log("logout");
-    localStorage.removeItem("username");
-    this.username = undefined;
-  }
-};
+
+import { shared_data } from "./shared_data";
+Vue.prototype.$store = shared_data;
 console.log(shared_data);
-// Vue.prototype.$root.store = shared_data;
 
 new Vue({
   router,
