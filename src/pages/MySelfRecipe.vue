@@ -1,12 +1,23 @@
 <template>
     <div class="container">  
-    <h1 class="title">self recipe</h1>
+    <h6  class="mb-14 " style=" color:#008080; font-size: 26px;text-align: center;">My Personal Recipes: </h6>     
+    <RecipePreviewGrid  :recipes="demoRecipes"  />
 
   </div>
 </template>
 
 <script>
+import RecipePreviewGrid from "../components/RecipePreviewGrid";
 export default {
+components:{
+RecipePreviewGrid,
+},
+data(){
+  return{
+      RandomRecipes: [],
+      demoRecipes: this.$store.demoRecipes,
+      };
+  },
 
 }
 </script>

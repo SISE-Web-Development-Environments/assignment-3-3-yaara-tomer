@@ -1,5 +1,5 @@
 {
-  "name": "My Recipe Website",
+  "name": "My_Recipe_Website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,10 +12,9 @@
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
     "core-js": "^3.6.5",
-    "mdbvue": "^6.7.1",
+    "mdbvue": "6.7.1",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
-    "vue-cli-plugin-mdb": "^2.1.0",
     "vue-router": "^3.2.0",
     "vuelidate": "^0.7.5"
   },
