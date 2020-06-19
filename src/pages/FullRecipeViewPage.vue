@@ -65,7 +65,7 @@ export default {
         if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
         console.log("error.response.status", error.response.status);
-        this.$router.replace("/NotFound");
+        this.$router.replace("/");
         return;
       }
 
