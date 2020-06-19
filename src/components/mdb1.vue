@@ -25,7 +25,7 @@
               {{ recipe.readyInMinutes }} min
             </p>
             <p>
-              <mdb-icon icon="thumbs-up" size="lg" class=" blue-text pr-4" />
+              <mdb-icon icon="thumbs-up" size="lg" class=" blue-text pr-2" />
               {{ recipe.aggregateLikes }}
               Likes
             </p>
@@ -98,21 +98,25 @@ export default {
     // mdbChip,
   },
   mounted() {
-    console.log("recipe preview mounted!");
     this.showVegan = this.recipe.vegan || this.recipe.vegetarian;
     if (this.recipe.vegan === true) this.leafText = "Vegan";
     this.showglutenFree = this.recipe.glutenFree;
     this.isLoggedIn = this.$store.LoggedIn;
+    if (this.$store.recipesMetaData[this.recipe.id]) {
+      console.log("mdb1 mounted! update favoreite and watched from store");
+
+      this.isFavorite = this.$store.recipesMetaData[this.recipe.id].favorite;
+      this.isWatched = this.$store.recipesMetaData[this.recipe.id].watched;
+    }
   },
   data() {
     return {
       showVegan: true,
       showglutenFree: true,
       leafText: "Vegetarian",
-
-      // isLoggedIn: true,
-      // isWatched: false,
-      //isFavorite: false,
+      isFavorite: false,
+      isWatched: false,
+      isLoggedIn: false
     };
   },
   props: {
@@ -121,40 +125,92 @@ export default {
       required: true,
     },
   },
-  computed: {
-    isFavorite: function() {
-      console.log("isFavorite computed");
-      return this.$store.recipesMetaData[this.recipe.id].favorite;
-    },
-    isWatched: function() {
-      console.log("isWatched computed");
-      return this.$store.recipesMetaData[this.recipe.id].watched;
-    },
-    isLoggedIn: function() {
-      console.log("isWatched computed");
-      return this.$store.LoggedIn;
-    },
-  },
   methods: {
     async handleFavorite() {
       console.log("favorite clicked");
-      this.isFavorite = !this.isFavorite;
-      this.$store.recipesMetaData[this.recipe.id].favorite = this.isFavorite;
 
+      //update icon display
+      this.isFavorite = !this.isFavorite;
+
+      //update local store
+      console.log(
+        "store before: " + this.$store.recipesMetaData[this.recipe.id].favorite
+      );
+      this.$store.recipesMetaData[this.recipe.id].favorite = !this.$store
+        .recipesMetaData[this.recipe.id].favorite;
+      console.log(
+        "store after: " + this.$store.recipesMetaData[this.recipe.id].favorite
+      );
+
+      //update server
+      if (this.isFavorite === true) {
+        this.addToFavorite();
+      } else {
+        this.removeFromFavorite();
+      }
+
+      //update server
+    },
+    async addToFavorite() {
       const response = await this.axios
-        .get(this.$store.server_domain + "user/markAsFavorite", {
-          params: {
-            id: recipe.id,
-          },
-        })
-        .then((response) => { //if server failed restore previous value
+        .post(
+          this.$store.server_domain +
+            "user/markAsFavorite?id=" +
+            this.recipe.id,
+          {},
+          { withCredentials: true }
+        )
+        .then((response) => {
+          //if server failed restore previous value
           if (response.status !== 200) {
-            console.log("server failed to set as favorite. id: "+ recipe.id);
+            console.log(
+              " not 200 server failed to set as favorite. id: " + recipe.id
+            );
             this.isFavorite = !this.isFavorite;
             this.$store.recipesMetaData[
               this.recipe.id
             ].favorite = this.isFavorite;
           }
+        })
+        .catch((error) => {
+          console.log(
+            "error server failed to set as favorite. id: " + recipe.id
+          );
+          this.isFavorite = !this.isFavorite;
+          this.$store.recipesMetaData[
+            this.recipe.id
+          ].favorite = this.isFavorite;
+        });
+    },
+    async removeFromFavorite() {
+      const response = await this.axios
+        .post(
+          this.$store.server_domain +
+            "user/removeFromFavorite?id=" +
+            this.recipe.id,
+          {},
+          { withCredentials: true }
+        )
+        .then((response) => {
+          //if server failed restore previous value
+          if (response.status !== 200) {
+            console.log(
+              " not 200 server failed to set as favorite. id: " + recipe.id
+            );
+            this.isFavorite = !this.isFavorite;
+            this.$store.recipesMetaData[
+              this.recipe.id
+            ].favorite = this.isFavorite;
+          }
+        })
+        .catch((error) => {
+          console.log(
+            "error server failed to set as favorite. id: " + recipe.id
+          );
+          this.isFavorite = !this.isFavorite;
+          this.$store.recipesMetaData[
+            this.recipe.id
+          ].favorite = this.isFavorite;
         });
     },
     handleEnterRecipe() {
