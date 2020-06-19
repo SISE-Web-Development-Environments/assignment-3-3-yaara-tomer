@@ -72,19 +72,19 @@ export default {
       form: {
         username: "",
         password: "",
-        submitError: undefined
-      }
+        submitError: undefined,
+      },
     };
   },
   validations: {
     form: {
       username: {
-        required
+        required,
       },
       password: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
     validateState(param) {
@@ -94,14 +94,15 @@ export default {
     async Login() {
       try {
         const response = await this.axios.post(
-          this.$store.server_domain +"login",
+          this.$store.server_domain + "login",
           {
             username: this.form.username,
-            password: this.form.password
+            password: this.form.password,
           },
           { withCredentials: true }
         );
         console.log(response);
+
         //this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
@@ -121,8 +122,8 @@ export default {
       // console.log("login method go");
 
       this.Login();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
