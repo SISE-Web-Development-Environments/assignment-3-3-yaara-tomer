@@ -24,6 +24,7 @@ import"bootstrap-css-only/css/bootstrap.min.css";
 import"mdbvue/lib/css/mdb.min.css";
 import"@fortawesome/fontawesome-free/css/all.min.css";
 
+
 import {
   FormGroupPlugin,
   FormPlugin,
@@ -49,6 +50,7 @@ import {
   LayoutPlugin
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
+Vue.use(BootstrapVue)
 
 axios.interceptors.request.use(
   function(config) {
@@ -79,8 +81,10 @@ Vue.use(VueAxios, axios);
 Vue.config.productionTip = false; 
 
 
+
 import { shared_data } from "./shared_data";
 Vue.prototype.$store = shared_data;
+
 new Vue({
   router,
   data() {
