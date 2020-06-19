@@ -1,40 +1,74 @@
 <template>
+  <div class="container">
+    <h6  class="mb-14 " style=" color:#008080; font-size: 26px;text-align: center;">Randome recipes: </h6>     
+    <RecipePreviewGrid  :recipes="demoRecipes"  />
 
-  <div class="container">  
-    <h1 class="title">Main Page</h1>
-    <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" />
-    <router-link v-if="!$root.store.username" to="/login" tag="button"
-      >You need to Login to vue this</router-link>
-    {{ !$root.store.username }}
-    <RecipePreviewList
-      title="Last Viewed Recipes"
+ <h4 v-if="!this.$store.LoggedIn" class="mb-14 " style=" color:#008080; font-size: 26px;">If you want to see this, you need to <b-link :to="{ name: 'login' }">Login</b-link> </h4>  
+  <br>
+   <h6  class="mb-14 "  v-if="!this.$store.LoggedIn" style=" color:#008080; font-size: 26px;
+   text-align: center;  filter: blur(3px);">Last Watched Recipes: </h6>
+   <h6  class="mb-14 " v-if="this.$store.LoggedIn" style=" color:#008080; font-size: 26px;text-align: center;">Last Watched Recipes: </h6>
+    <RecipePreviewGrid 
+     
       :class="{
         RandomRecipes: true,
-        blur: !$root.store.username,
-        center: true
+        blur: !this.$store.LoggedIn,
+        center: true,
       }"
       disabled
+      :recipes="demoRecipes"
     >
-    </RecipePreviewList>
-      </div>
+    </RecipePreviewGrid>
+  
+  </div>
 </template>
 
 <script>
+  import { mdbBtn } from 'mdbvue';
+import RecipePreviewGrid from "../components/RecipePreviewGrid";
 import RecipePreviewList from "../components/RecipePreviewList";
 export default {
   components: {
-    RecipePreviewList
-  }
+   // RecipePreviewList,
+    RecipePreviewGrid,
+
+  },
+data(){
+  return{
+      RandomRecipes: [],
+      demoRecipes: this.$store.demoRecipes,
+      LastWatchedRecipes: [],
+       username: this.$store.username
+    };
+  },
+ async created() {
+    const response1 = await this.axios.get(
+          "https://test-for-3-2.herokuapp.com/recipes/randomRecipesPreview"
+        ); 
+        const RandomRecipesResult = response1.data.recipes;
+         this.RandomRecipes = [];
+         this.RandomRecipes.push(...RandomRecipesResult);
+
+        if (this.$store.LoggedIn) {
+         const response2 = await this.axios.get(
+          "https://test-for-3-2.herokuapp.com//user/lastWatchedRecipesPreview"
+        ); 
+        const LastWatchedResult = response1.data.recipes;
+         this.demoRecipes = [];
+         this.demoRecipes.push(...LastWatchedResult);
+        }
+}
+  
 };
 </script>
 
 <style lang="scss" scoped>
 .RandomRecipes {
-  margin: 10px 0 10px;
+  margin: 2px 0 10px;
 }
 .blur {
-  -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
-  filter: blur(2px);
+  -webkit-filter: blur(6px); /* Safari 6.0 - 9.0 */
+  filter: blur(3px);
 }
 ::v-deep .blur .recipe-preview {
   pointer-events: none;

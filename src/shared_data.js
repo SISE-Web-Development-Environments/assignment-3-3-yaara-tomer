@@ -5,6 +5,8 @@ export const shared_data = {
 
   userDetails: undefined,
 
+  username: "yaara",
+
   recipes: {},
 
   recipesMetaData: {
@@ -23,7 +25,7 @@ export const shared_data = {
     "632826": {
       watched: true,
       favorite: true,
-    }
+    },
   },
 
   demoRecipes: [
@@ -108,4 +110,14 @@ export const shared_data = {
       aggregateLikes: 59,
     },
   ],
+
+  login(username) {
+
+    this.username = username;
+    console.log("login", this.username);
+  },
+  logout() {
+
+    this.username = undefined;
+  },
 };
