@@ -1,3 +1,6 @@
+import '@fortawesome/fontawesome-free/css/all.min.css'
+import 'bootstrap-css-only/css/bootstrap.min.css'
+import 'mdbvue/lib/css/mdb.min.css'
 import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
@@ -17,6 +20,9 @@ const router = new VueRouter({
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import"bootstrap-css-only/css/bootstrap.min.css";
+import"mdbvue/lib/css/mdb.min.css";
+import"@fortawesome/fontawesome-free/css/all.min.css";
 
 
 import {
@@ -75,22 +81,9 @@ Vue.use(VueAxios, axios);
 Vue.config.productionTip = false; 
 
 
-const shared_data = {
-  username: localStorage.username,
-  login(username) {
-    localStorage.setItem("username", username);
-    this.username = username;
-    console.log("login", this.username);
-  },
-  logout() {
-    console.log("logout");
-    localStorage.removeItem("username");
-    this.username = undefined;
-  }
-};
-console.log(shared_data);
-// Vue.prototype.$store = shared_data;
 
+import { shared_data } from "./shared_data";
+Vue.prototype.$store = shared_data;
 
 new Vue({
   router,

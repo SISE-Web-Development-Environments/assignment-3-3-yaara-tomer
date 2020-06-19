@@ -1,25 +1,23 @@
 <template>
   <b-container>
     <b-row class="mb-5 mt-5" v-for="i in rowCount" :key="i">
-      <b-col v-for="r in itemCountInRow(i)" :key="r.id"> //ToDo add col size
-        <RecipePreview class="recipePreview" :recipe="r" />
+      <b-col cols="4" v-for="r in itemCountInRow(i)" :key="r.id">
+        <mdb1 :recipe="r"></mdb1>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
+import mdb1 from "./mdb1";
 import RecipePreview from "./RecipePreview";
 export default {
-  name: "RecipePreviewList",
+  name: "RecipePreviewGrid",
   components: {
-    RecipePreview,
+    // RecipePreview,
+    mdb1
   },
   props: {
-    itemsPerRow: {
-      type: Number,
-      required: true,
-    },
     recipes: {
       type: Array,
       required: true,
@@ -27,6 +25,7 @@ export default {
   },
   data() {
     return {
+      itemsPerRow:3
     };
   },
   
