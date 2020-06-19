@@ -55,7 +55,7 @@
             ><mdb-icon class="blue-text" fas icon="star" size="lg" />
             Favorite</a
           >
-          <a v-if="showEye" class="px-2"
+          <a v-if="isWatched" class="px-2"
             ><mdb-icon class="black-text" fas icon="eye" size="lg" /> Watched</a
           >
         </div>
@@ -99,27 +99,20 @@ export default {
   },
   mounted() {
     console.log("recipe preview mounted!");
-    console.log("recipesMetaData: " + this.$store.recipesMetaData.data);
     this.showVegan = this.recipe.vegan || this.recipe.vegetarian;
     if (this.recipe.vegan === true) this.leafText = "Vegan";
     this.showglutenFree = this.recipe.glutenFree;
     this.isLoggedIn = this.$store.LoggedIn;
-    if (this.isLoggedIn) {
-      console.log(
-        "recpie meta date:" + this.$store.recipesMetaData[this.recipe.id]
-      );
-      this.isFavorite = this.$store.recipesMetaData[this.recipe.id].favorite;
-      this.showEye = this.$store.recipesMetaData[this.recipe.id].watched;
-    }
   },
   data() {
     return {
       showVegan: true,
       showglutenFree: true,
-      showEye: false,
-      //isFavorite: false,
-      isLoggedIn: true,
       leafText: "Vegetarian",
+
+      // isLoggedIn: true,
+      // isWatched: false,
+      //isFavorite: false,
     };
   },
   props: {
@@ -129,18 +122,40 @@ export default {
     },
   },
   computed: {
-    // a computed getter
     isFavorite: function() {
       console.log("isFavorite computed");
       return this.$store.recipesMetaData[this.recipe.id].favorite;
     },
+    isWatched: function() {
+      console.log("isWatched computed");
+      return this.$store.recipesMetaData[this.recipe.id].watched;
+    },
+    isLoggedIn: function() {
+      console.log("isWatched computed");
+      return this.$store.LoggedIn;
+    },
   },
   methods: {
-    handleFavorite() {
-      console.log("favorite");
+    async handleFavorite() {
+      console.log("favorite clicked");
       this.isFavorite = !this.isFavorite;
       this.$store.recipesMetaData[this.recipe.id].favorite = this.isFavorite;
-      //TODO update server
+
+      const response = await this.axios
+        .get(this.$store.server_domain + "user/markAsFavorite", {
+          params: {
+            id: recipe.id,
+          },
+        })
+        .then((response) => { //if server failed restore previous value
+          if (response.status !== 200) {
+            console.log("server failed to set as favorite. id: "+ recipe.id);
+            this.isFavorite = !this.isFavorite;
+            this.$store.recipesMetaData[
+              this.recipe.id
+            ].favorite = this.isFavorite;
+          }
+        });
     },
     handleEnterRecipe() {
       console.log("EnterRecipe");
