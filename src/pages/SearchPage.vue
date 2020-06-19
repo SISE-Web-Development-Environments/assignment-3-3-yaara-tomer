@@ -103,7 +103,7 @@
     <b-row>
       <b-button block variant="primary" @click="onSearch">Search</b-button>
     </b-row>
-    <b-overlay v-if="showResults" :show="loading" rounded="sm">
+    <b-overlay :show="loading" rounded="sm">
       <b-row class="mt-5">
         <b-col
           >{{ recipes.length }} recipe results for "{{ form.query }}"</b-col
@@ -138,7 +138,7 @@
         </b-col>
       </b-row>
       <b-row>
-        <RecipePreviewGrid v-if="show" :recipes="demoRecipes" />
+        <RecipePreviewGrid :recipes="recipes" />
       </b-row>
     </b-overlay>
   </b-container>
@@ -152,6 +152,13 @@ export default {
   components: {
     RecipePreviewGrid,
   },
+  mounted() {
+    console.log("search mounted");
+    if (this.$store.lastSearch) {
+      this.recipes = this.$store.lastSearch.results;
+      this.form = this.$store.lastSearch.form;
+    }
+  },
   data() {
     return {
       form: {
@@ -161,9 +168,8 @@ export default {
         intolerance: null,
         number: 5,
       },
-      show: true,
+      // show: false,
       loading: false,
-      showResults: true,
       recipes: [],
       demoRecipes: this.$store.demoRecipes,
       sortBy: {
@@ -172,80 +178,72 @@ export default {
       },
     };
   },
-  computed: {
-    rowCount: function() {
-      return Math.ceil(this.items.length / this.itemsPerRow);
-    },
-  },
-
   methods: {
     onSearch(evt) {
       evt.preventDefault();
       this.updateRecipes();
-      //alert(JSON.stringify(this.form));
     },
     async updateRecipes() {
       this.loading = true;
       try {
-        // const response = await this.axios.get(
-        //   this.$store.server_domain + "search",
-        //   {
-        //     params: {
-        //       q: this.form.query,
-        //       n: this.form.number,
-        //       cuisine: this.form.cuisine,
-        //       diet: this.form.diet,
-        //       intolerances: this.form.diet,
-        //     },
-        //   }
-        // );
         const response = await this.axios.get(
-          "https://test-for-3-2.herokuapp.com/recipes/random"
+          this.$store.server_domain + "search",
+          {
+            params: {
+              q: this.form.query,
+              n: this.form.number,
+              cuisine: this.form.cuisine,
+              diet: this.form.diet,
+              intolerances: this.form.diet,
+            },
+          }
         );
+
         console.log(response.data);
-        const SearchResultsRecipes = response.data.recipes;
-        console.log("type of SearchResultsRecipes: " + SearchResultsRecipes);
+        const SearchResultsRecipes = response.data;
 
         this.recipes = [];
         this.recipes.push(...SearchResultsRecipes);
-        // this.recipes.push(...SearchResultsRecipes);
-        // this.recipes.shift();
+        this.saveLastSearchResults();
 
         //add recipes meta data if loogedin
         if (this.$store.LoggedIn) {
-          console.log("before sending");
-          //console.log(this.$store.recipesMetaData);
-
-          //new recipes ids
-          let all_ids = this.recipes.map((recipe) => recipe.id);
-          console.log("all ids: " + all_ids);
-
-          //filter only recipes we dont have meta data on
-          let ids = all_ids.filter((id) => !this.$store.recipesMetaData[id]);
-          console.log("relevant ids: " + ids);
-
-          // let MetaDataresponse = await this.axios.get(
-          //   this.$store.server_domain + "user/recipeInfo/[" + ids + "]",
-          //   { withCredentials: true }
-          // );
-          let MetaDataresponse = await this.axios.get(
-            this.$store.server_domain + "user/recipeInfo/[" + 638342 + "]",
-            { withCredentials: true }
-          );
-          this.$store.recipesMetaData[638342] = MetaDataresponse.data[638342];
-          // add recipes meta data to shared store
-          ids.map((recipe_id) => {
-            this.$store.recipesMetaData[recipe_id] =
-              MetaDataresponse.data[recipe_id];
-          });
-          console.log(this.$store.recipesMetaData);
+          this.updateRecipesMetaData();
         }
-
         this.loading = false;
       } catch (error) {
         console.log(error);
       }
     },
+    async updateRecipesMetaData() {
+      console.log("updateRecipesMetaDta started");
+
+      //search results recipes ids
+      let all_ids = this.recipes.map((recipe) => recipe.id);
+      console.log("all ids: " + all_ids);
+
+      //filter only recipes we dont have meta data on in store memory
+      let ids = all_ids.filter((id) => !this.$store.recipesMetaData[id]);
+      console.log("relevant ids: " + ids);
+
+      //get meta data from server for new recipes
+      if (ids.length > 0) {
+        let MetaDataresponse = await this.axios
+          .get(this.$store.server_domain + "user/recipeInfo/[" + ids + "]", {
+            withCredentials: true,
+          })
+          .catch((error) => {
+            console.log("failed get recipes metadata: " + error);
+          });
+
+        // add New recipes meta data to shared store
+        ids.map((recipe_id) => {
+          this.$store.recipesMetaData[recipe_id] =
+            MetaDataresponse.data[recipe_id];
+        });
+      }
+    },
+
     orderedRecipes() {
       if (this.sortBy.key) {
         this.recipes = _.orderBy(
@@ -254,6 +252,17 @@ export default {
           this.sortBy.order
         );
       }
+    },
+    async saveLastSearchResults() {
+      console.log("start saving results");
+      if (!this.$store.lastSearch) {
+        this.$store.lastSearch = {};
+        console.log("created lastsearch: "+this.$store.lastSearch);
+      }
+
+      this.$store.lastSearch.results = this.recipes;
+      this.$store.lastSearch.form = this.form;
+      console.log("saved results:" + this.$store.lastSearch);
     },
   },
 };
