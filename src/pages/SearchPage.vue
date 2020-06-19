@@ -138,7 +138,7 @@
         </b-col>
       </b-row>
       <b-row>
-        <RecipePreviewGrid v-if="show" :recipes="demoRecipes" />
+        <RecipePreviewGrid v-if="show" :recipes="recipes" />
       </b-row>
     </b-overlay>
   </b-container>
@@ -151,6 +151,9 @@ export default {
   name: "Search",
   components: {
     RecipePreviewGrid,
+  },
+  mounted() {
+    console.log("search mounted");
   },
   data() {
     return {
@@ -187,58 +190,34 @@ export default {
     async updateRecipes() {
       this.loading = true;
       try {
-        // const response = await this.axios.get(
-        //   this.$store.server_domain + "search",
-        //   {
-        //     params: {
-        //       q: this.form.query,
-        //       n: this.form.number,
-        //       cuisine: this.form.cuisine,
-        //       diet: this.form.diet,
-        //       intolerances: this.form.diet,
-        //     },
-        //   }
-        // );
         const response = await this.axios.get(
-          "https://test-for-3-2.herokuapp.com/recipes/random"
+          this.$store.server_domain + "search",
+          {
+            params: {
+              q: this.form.query,
+              n: this.form.number,
+              cuisine: this.form.cuisine,
+              diet: this.form.diet,
+              intolerances: this.form.diet,
+            },
+          }
         );
+        // const response = await this.axios.get(
+        //   "https://test-for-3-2.herokuapp.com/recipes/random"
+        // );
         console.log(response.data);
-        const SearchResultsRecipes = response.data.recipes;
-        console.log("type of SearchResultsRecipes: " + SearchResultsRecipes);
+        //const SearchResultsRecipes = response.data.recipes;
+        const SearchResultsRecipes = response.data;
 
         this.recipes = [];
         this.recipes.push(...SearchResultsRecipes);
+
         // this.recipes.push(...SearchResultsRecipes);
         // this.recipes.shift();
 
         //add recipes meta data if loogedin
         if (this.$store.LoggedIn) {
-          console.log("before sending");
-          //console.log(this.$store.recipesMetaData);
-
-          //new recipes ids
-          let all_ids = this.recipes.map((recipe) => recipe.id);
-          console.log("all ids: " + all_ids);
-
-          //filter only recipes we dont have meta data on
-          let ids = all_ids.filter((id) => !this.$store.recipesMetaData[id]);
-          console.log("relevant ids: " + ids);
-
-          // let MetaDataresponse = await this.axios.get(
-          //   this.$store.server_domain + "user/recipeInfo/[" + ids + "]",
-          //   { withCredentials: true }
-          // );
-          let MetaDataresponse = await this.axios.get(
-            this.$store.server_domain + "user/recipeInfo/[" + 638342 + "]",
-            { withCredentials: true }
-          );
-          this.$store.recipesMetaData[638342] = MetaDataresponse.data[638342];
-          // add recipes meta data to shared store
-          ids.map((recipe_id) => {
-            this.$store.recipesMetaData[recipe_id] =
-              MetaDataresponse.data[recipe_id];
-          });
-          console.log(this.$store.recipesMetaData);
+          this.updateRecipesMetaData();
         }
 
         this.loading = false;
@@ -246,6 +225,31 @@ export default {
         console.log(error);
       }
     },
+    async updateRecipesMetaData() {
+      console.log("updateRecipesMetaDta started");
+      //console.log(this.$store.recipesMetaData);
+
+      //new recipes ids
+      let all_ids = this.recipes.map((recipe) => recipe.id);
+      console.log("all ids: " + all_ids);
+
+      //filter only recipes we dont have meta data on
+      let ids = all_ids.filter((id) => !this.$store.recipesMetaData[id]);
+      console.log("relevant ids: " + ids);
+
+      let MetaDataresponse = await this.axios.get(
+        this.$store.server_domain + "user/recipeInfo/[" + ids + "]",
+        { withCredentials: true }
+      );
+
+      // add New recipes meta data to shared store
+      ids.map((recipe_id) => {
+        this.$store.recipesMetaData[recipe_id] =
+          MetaDataresponse.data[recipe_id];
+      });
+      console.log(this.$store.recipesMetaData);
+    },
+
     orderedRecipes() {
       if (this.sortBy.key) {
         this.recipes = _.orderBy(
