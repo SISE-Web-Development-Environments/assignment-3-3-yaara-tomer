@@ -126,20 +126,15 @@ export default {
   },
   methods: {
     async handleFavorite() {
-      console.log("favorite clicked");
 
       //update icon display
       this.isFavorite = !this.isFavorite;
 
       //update local store
-      console.log(
-        "store before: " + this.$store.recipesMetaData[this.recipe.id].favorite
-      );
+      
       this.$store.recipesMetaData[this.recipe.id].favorite = !this.$store
         .recipesMetaData[this.recipe.id].favorite;
-      console.log(
-        "store after: " + this.$store.recipesMetaData[this.recipe.id].favorite
-      );
+      
 
       //update server
       if (this.isFavorite === true) {
@@ -213,9 +208,7 @@ export default {
         });
     },
     handleEnterRecipe() {
-      console.log("EnterRecipe");
-      //this.$router.push({ path: `/recipe/${recipe.id}` });
-      this.$router.push({ path: `/recipe/123` });
+      this.$router.push({ name: 'recipe', params: { recipeType: this.recipe.type, recipeId: this.recipe.id } })
     },
   },
 };

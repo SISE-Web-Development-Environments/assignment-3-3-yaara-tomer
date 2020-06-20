@@ -46,11 +46,21 @@
         class="mx-auto w-100"
         >Login</b-button
       >
+
       <div class="mt-2">
         Do not have an account yet?
         <router-link to="register"> Register in here</router-link>
       </div>
     </b-form>
+    <div class="d-flex justify-content-center mb-3">
+      <b-spinner
+        v-if="isLoading"
+        class="m-4"
+        variant="primary"
+        label="Spinning"
+      ></b-spinner>
+    </div>
+
     <b-alert
       class="mt-2"
       v-if="form.submitError"
@@ -77,6 +87,7 @@ export default {
         password: "",
         submitError: undefined,
       },
+      isLoading: false,
     };
   },
   validations: {
@@ -96,6 +107,7 @@ export default {
       return $dirty ? !$error : null;
     },
     async Login() {
+      this.isLoading = true;
       try {
         const response = await this.axios.post(
           this.$store.server_domain + "login",
@@ -107,14 +119,17 @@ export default {
         );
 
         //if login succseed get from server user data and metaData for exist recipes
-        await Promise.all([this.updateUserInfo(), this.updateAllExistRecipesMetaData()]);
-
+        await Promise.all([
+          this.updateUserInfo(),
+          this.updateAllExistRecipesMetaData(),
+        ]);
 
         this.$router.push("/");
       } catch (err) {
         console.log(err);
         this.form.submitError = err.response.data.message;
       }
+      this.isLoading = false;
     },
     onLogin() {
       console.log("login method called");

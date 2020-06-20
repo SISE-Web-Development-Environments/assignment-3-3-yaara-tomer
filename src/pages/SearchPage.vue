@@ -211,21 +211,27 @@ export default {
           }
         );
 
-        console.log(response.data);
         const SearchResultsRecipes = response.data;
 
         this.recipes = [];
         this.recipes.push(...SearchResultsRecipes);
+
+        //add recipe type to all recipe - (r=regular, p=personal, f=family)
+        this.recipes.forEach(function(recipe) {
+          recipe.type = "r";
+        });
+
+        //save search result
         this.saveLastSearchResults();
 
         //add recipes meta data if loogedin
         if (this.$store.loggedIn) {
           this.updateRecipesMetaData();
         }
-        this.loading = false;
       } catch (error) {
         console.log(error);
       }
+      this.loading = false;
     },
     async updateRecipesMetaData() {
       console.log("updateRecipesMetaDta started");
@@ -255,7 +261,6 @@ export default {
         });
       }
     },
-
     orderedRecipes() {
       if (this.sortBy.key) {
         this.recipes = _.orderBy(

@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1>{{ this.$route.params }}</h1>
     <div v-if="recipe">
       <div class="recipe-header mt-3 mb-4">
         <h1>{{ recipe.title }}</h1>
@@ -45,29 +46,32 @@
 export default {
   data() {
     return {
-      recipe: null
+      recipe: null,
+      isFamily: false,
     };
   },
   async created() {
     try {
       let response;
       // response = this.$route.params.response;
+      console.log("enter recipe page");
 
       try {
         response = await this.axios.get(
-          "https://test-for-3-2.herokuapp.com/recipes/info",
+          // "https://test-for-3-2.herokuapp.com/recipes/info",
+          this.$store.server_domain + "recipes/fullRecipeByid",
           {
-            params: { id: this.$route.params.recipeId }
+            params: { id: this.$route.params.recipeId },
           }
         );
 
-        // console.log("response.status", response.status);
         if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
         console.log("error.response.status", error.response.status);
-        this.$router.replace("/");
+        //this.$router.replace("/");
         return;
       }
+        console.log(response);
 
       let {
         analyzedInstructions,
@@ -76,8 +80,8 @@ export default {
         aggregateLikes,
         readyInMinutes,
         image,
-        title
-      } = response.data.recipe;
+        title,
+      } = response.data;
 
       let _instructions = analyzedInstructions
         .map((fstep) => {
@@ -94,14 +98,33 @@ export default {
         aggregateLikes,
         readyInMinutes,
         image,
-        title
+        title,
       };
 
       this.recipe = _recipe;
     } catch (error) {
       console.log(error);
     }
-  }
+  },
+  methods: {
+    async getRegularRecipe() {
+      try {
+        let response = await this.axios.get(
+          "https://test-for-3-2.herokuapp.com/recipes/info",
+          {
+            params: { id: this.$route.params.recipeId },
+          }
+        );
+
+        // console.log("response.status", response.status);
+        if (response.status !== 200) this.$router.replace("/NotFound");
+      } catch (error) {
+        console.log("error.response.status", error.response.status);
+        //this.$router.replace("/");
+        return;
+      }
+    },
+  },
 };
 </script>
 
