@@ -21,7 +21,7 @@
           Username length should be between 3-8 characters long
         </b-form-invalid-feedback>
         <b-form-invalid-feedback v-if="!$v.form.username.alpha">
-          Username alpha
+          Username must contain only English letters
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -41,7 +41,7 @@
           First name is required
         </b-form-invalid-feedback>
         <b-form-invalid-feedback v-if="!$v.form.firstname.alpha">
-          First name must contain only letters
+          First name must contain only English letters
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -298,7 +298,7 @@ export default {
         return;
       }
       // console.log("register method go");
-      //TODO encrypt password!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      //TODO encrypt password???????????????????????????????????????????????????????????????????????????????????? 
       this.Register();
     },
     async Register() {
