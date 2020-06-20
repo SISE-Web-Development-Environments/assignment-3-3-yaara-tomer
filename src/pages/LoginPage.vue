@@ -60,9 +60,9 @@
     >
       Login failed: {{ form.submitError }}
     </b-alert>
-    <b-card class="mt-3" header="Form Data Result">
+    <!-- <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
-    </b-card>
+    </b-card> -->
   </div>
 </template>
 
@@ -105,24 +105,13 @@ export default {
           },
           { withCredentials: true }
         );
-        console.log("login call response: " + response.data);
-        const userInfoResponse = await this.axios.get(
-          this.$store.server_domain + "user/userInfo",
-          
-          { withCredentials: true }
-        );
-        console.log("userInfo call response: " + userInfoResponse.data);
 
-        //update shared data
-        this.$store.userInfo = userInfoResponse.data;
-        this.$store.loggedIn = true;
-
-        console.log("sharedData loggedin: " + this.$store.loggedIn);
-        console.log(this.$store.userInfo);
+        //if login succseed get from server user data and metaData for exist recipes
+        await Promise.all([this.updateUserInfo(), this.updateAllExistRecipesMetaData()]);
 
         this.$router.push("/");
       } catch (err) {
-        console.log("err catch: "+err.response);
+        console.log(err);
         this.form.submitError = err.response.data.message;
       }
     },
@@ -136,6 +125,46 @@ export default {
       console.log("login method go");
 
       this.Login();
+    },
+    async updateAllExistRecipesMetaData() {
+      console.log("updateAllRecipesMetaDta started");
+
+      if (this.$store.lastSearch) {
+        //search results recipes ids
+        let ids = this.$store.lastSearch.results.map((recipe) => recipe.id);
+        console.log("all ids: " + ids);
+
+        //get meta data from server for new recipes
+        if (ids.length > 0) {
+          let MetaDataresponse = await this.axios
+            .get(this.$store.server_domain + "user/recipeInfo/[" + ids + "]", {
+              withCredentials: true,
+            })
+            .catch((error) => {
+              console.log("failed get recipes metadata: " + error);
+            });
+
+          // add New recipes meta data to shared store
+          ids.map((recipe_id) => {
+            this.$store.recipesMetaData[recipe_id] =
+              MetaDataresponse.data[recipe_id];
+          });
+          console.log("updateAllRecipesMetaDta finish");
+        }
+      }
+    },
+    async updateUserInfo() {
+      const userInfoResponse = await this.axios.get(
+        this.$store.server_domain + "user/userInfo",
+
+        { withCredentials: true }
+      );
+      //update shared data
+      this.$store.userInfo = userInfoResponse.data;
+      this.$store.loggedIn = true;
+
+      console.log("sharedData loggedin: " + this.$store.loggedIn);
+      console.log(this.$store.userInfo);
     },
   },
 };
