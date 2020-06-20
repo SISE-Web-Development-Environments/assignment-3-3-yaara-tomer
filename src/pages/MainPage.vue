@@ -61,7 +61,6 @@ data(){
           }); 
         const LastWatchedResult = response2.data;
          this.LastWatchedRecipes = LastWatchedResult;
-
   }
   } catch (error) {
         console.log(error);

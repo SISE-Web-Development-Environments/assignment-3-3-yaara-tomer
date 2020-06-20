@@ -13,8 +13,7 @@ RecipePreviewGrid,
 },
 data(){
   return{
-      FavoriteRecipes: [],
-     
+      FavoriteRecipes: [],    
       };
   },
   async created() {

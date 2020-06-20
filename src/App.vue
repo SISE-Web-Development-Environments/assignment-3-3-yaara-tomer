@@ -9,8 +9,7 @@
           <h6
             class="mb-9 white-text"
             style=" padding-top: 10px; padding-left : 10px; padding-right : 10px;"
-            v-if="!username"
-          >Hi Guest!</h6>
+            v-if="!username">Hi Guest!</h6>
           <h6
             class="mb-9 white-text"
             style=" padding-top: 10px; padding-left : 10px; padding-right : 10px;"
