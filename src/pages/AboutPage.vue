@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <mdb-jumbotron class="mb-0 text-center">
+        <mdb-jumbotron class="mb-0 text-center"  style=" background-color: #f3e5f5 ;">
           <mdb-card-title class="pb-2 h4"
             ><strong>Yaara Rumney</strong></mdb-card-title          >
           <mdb-view class="my-4" :src="image" alt="">
@@ -52,7 +52,7 @@
         </mdb-jumbotron>
       </div>
       <div class="col">
-        <mdb-jumbotron class="mb-0 text-center">
+        <mdb-jumbotron class="mb-0 text-center"  style=" background-color: #e0f7fa  ;">
           <mdb-card-title class="pb-2 h4"
             ><strong>Tomer Godelli</strong></mdb-card-title
           >

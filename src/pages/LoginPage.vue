@@ -1,75 +1,72 @@
 <template>
   <div class="container">
-  
-  
+    <div
+      class="jumbotron text-center"
+      style="width: 450px; background-color: #ccffff    ;"
+    >
+    <img src="../assets/login-icon.png" alt="Girl in a jacket">
+    <br><br>
+      <h1 class="title" style="color:#0097a7   ;">Login</h1>
+      <br />
+      <b-form @submit.prevent="onLogin">
+        <b-form-group
+          id="input-group-Username"
+          label-cols-sm="3"
+          label="Username:"
+          style="  font-weight: bold; color:#00796b "
+          label-for="Username"
+        >
+          <b-form-input
+            id="Username"
+            v-model="$v.form.username.$model"
+            type="text"
+            :state="validateState('username')"
+          ></b-form-input>
+          <b-form-invalid-feedback v-if="!$v.form.username.required">
+            Username is required
+          </b-form-invalid-feedback>
+          <b-form-invalid-feedback v-if="!$v.form.username.alpha">
+            Username must contain only English letters
+          </b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group
+          id="input-group-Password"
+          label-cols-sm="3"
+          label="Password:"
+          style="  font-weight: bold; color:#00796b"
+          label-for="Password"
+        >
+          <b-form-input
+            id="Password"
+            type="password"
+            v-model="$v.form.password.$model"
+            :state="validateState('password')"
+          ></b-form-input>
+          <b-form-invalid-feedback>
+            Password is required
+          </b-form-invalid-feedback>
+        </b-form-group>
 
-    <div class="jumbotron text-center" style="width: 500px;">
+        <b-button type="submit" variant="success" style="width:100px;  "
+          >Login</b-button
+        >
 
-  <!-- Title -->
-   <h1 class="title">Login</h1>
-    <b-form @submit.prevent="onLogin">
-      <b-form-group
-        id="input-group-Username"
-        label-cols-sm="3"
-        label="Username:"
-        label-for="Username"
-      >
-        <b-form-input
-          id="Username"
-          v-model="$v.form.username.$model"
-          type="text"
-          :state="validateState('username')"
-        ></b-form-input>
-        <b-form-invalid-feedback v-if="!$v.form.username.required">
-          Username is required
-        </b-form-invalid-feedback>
-        <b-form-invalid-feedback v-if="!$v.form.username.alpha">
-          Username must contain only English letters
-        </b-form-invalid-feedback>
-      </b-form-group>
-      <b-form-group
-        id="input-group-Password"
-        label-cols-sm="3"
-        label="Password:"
-        label-for="Password"
-      >
-        <b-form-input
-          id="Password"
-          type="password"
-          v-model="$v.form.password.$model"
-          :state="validateState('password')"
-        ></b-form-input>
-        <b-form-invalid-feedback>
-          Password is required
-        </b-form-invalid-feedback>
-      </b-form-group>
+        <div class="mt-2">
+          Do not have an account yet?
+          <router-link to="register"> Register in here</router-link>
+        </div>
+      </b-form>
 
-      <b-button
-        type="submit"
-        variant="primary"
-        style="width:100px;display:block;"
-        class="mx-auto w-100"
-        >Login</b-button
-      >
-
-      <div class="mt-2">
-        Do not have an account yet?
-        <router-link to="register"> Register in here</router-link>
+      <div class="d-flex justify-content-center mb-3">
+        <b-spinner
+          v-if="isLoading"
+          class="m-4"
+          variant="primary"
+          label="Spinning"
+        ></b-spinner>
       </div>
-    </b-form>
-
-    <div class="d-flex justify-content-center mb-3">
-      <b-spinner
-        v-if="isLoading"
-        class="m-4"
-        variant="primary"
-        label="Spinning"
-      ></b-spinner>
     </div>
-
-   </div>
-  <b-alert
-
+    <b-alert
       class="mt-2"
       v-if="form.submitError"
       variant="warning"
@@ -86,10 +83,12 @@
 
 <script>
 import { required, alpha } from "vuelidate/lib/validators";
+import { mdbBtn } from "mdbvue";
 export default {
   name: "Login",
   data() {
     return {
+       image: require("@/assets/login-icon.png"),
       form: {
         username: "",
         password: "",
@@ -98,6 +97,9 @@ export default {
       isLoading: false,
     };
   },
+  //  components: {
+  //           mdbBtn
+  //       },
   validations: {
     form: {
       username: {

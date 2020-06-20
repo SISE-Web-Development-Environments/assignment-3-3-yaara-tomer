@@ -1,12 +1,15 @@
 <template>
   <div class="container">
-    <h1 class="title">Register</h1>
+     <div class="jumbotron text-center" style="width: 500px; background-color: #e6ffe6 ;">
+    <h1 class="title" style="color:#0097a7" >Register</h1>
+    <br>
     <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
       <b-form-group
         id="input-group-username"
-        label-cols-sm="3"
+        label-cols-sm="5"
         label="Username:"
         label-for="username"
+         style="  font-weight: bold; color:#0097a7"
       >
         <b-form-input
           id="username"
@@ -27,9 +30,10 @@
 
       <b-form-group
         id="input-group-firstname"
-        label-cols-sm="3"
+        label-cols-sm="5"
         label="First Name:"
         label-for="firstname"
+          style="  font-weight: bold; color:#0097a7"
       >
         <b-form-input
           id="firstname"
@@ -47,9 +51,10 @@
 
       <b-form-group
         id="input-group-lastname"
-        label-cols-sm="3"
+        label-cols-sm="5"
         label="Last Name:"
         label-for="lastname"
+          style="  font-weight: bold; color:#0097a7"
       >
         <b-form-input
           id="lastname"
@@ -67,9 +72,10 @@
 
       <b-form-group
         id="input-group-country"
-        label-cols-sm="3"
+        label-cols-sm="5"
         label="Country:"
         label-for="country"
+          style="  font-weight: bold; color:#0097a7"
       >
         <b-form-select
           id="country"
@@ -84,9 +90,10 @@
 
       <b-form-group
         id="input-group-Password"
-        label-cols-sm="3"
+        label-cols-sm="5"
         label="Password:"
         label-for="password"
+          style="  font-weight: bold; color:#0097a7"
       >
         <b-form-input
           id="password"
@@ -115,9 +122,10 @@
 
       <b-form-group
         id="input-group-confirmedPassword"
-        label-cols-sm="3"
+        label-cols-sm="5"
         label="Confirm Password:"
         label-for="confirmedPassword"
+          style="  font-weight: bold; color:#0097a7"
       >
         <b-form-input
           id="confirmedPassword"
@@ -137,9 +145,10 @@
 
       <b-form-group
         id="input-group-email"
-        label-cols-sm="3"
+        label-cols-sm="5"
         label="Email:"
         label-for="email"
+          style="  font-weight: bold; color:#0097a7"
       >
         <b-form-input
           id="email"
@@ -157,9 +166,10 @@
 
       <b-form-group
         id="input-group-url"
-        label-cols-sm="3"
+        label-cols-sm="5"
         label="Profile Picture URL:"
         label-for="url"
+          style="  font-weight: bold; color:#0097a7; "
       >
         <b-form-input
           id="url"
@@ -171,21 +181,22 @@
           Invalid URL address
         </b-form-invalid-feedback>
       </b-form-group>
-
-      <b-button
-        type="submit"
-        variant="primary"
-        style="width:250px;"
-        class="ml-5 w-75"
-        >Register</b-button
-      >
-      <b-button
+        
+        <b-button
         type="reset"
-        variant="danger"
-        style="width:250px;"
-        class="ml-5 w-75"
+        class="btn btn-yellow"
+        style="width:150px;"
+      
         >Reset</b-button
       >
+      <b-button
+        type="submit"
+        class="btn btn-light-green"
+        style="width:150px;"
+       
+        >Register</b-button
+      >
+     
 
       <div class="mt-2">
         You have an account already?
@@ -205,6 +216,7 @@
       <pre class="m-0"><strong>form:</strong> {{ form }}</pre>
       <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
     </b-card> -->
+    </div>
   </div>
 </template>
 
