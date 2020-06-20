@@ -1,11 +1,11 @@
 export const shared_data = {
   server_domain: "https://recipes-tomer-yaara.herokuapp.com/",
 
-  LoggedIn: true,
+  LoggedIn: false,
 
   userDetails: undefined,
 
-  username: "yaara",
+  username: "h",
 
   recipes: {},
 

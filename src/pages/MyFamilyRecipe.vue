@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h6 class="mb-14" style=" color:#008080; font-size: 26px;text-align: center;">My Family Recipes:</h6>
-    <RecipePreviewGrid :recipes="demoRecipes" />
+    <RecipePreviewGrid :recipes="FamilyRecipes" />
   </div>
 </template>
 
@@ -17,11 +17,25 @@ export default {
   },
   data() {
     return {
-      RandomRecipes: [],
-      demoRecipes: this.$store.demoRecipes
+      FamilyRecipes: [],
+     
     };
+  },
+  async created() {
+   try{
+ const response1 = await this.axios.get(
+               this.$store.server_domain + " /user/familyRecipesPreview" ,{
+            withCredentials: true,
+          });
+         console.log(response1.data);
+        const familyRecipesResult = response1.data;
+         this.FamilyRecipes = familyRecipesResult;
+        // this.RandomRecipes.push(...RandomRecipesResult);
+   } catch (error) {
+        console.log(error);
   }
-  
+
+  }
 };
 </script>
 
