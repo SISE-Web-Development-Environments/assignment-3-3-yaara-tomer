@@ -1,6 +1,12 @@
 <template>
   <div class="container">
-    <h1 class="title">Login</h1>
+  
+  
+
+    <div class="jumbotron text-center" style="width: 500px;">
+
+  <!-- Title -->
+   <h1 class="title">Login</h1>
     <b-form @submit.prevent="onLogin">
       <b-form-group
         id="input-group-Username"
@@ -51,7 +57,9 @@
         <router-link to="register"> Register in here</router-link>
       </div>
     </b-form>
-    <b-alert
+
+</div>
+  <b-alert
       class="mt-2"
       v-if="form.submitError"
       variant="warning"

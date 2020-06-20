@@ -4,8 +4,6 @@ export const shared_data = {
   loggedIn: false,
 
   userInfo: undefined,
-
-
   recipes: {},
 
   recipesMetaData: {
