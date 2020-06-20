@@ -152,12 +152,23 @@ export default {
   components: {
     RecipePreviewGrid,
   },
-  mounted() {
-    console.log("search mounted");
+  async mounted() {
+    console.log("search start mounted");
     if (this.$store.lastSearch) {
       this.recipes = this.$store.lastSearch.results;
       this.form = this.$store.lastSearch.form;
+
+      //if user loggedIn after search - get all recipes metadata
+      // if (this.$store.loggedIn === true) {
+      //   if (this.isLoggedIn === false) {
+      //     this.isLoggedIn = true;
+      //      await this.updateAllRecipesMetaData();
+      //   }
+      // } else {
+      //   this.isLoggedIn = false;
+      // }
     }
+    console.log("search finish mounted");
   },
   data() {
     return {
@@ -170,6 +181,7 @@ export default {
       },
       // show: false,
       loading: false,
+      isLoggedIn: false,
       recipes: [],
       demoRecipes: this.$store.demoRecipes,
       sortBy: {
@@ -257,7 +269,7 @@ export default {
       console.log("start saving results");
       if (!this.$store.lastSearch) {
         this.$store.lastSearch = {};
-        console.log("created lastsearch: "+this.$store.lastSearch);
+        console.log("created lastsearch: " + this.$store.lastSearch);
       }
 
       this.$store.lastSearch.results = this.recipes;
