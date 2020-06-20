@@ -1,141 +1,237 @@
 <template>
-  <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
-    class="recipe-preview"
-  >
-    <div class="recipe-body">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
-    </div>
-    <div class="recipe-footer">
-      <div :title="recipe.title" class="recipe-title">
-        {{ recipe.title }}
-      </div>
-      <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
-      </ul>
-    </div>
-  </router-link>
+  <mdb-container>
+    <mdb-card class="preview-card" style="width: 20rem">
+      <mdb-view>
+        <a @click="handleEnterRecipe">
+          <mdb-card-image
+            top
+            class="zoom"
+            :src="recipe.image"
+            alt="Card image cap"
+          />
+        </a>
+      </mdb-view>
+
+      <mdb-card-body>
+        <mdb-card-title class="font-weight-bold"
+          ><a @click="handleEnterRecipe">{{ recipe.title }}</a></mdb-card-title
+        >
+
+        <hr class="my-3" />
+        <div class="line1">
+          <div class="d-flex justify-content-between ">
+            <p>
+              <mdb-icon icon="clock" size="lg" class="blue-text pr-2" />
+              {{ recipe.readyInMinutes }} min
+            </p>
+            <p>
+              <mdb-icon icon="thumbs-up" size="lg" class=" blue-text pr-2" />
+              {{ recipe.aggregateLikes }}
+              Likes
+            </p>
+          </div>
+          <div class="d-flex justify-content-between ">
+            <p v-if="showVegan">
+              <mdb-icon icon="leaf" size="lg" class="green-text pr-2" />{{
+                leafText
+              }}
+            </p>
+            <p v-if="showglutenFree">
+              <mdb-icon
+                icon="bread-slice"
+                size="lg"
+                class="amber-text pr-1"
+              />Gluten Free
+            </p>
+          </div>
+        </div>
+        <hr v-if="isLoggedIn" class="my-2" />
+
+        <div v-if="isLoggedIn" class="d-flex justify-content-between ">
+          <a v-if="!isFavorite" @click="handleFavorite" class="px-2"
+            ><mdb-icon far icon="star" size="lg" /> Add To Favorite</a
+          >
+          <a v-if="isFavorite" @click="handleFavorite" class="px-2"
+            ><mdb-icon class="blue-text" fas icon="star" size="lg" />
+            Favorite</a
+          >
+          <a v-if="isWatched" class="px-2"
+            ><mdb-icon class="black-text" fas icon="eye" size="lg" /> Watched</a
+          >
+        </div>
+      </mdb-card-body>
+    </mdb-card>
+  </mdb-container>
 </template>
 
 <script>
+import {
+  mdbContainer,
+  mdbRow,
+  mdbCol,
+  mdbCard,
+  mdbCardImage,
+  mdbCardBody,
+  mdbCardTitle,
+  mdbCardText,
+  mdbIcon,
+  mdbView,
+  mdbMask,
+  mdbBtn,
+  mdbTooltip,
+  mdbChip,
+} from "mdbvue";
+
 export default {
+  name: "RecipePreview",
+  components: {
+    mdbContainer,
+    mdbCard,
+    mdbCardImage,
+    mdbCardBody,
+    mdbCardTitle,
+    // mdbCardText,
+    mdbIcon,
+    mdbView,
+    // mdbMask,
+    // mdbBtn,
+    // mdbChip,
+  },
   mounted() {
-    this.axios.get(this.recipe.image).then((i) => {
-      this.image_load = true;
-    });
+    console.log("RecipePreview mounted!");
+    this.showVegan = this.recipe.vegan || this.recipe.vegetarian;
+    if (this.recipe.vegan === true) this.leafText = "Vegan";
+    this.showglutenFree = this.recipe.glutenFree;
+    this.isLoggedIn = this.$store.loggedIn;
+    if (this.$store.recipesMetaData[this.recipe.id]) {
+      this.isFavorite = this.$store.recipesMetaData[this.recipe.id].favorite;
+      this.isWatched = this.$store.recipesMetaData[this.recipe.id].watched;
+    }
   },
   data() {
     return {
-      image_load: false
+      showVegan: true,
+      showglutenFree: true,
+      leafText: "Vegetarian",
+      isFavorite: false,
+      isWatched: false,
+      isLoggedIn: false,
     };
   },
   props: {
     recipe: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
+  },
+  methods: {
+    async handleFavorite() {
+      console.log("favorite clicked");
 
-    // id: {
-    //   type: Number,
-    //   required: true
-    // },
-    // title: {
-    //   type: String,
-    //   required: true
-    // },
-    // readyInMinutes: {
-    //   type: Number,
-    //   required: true
-    // },
-    // image: {
-    //   type: String,
-    //   required: true
-    // },
-    // aggregateLikes: {
-    //   type: Number,
-    //   required: false,
-    //   default() {
-    //     return undefined;
-    //   }
-    // }
-  }
+      //update icon display
+      this.isFavorite = !this.isFavorite;
+
+      //update local store
+      console.log(
+        "store before: " + this.$store.recipesMetaData[this.recipe.id].favorite
+      );
+      this.$store.recipesMetaData[this.recipe.id].favorite = !this.$store
+        .recipesMetaData[this.recipe.id].favorite;
+      console.log(
+        "store after: " + this.$store.recipesMetaData[this.recipe.id].favorite
+      );
+
+      //update server
+      if (this.isFavorite === true) {
+        this.addToFavorite();
+      } else {
+        this.removeFromFavorite();
+      }
+
+      //update server
+    },
+    async addToFavorite() {
+      const response = await this.axios
+        .post(
+          this.$store.server_domain +
+            "user/markAsFavorite?id=" +
+            this.recipe.id,
+          {},
+          { withCredentials: true }
+        )
+        .then((response) => {
+          //if server failed restore previous value
+          if (response.status !== 200) {
+            console.log(
+              " not 200 server failed to set as favorite. id: " + recipe.id
+            );
+            this.isFavorite = !this.isFavorite;
+            this.$store.recipesMetaData[
+              this.recipe.id
+            ].favorite = this.isFavorite;
+          }
+        })
+        .catch((error) => {
+          console.log(
+            "error server failed to set as favorite. id: " + recipe.id
+          );
+          this.isFavorite = !this.isFavorite;
+          this.$store.recipesMetaData[
+            this.recipe.id
+          ].favorite = this.isFavorite;
+        });
+    },
+    async removeFromFavorite() {
+      const response = await this.axios
+        .post(
+          this.$store.server_domain +
+            "user/removeFromFavorite?id=" +
+            this.recipe.id,
+          {},
+          { withCredentials: true }
+        )
+        .then((response) => {
+          //if server failed restore previous value
+          if (response.status !== 200) {
+            console.log(
+              " not 200 server failed to set as favorite. id: " + recipe.id
+            );
+            this.isFavorite = !this.isFavorite;
+            this.$store.recipesMetaData[
+              this.recipe.id
+            ].favorite = this.isFavorite;
+          }
+        })
+        .catch((error) => {
+          console.log(
+            "error server failed to set as favorite. id: " + recipe.id
+          );
+          this.isFavorite = !this.isFavorite;
+          this.$store.recipesMetaData[
+            this.recipe.id
+          ].favorite = this.isFavorite;
+        });
+    },
+    handleEnterRecipe() {
+      console.log("EnterRecipe");
+      //this.$router.push({ path: `/recipe/${recipe.id}` });
+      this.$router.push({ path: `/recipe/123` });
+    },
+  },
 };
 </script>
-
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.recipe-preview {
-  display: inline-block;
-  width: 90%;
-  height: 100%;
-  position: relative;
-  margin: 10px 10px;
+.font-weight-bold {
+  min-height: 3.5rem;
 }
-.recipe-preview > .recipe-body {
-  width: 100%;
-  height: 200px;
-  position: relative;
+.line1 {
+  min-height: 4.9rem;
 }
-
-.recipe-preview .recipe-body .recipe-image {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-  display: block;
-  width: 98%;
-  height: auto;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
+.collapse {
+  transition: height 0.3s;
 }
-
-.recipe-preview .recipe-footer {
-  width: 100%;
-  height: 50%;
-  overflow: hidden;
-}
-
-.recipe-preview .recipe-footer .recipe-title {
-  padding: 10px 10px;
-  width: 100%;
-  font-size: 12pt;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-}
-
-.recipe-preview .recipe-footer ul.recipe-overview {
-  padding: 5px 10px;
-  width: 100%;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -o-box-flex: 1;
-  box-flex: 1;
-  -webkit-flex: 1 auto;
-  -ms-flex: 1 auto;
-  flex: 1 auto;
-  table-layout: fixed;
-  margin-bottom: 0px;
-}
-
-.recipe-preview .recipe-footer ul.recipe-overview li {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -o-box-flex: 1;
-  -ms-box-flex: 1;
-  box-flex: 1;
-  -webkit-flex-grow: 1;
-  flex-grow: 1;
-  width: 90px;
-  display: table-cell;
-  text-align: center;
+.collapse-item {
+  transition: all 0.5s;
 }
 </style>

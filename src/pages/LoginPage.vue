@@ -14,8 +14,11 @@
           type="text"
           :state="validateState('username')"
         ></b-form-input>
-        <b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.username.required">
           Username is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.username.alpha">
+          Username must contain only English letters
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -57,14 +60,14 @@
     >
       Login failed: {{ form.submitError }}
     </b-alert>
-    <!-- <b-card class="mt-3" header="Form Data Result">
+    <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
-    </b-card> -->
+    </b-card>
   </div>
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
+import { required, alpha } from "vuelidate/lib/validators";
 export default {
   name: "Login",
   data() {
@@ -80,6 +83,7 @@ export default {
     form: {
       username: {
         required,
+        alpha,
       },
       password: {
         required,
@@ -101,25 +105,35 @@ export default {
           },
           { withCredentials: true }
         );
-        console.log(response);
+        console.log("login call response: " + response.data);
+        const userInfoResponse = await this.axios.get(
+          this.$store.server_domain + "user/userInfo",
+          
+          { withCredentials: true }
+        );
+        console.log("userInfo call response: " + userInfoResponse.data);
 
-        //this.$root.loggedIn = true;
-        console.log(this.$root.store.login);
-        this.$root.store.login(this.form.username);
+        //update shared data
+        this.$store.userInfo = userInfoResponse.data;
+        this.$store.loggedIn = true;
+
+        console.log("sharedData loggedin: " + this.$store.loggedIn);
+        console.log(this.$store.userInfo);
+
         this.$router.push("/");
       } catch (err) {
-        console.log(err.response);
+        console.log("err catch: "+err.response);
         this.form.submitError = err.response.data.message;
       }
     },
     onLogin() {
-      // console.log("login method called");
+      console.log("login method called");
       this.form.submitError = undefined;
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("login method go");
+      console.log("login method go");
 
       this.Login();
     },

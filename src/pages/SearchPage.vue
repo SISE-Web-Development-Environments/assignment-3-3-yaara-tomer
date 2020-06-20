@@ -207,7 +207,7 @@ export default {
         this.saveLastSearchResults();
 
         //add recipes meta data if loogedin
-        if (this.$store.LoggedIn) {
+        if (this.$store.loggedIn) {
           this.updateRecipesMetaData();
         }
         this.loading = false;
