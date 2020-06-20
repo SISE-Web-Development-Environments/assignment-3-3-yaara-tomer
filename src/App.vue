@@ -94,7 +94,7 @@
     </mdb-navbar>
     <br />
 
-  <router-view/>
+  <router-view :key="counter"/>
 <!-- <MainPage/> -->
     <mdb-navbar color="default-color-dark" position="bottom" dark>
       <p class="mb-0 white-text">© 2020 Copyright : Yaara Rumney & Tomer Godelli</p>
@@ -147,6 +147,7 @@ export default {
       username: this.$store.userInfo.firstname,
       isloggedIn: this.$store.loggedIn,
       image: require("@/assets/tback.jpg"),
+      counter:0,
 
     };
   },
@@ -168,6 +169,7 @@ export default {
     Logout() {
       this.$store.userInfo = undefined;
       this.$store.loggedIn = false;
+      this.counter+=1;
       this.$refs.MainPage.newRandom();
       this.$root.toast("Logout", "User logged out successfully", "success");
 

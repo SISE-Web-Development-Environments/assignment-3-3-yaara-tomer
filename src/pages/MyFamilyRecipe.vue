@@ -16,8 +16,7 @@ export default {
   },
   data() {
     return {
-      FamilyRecipes: [],
-     
+      FamilyRecipes: [],    
     };
   },
   async created() {

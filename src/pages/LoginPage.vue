@@ -27,7 +27,6 @@
           Username must contain only English letters
         </b-form-invalid-feedback>
       </b-form-group>
-
       <b-form-group
         id="input-group-Password"
         label-cols-sm="3"

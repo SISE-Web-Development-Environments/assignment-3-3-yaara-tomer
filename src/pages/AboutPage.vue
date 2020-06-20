@@ -4,8 +4,7 @@
       <div class="col">
         <mdb-jumbotron class="mb-0 text-center">
           <mdb-card-title class="pb-2 h4"
-            ><strong>Yaara Rumney</strong></mdb-card-title
-          >
+            ><strong>Yaara Rumney</strong></mdb-card-title          >
           <mdb-view class="my-4" :src="image" alt="">
             <a><mdb-mask waves overlay="white-slight"/></a>
           </mdb-view>

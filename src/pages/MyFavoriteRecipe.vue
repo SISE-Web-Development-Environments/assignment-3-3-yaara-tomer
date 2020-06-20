@@ -10,6 +10,7 @@ import RecipePreviewGrid from "../components/RecipePreviewGrid";
 export default {
 components:{
 RecipePreviewGrid,
+
 },
 data(){
   return{

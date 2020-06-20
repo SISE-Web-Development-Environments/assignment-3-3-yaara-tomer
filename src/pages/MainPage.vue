@@ -115,7 +115,6 @@ export default {
       //filter only recipes we dont have meta data on in store memory
       let ids = all_ids.filter((id) => !this.$store.recipesMetaData[id]);
       console.log("relevant ids: " + ids);
-
       //get meta data from server for new recipes
       if (ids.length > 0) {
         let MetaDataresponse = await this.axios

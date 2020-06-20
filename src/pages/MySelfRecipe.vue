@@ -13,8 +13,7 @@ RecipePreviewGrid,
 },
 data(){
   return{
-      PersonalRecipes: [],
-     
+      PersonalRecipes: [],   
       };
   },
   async created() {
