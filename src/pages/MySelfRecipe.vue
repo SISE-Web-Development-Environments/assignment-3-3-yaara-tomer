@@ -13,19 +13,23 @@ RecipePreviewGrid,
 },
 data(){
   return{
-      PersonalRecipes: [],
-     
+      PersonalRecipes: [],   
       };
   },
   async created() {
     try{
  const response1 = await this.axios.get(
-               this.$store.server_domain + " /user/PersonalRecipesPreview" ,{
+               this.$store.server_domain + "user/PersonalRecipesPreview" ,{
             withCredentials: true,
           });
          console.log(response1.data);
+         //add recipe type to all recipe - (r=regular, p=personal, f=family)
+    
         const PersonalRecipesResult = response1.data;
          this.PersonalRecipes = PersonalRecipesResult;
+             this.PersonalRecipes.forEach(function(recipe) {
+          recipe.type = "p";
+        });
         // this.RandomRecipes.push(...RandomRecipesResult);
    } catch (error) {
         console.log(error);

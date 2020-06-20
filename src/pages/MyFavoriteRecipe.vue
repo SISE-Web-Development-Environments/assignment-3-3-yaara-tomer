@@ -10,6 +10,7 @@ import RecipePreviewGrid from "../components/RecipePreviewGrid";
 export default {
 components:{
 RecipePreviewGrid,
+
 },
 data(){
   return{
@@ -19,7 +20,7 @@ data(){
   async created() {
     try{
  const response1 = await this.axios.get(
-               this.$store.server_domain + " /user/favoriteRecipesPreview" ,{
+               this.$store.server_domain + "user/favoriteRecipesPreview" ,{
             withCredentials: true,
           });
          console.log(response1.data);

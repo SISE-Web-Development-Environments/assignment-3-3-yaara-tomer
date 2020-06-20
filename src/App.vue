@@ -1,29 +1,20 @@
 <template>
-  <div id = "app1" :style="{'background-image':'url(src\back.jpg)'}">
+  <div id=div class="bg">
     <mdb-navbar color="default" dark>
       <mdb-navbar-brand :to="{ name: 'main' }">
         <strong>Our Recipe Website!</strong>
       </mdb-navbar-brand>
       <mdb-navbar-toggler>
         <mdb-navbar-nav>
-          <h6
-            class="mb-9 white-text"
-            style=" padding-top: 10px; padding-left : 10px; padding-right : 10px;"
-            v-if="!username">Hi Guest!</h6>
-          <h6
-            class="mb-9 white-text"
-            style=" padding-top: 10px; padding-left : 10px; padding-right : 10px;"
-            v-if="username"
-          >Hi {{username}} !</h6>
-
+         
           <mdb-nav-item :to="{ name: 'main' }" active>
-            <strong>Home</strong>
+           <i class="	fas fa-hamburger"></i> <strong>Home</strong>
           </mdb-nav-item>
 
           <mdb-nav-item :to="{ name: 'search' }">
-            <strong>Search</strong>
+             <i class="fas fa-search"></i><strong>Search</strong>
           </mdb-nav-item>
-
+     
           <mdb-dropdown tag="li" class="nav-item">
             <mdb-dropdown-toggle
               tag="a"
@@ -31,46 +22,85 @@
               color="default"
               slot="toggle"
               waves-fixed
-              v-if="isLoggedIn"
+              v-if="this.$store.loggedIn"
             >
-              <strong>Personal</strong>
+               <i class="fas fa-pepper-hot"></i> <strong>Personal</strong>
             </mdb-dropdown-toggle>
             <mdb-dropdown-menu>
-              <mdb-dropdown-item :to="{ name: 'favorite' }">My Favorite Recipe</mdb-dropdown-item>
-              <mdb-dropdown-item :to="{ name: 'personalRecipe' }">My Personal Recipe</mdb-dropdown-item>
-              <mdb-dropdown-item :to="{ name: 'family' }">My Family Recipe</mdb-dropdown-item>
+              <mdb-dropdown-item :to="{ name: 'favorite' }" 
+                ><i class="	far fa-star"></i> My Favorite Recipe   </mdb-dropdown-item
+              >
+              <mdb-dropdown-item :to="{ name: 'personalRecipe' }"
+                ><i class="	far fa-hand-peace"> </i> My Personal Recipe  </mdb-dropdown-item
+              >
+              <mdb-dropdown-item :to="{ name: 'family' }"
+                ><i class="	far fa-heart"></i> 	&nbsp;	&nbsp; My Family Recipe  </mdb-dropdown-item
+              >
             </mdb-dropdown-menu>
           </mdb-dropdown>
-          <mdb-nav-item :to="{ name: 'about' }">
-            <strong>About</strong>
-          </mdb-nav-item>
+    
         </mdb-navbar-nav>
       </mdb-navbar-toggler>
+
+
+      
       <mdb-navbar-toggler>
         <mdb-navbar-nav right>
-          <mdb-nav-item :to="{ name: 'login' }" v-if="!isLoggedIn">
-            <strong>Login</strong>
-          </mdb-nav-item>
-          <mdb-nav-item :to="{ name: 'register' }" v-if="!isLoggedIn">
-            <strong>Register</strong>
-          </mdb-nav-item>
-          <mdb-nav-item v-on:click="logout" v-if="isLoggedIn">
-            <strong>Logout</strong>
-          </mdb-nav-item>
+             <mdb-dropdown tag="li" class="nav-item">
+            <mdb-dropdown-toggle
+              tag="a"
+              navLink
+              color="default"
+              slot="toggle"
+              waves-fixed
+              v-if="this.$store.loggedIn"
+            >
+               <i class="fas fa-pizza-slice"></i> <strong>Hi {{this.$store.userInfo.firstname}} !</strong>
+            </mdb-dropdown-toggle>
+            <mdb-dropdown-menu>
+              <mdb-dropdown-item v-on:click="Logout()" >
+                Logout
+               </mdb-dropdown-item
+              >                        
+            </mdb-dropdown-menu>
+          </mdb-dropdown>
+    
+     <mdb-dropdown tag="li" class="nav-item">
+            <mdb-dropdown-toggle
+              tag="a"
+              navLink
+              color="default"
+              slot="toggle"
+              waves-fixed
+              v-if="!this.$store.loggedIn"
+            >
+               <i class="fas fa-pizza-slice"></i> <strong>Hi Guest ! </strong>
+            </mdb-dropdown-toggle>
+            <mdb-dropdown-menu>
+              <mdb-dropdown-item :to="{ name: 'login' }" >
+                Login
+               </mdb-dropdown-item>    
+               <mdb-dropdown-item :to="{ name: 'register' }">
+                Register
+               </mdb-dropdown-item>                           
+            </mdb-dropdown-menu>
+          </mdb-dropdown>
+  
+           <mdb-nav-item :to="{ name: 'about' }">
+            <i class="fas fa-info-circle"></i><strong>About</strong>
+          </mdb-nav-item> 
         </mdb-navbar-nav>
       </mdb-navbar-toggler>
     </mdb-navbar>
     <br />
 
-    <router-view />
-
+  <router-view :key="counter"/>
+<!-- <MainPage/> -->
     <mdb-navbar color="default-color-dark" position="bottom" dark>
-    
-          <h6 class="mb-0 white-text">Get connected with us on social networks!</h6>
-     
-         <mdb-navbar-toggler>
+      <p class="mb-0 white-text">© 2020 Copyright : Yaara Rumney & Tomer Godelli</p>
+
+      <mdb-navbar-toggler>
         <mdb-navbar-nav right>
-       
           <a class="fb-ic ml-0">
             <i class="fab fa-facebook white-text mr-lg-4"></i>
           </a>
@@ -80,16 +110,14 @@
           <a class="gplus-ic">
             <i class="fab fa-google-plus white-text mr-lg-4"></i>
           </a>
-          <a class="li-ic">
+          <a class="li-ic" >
             <i class="fab fa-linkedin-in white-text mr-lg-4"></i>
           </a>
           <a class="ins-ic">
             <i class="fab fa-instagram white-text mr-lg-4"></i>
           </a>
-       
         </mdb-navbar-nav>
-         </mdb-navbar-toggler>
-    
+      </mdb-navbar-toggler>
     </mdb-navbar>
   </div>
 </template>
@@ -109,14 +137,18 @@ import {
   mdbDropdownMenu,
   mdbDropdownToggle,
   mdbInput,
-  mdbDropdownItem
+  mdbDropdownItem,
 } from "mdbvue";
+import MainPage from "./pages/MainPage";
 export default {
   name: "App",
   data() {
     return {
-      username: this.$store.username,
-      isLoggedIn: this.$store.LoggedIn
+      username: this.$store.userInfo.firstname,
+      isloggedIn: this.$store.loggedIn,
+      image: require("@/assets/tback.jpg"),
+      counter:0,
+
     };
   },
   components: {
@@ -128,18 +160,24 @@ export default {
     mdbDropdown,
     mdbDropdownMenu,
     mdbDropdownToggle,
-    mdbDropdownItem
+    mdbDropdownItem,
+ 
+ 
   },
+
   methods: {
     Logout() {
-      this.$root.store.logout();
+      this.$store.userInfo = undefined;
+      this.$store.loggedIn = false;
+      this.counter+=1;
+      this.$refs.MainPage.newRandom();
       this.$root.toast("Logout", "User logged out successfully", "success");
 
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -156,10 +194,20 @@ export default {
   min-height: 100vh;
 }
 
-#app1{
-  background-image:url("//scss//wood-plate-white-table-kitchen-room-background_67155-440.jpg") ;
 
-}
+  .bg {
+    /* The image used */
+    background-image: url("./assets/gray4.png");
+
+    /* Full height */
+ 
+
+    /* Center and scale the image nicely */
+    //background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+    min-height: 700px;
+  }
 
 //  #nav {
 //    padding: 30px;
