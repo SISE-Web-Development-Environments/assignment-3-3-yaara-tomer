@@ -2,20 +2,18 @@
   <b-container>
     <b-row class="mb-5 mt-5" v-for="i in rowCount" :key="i">
       <b-col cols="4" v-for="r in itemCountInRow(i)" :key="r.id">
-        <mdb1 :recipe="r"></mdb1>
+        <RecipePreview :recipe="r"></RecipePreview>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import mdb1 from "./mdb1";
 import RecipePreview from "./RecipePreview";
 export default {
   name: "RecipePreviewGrid",
   components: {
-    // RecipePreview,
-    mdb1
+    RecipePreview,
   },
   props: {
     recipes: {

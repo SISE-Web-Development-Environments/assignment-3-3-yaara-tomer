@@ -1,11 +1,10 @@
 export const shared_data = {
   server_domain: "https://recipes-tomer-yaara.herokuapp.com/",
 
-  LoggedIn: false,
+  loggedIn: false,
 
-  userDetails: undefined,
+  userInfo: undefined,
 
-  username: "h",
 
   recipes: {},
 
@@ -110,14 +109,4 @@ export const shared_data = {
       aggregateLikes: 59,
     },
   ],
-
-  login(username) {
-
-    this.username = username;
-    console.log("login", this.username);
-  },
-  logout() {
-
-    this.username = undefined;
-  },
 };
