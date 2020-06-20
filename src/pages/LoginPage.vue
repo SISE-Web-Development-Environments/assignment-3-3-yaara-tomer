@@ -51,14 +51,25 @@
         class="mx-auto w-100"
         >Login</b-button
       >
+
       <div class="mt-2">
         Do not have an account yet?
         <router-link to="register"> Register in here</router-link>
       </div>
     </b-form>
 
-</div>
+    <div class="d-flex justify-content-center mb-3">
+      <b-spinner
+        v-if="isLoading"
+        class="m-4"
+        variant="primary"
+        label="Spinning"
+      ></b-spinner>
+    </div>
+
+   </div>
   <b-alert
+
       class="mt-2"
       v-if="form.submitError"
       variant="warning"
@@ -67,9 +78,9 @@
     >
       Login failed: {{ form.submitError }}
     </b-alert>
-    <b-card class="mt-3" header="Form Data Result">
+    <!-- <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
-    </b-card>
+    </b-card> -->
   </div>
 </template>
 
@@ -84,6 +95,7 @@ export default {
         password: "",
         submitError: undefined,
       },
+      isLoading: false,
     };
   },
   validations: {
@@ -103,6 +115,7 @@ export default {
       return $dirty ? !$error : null;
     },
     async Login() {
+      this.isLoading = true;
       try {
         const response = await this.axios.post(
           this.$store.server_domain + "login",
@@ -112,27 +125,19 @@ export default {
           },
           { withCredentials: true }
         );
-        console.log("login call response: " + response.data);
-        const userInfoResponse = await this.axios.get(
-          this.$store.server_domain + "user/userInfo",
-          
-          { withCredentials: true }
-        );
-        console.log("userInfo call response: " + userInfoResponse.data);
 
-        //update shared data
-        this.$store.userInfo = userInfoResponse.data;
-        this.$store.loggedIn = true;
-
-        console.log("sharedData loggedin: " + this.$store.loggedIn);
-        console.log(this.$store.userInfo);
-
+        //if login succseed get from server user data and metaData for exist recipes
+        await Promise.all([
+          this.updateUserInfo(),
+          this.updateAllExistRecipesMetaData(),
+        ]);
 
         this.$router.push("/");
       } catch (err) {
-        console.log("err catch: "+err.response);
+        console.log(err);
         this.form.submitError = err.response.data.message;
       }
+      this.isLoading = false;
     },
     onLogin() {
       console.log("login method called");
@@ -144,6 +149,46 @@ export default {
       console.log("login method go");
 
       this.Login();
+    },
+    async updateAllExistRecipesMetaData() {
+      console.log("updateAllRecipesMetaDta started");
+
+      if (this.$store.lastSearch) {
+        //search results recipes ids
+        let ids = this.$store.lastSearch.results.map((recipe) => recipe.id);
+        console.log("all ids: " + ids);
+
+        //get meta data from server for new recipes
+        if (ids.length > 0) {
+          let MetaDataresponse = await this.axios
+            .get(this.$store.server_domain + "user/recipeInfo/[" + ids + "]", {
+              withCredentials: true,
+            })
+            .catch((error) => {
+              console.log("failed get recipes metadata: " + error);
+            });
+
+          // add New recipes meta data to shared store
+          ids.map((recipe_id) => {
+            this.$store.recipesMetaData[recipe_id] =
+              MetaDataresponse.data[recipe_id];
+          });
+          console.log("updateAllRecipesMetaDta finish");
+        }
+      }
+    },
+    async updateUserInfo() {
+      const userInfoResponse = await this.axios.get(
+        this.$store.server_domain + "user/userInfo",
+
+        { withCredentials: true }
+      );
+      //update shared data
+      this.$store.userInfo = userInfoResponse.data;
+      this.$store.loggedIn = true;
+
+      console.log("sharedData loggedin: " + this.$store.loggedIn);
+      console.log(this.$store.userInfo);
     },
   },
 };
