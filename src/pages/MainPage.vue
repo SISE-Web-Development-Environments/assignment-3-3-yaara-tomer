@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <h6  class="mb-14 " style=" color:#008080; font-size: 26px;text-align: center;">Randome recipes: </h6>     
-    <RecipePreviewGrid  :recipes="demoRecipes"  />
+    <h6  class="mb-14 " style=" color:#008080; font-size: 26px;text-align: center;">Explore these recipes </h6>     
+    <RecipePreviewGrid  :recipes="RandomRecipes"  />
 
  <h4 v-if="!this.$store.LoggedIn" class="mb-14 " style=" color:#008080; font-size: 26px;">If you want to see this, you need to <b-link :to="{ name: 'login' }">Login</b-link> </h4>  
   <br>
@@ -16,7 +16,7 @@
         center: true,
       }"
       disabled
-      :recipes="demoRecipes"
+      :recipes="LastWatchedRecipes"
     >
     </RecipePreviewGrid>
   
@@ -42,21 +42,29 @@ data(){
     };
   },
  async created() {
-    const response1 = await this.axios.get(
-          "https://test-for-3-2.herokuapp.com/recipes/randomRecipesPreview"
+   try{
+ const response1 = await this.axios.get(
+          this.$store.server_domain + "recipes/randomRecipesPreview" 
         ); 
-        const RandomRecipesResult = response1.data.recipes;
-         this.RandomRecipes = [];
-         this.RandomRecipes.push(...RandomRecipesResult);
-
-        if (this.$store.LoggedIn) {
+         console.log(response1.data);
+        const RandomRecipesResult = response1.data;
+         this.RandomRecipes = RandomRecipesResult;
+        // this.RandomRecipes.push(...RandomRecipesResult);
+   } catch (error) {
+        console.log(error);
+  }
+   try{
+  if (this.$store.LoggedIn) {
          const response2 = await this.axios.get(
-          "https://test-for-3-2.herokuapp.com//user/lastWatchedRecipesPreview"
-        ); 
-        const LastWatchedResult = response1.data.recipes;
-         this.demoRecipes = [];
-         this.demoRecipes.push(...LastWatchedResult);
-        }
+          this.$store.server_domain + " /user/lastWatchedRecipesPreview" ,{
+            withCredentials: true,
+          }); 
+        const LastWatchedResult = response2.data;
+         this.LastWatchedRecipes = LastWatchedResult;
+  }
+  } catch (error) {
+        console.log(error);
+  }
 }
   
 };

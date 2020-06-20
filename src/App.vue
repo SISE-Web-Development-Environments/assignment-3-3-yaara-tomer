@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id = "app1" :style="{'background-image':'url(src\back.jpg)'}">
     <mdb-navbar color="default" dark>
       <mdb-navbar-brand :to="{ name: 'main' }">
         <strong>Our Recipe Website!</strong>
@@ -9,8 +9,7 @@
           <h6
             class="mb-9 white-text"
             style=" padding-top: 10px; padding-left : 10px; padding-right : 10px;"
-            v-if="!username"
-          >Hi Guest!</h6>
+            v-if="!username">Hi Guest!</h6>
           <h6
             class="mb-9 white-text"
             style=" padding-top: 10px; padding-left : 10px; padding-right : 10px;"
@@ -66,11 +65,12 @@
     <router-view />
 
     <mdb-navbar color="default-color-dark" position="bottom" dark>
-      <mdb-row class="py-4 d-flex align-items-center">
-        <mdb-col md="20" lg="200" class="text-center text-md-left mb-4 mb-md-0">
+    
           <h6 class="mb-0 white-text">Get connected with us on social networks!</h6>
-        </mdb-col>
-        <mdb-col md="4" lg="6" class="text-center text-md-right">
+     
+         <mdb-navbar-toggler>
+        <mdb-navbar-nav right>
+       
           <a class="fb-ic ml-0">
             <i class="fab fa-facebook white-text mr-lg-4"></i>
           </a>
@@ -86,8 +86,10 @@
           <a class="ins-ic">
             <i class="fab fa-instagram white-text mr-lg-4"></i>
           </a>
-        </mdb-col>
-      </mdb-row>
+       
+        </mdb-navbar-nav>
+         </mdb-navbar-toggler>
+    
     </mdb-navbar>
   </div>
 </template>
@@ -118,8 +120,6 @@ export default {
     };
   },
   components: {
-    mdbRow,
-    mdbCol,
     mdbNavbar,
     mdbNavbarBrand,
     mdbNavbarToggler,
@@ -154,6 +154,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
+}
+
+#app1{
+  background-image:url("//scss//wood-plate-white-table-kitchen-room-background_67155-440.jpg") ;
+
 }
 
 //  #nav {

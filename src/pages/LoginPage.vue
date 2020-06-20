@@ -120,6 +120,7 @@ export default {
         console.log("sharedData loggedin: " + this.$store.loggedIn);
         console.log(this.$store.userInfo);
 
+
         this.$router.push("/");
       } catch (err) {
         console.log("err catch: "+err.response);

@@ -5,6 +5,7 @@ export const shared_data = {
 
   userInfo: undefined,
 
+
   recipes: {},
 
   recipesMetaData: {
