@@ -1,6 +1,12 @@
 <template>
   <div class="container">
-    <h1 class="title">Login</h1>
+  
+  
+
+    <div class="jumbotron text-center" style="width: 500px;">
+
+  <!-- Title -->
+   <h1 class="title">Login</h1>
     <b-form @submit.prevent="onLogin">
       <b-form-group
         id="input-group-Username"
@@ -21,7 +27,6 @@
           Username must contain only English letters
         </b-form-invalid-feedback>
       </b-form-group>
-
       <b-form-group
         id="input-group-Password"
         label-cols-sm="3"
@@ -52,6 +57,7 @@
         <router-link to="register"> Register in here</router-link>
       </div>
     </b-form>
+
     <div class="d-flex justify-content-center mb-3">
       <b-spinner
         v-if="isLoading"
@@ -61,7 +67,9 @@
       ></b-spinner>
     </div>
 
-    <b-alert
+   </div>
+  <b-alert
+
       class="mt-2"
       v-if="form.submitError"
       variant="warning"
