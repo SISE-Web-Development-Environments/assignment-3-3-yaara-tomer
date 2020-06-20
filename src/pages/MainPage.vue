@@ -2,7 +2,7 @@
   <div class="container">
     <h6
       class="mb-14 "
-      style=" color:#80deea ; font-size: 26px;text-align: center;"
+      style=" color:#26c6da  ; font-size: 26px;text-align: center;"
     >
       <strong>Explore these recipes! </strong>
       <button

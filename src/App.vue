@@ -197,7 +197,7 @@ export default {
 
   .bg {
     /* The image used */
-    background-image: url("./assets/gray4.png");
+    background-image: url("./assets/back1.png");
 
     /* Full height */
  
