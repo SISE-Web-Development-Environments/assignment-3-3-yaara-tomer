@@ -5,59 +5,64 @@ const routes = [
   {
     path: "/",
     name: "main",
-    component: Main
+    component: Main,
   },
   {
     path: "/search",
     name: "search",
-    component:  () => import("./pages/SearchPage")
+    component: () => import("./pages/SearchPage"),
   },
   {
     path: "/register",
     name: "register",
-    component: () => import("./pages/RegisterPage")
+    component: () => import("./pages/RegisterPage"),
   },
   {
     path: "/login",
     name: "login",
-    component: () => import("./pages/LoginPage")
+    component: () => import("./pages/LoginPage"),
   },
   {
     path: "/about",
     name: "about",
-    component: () => import("./pages/AboutPage")
+    component: () => import("./pages/AboutPage"),
   },
   {
     path: "/family",
     name: "family",
-    component: () => import("./pages/MyFamilyRecipe")
+    component: () => import("./pages/MyFamilyRecipe"),
   },
   {
     path: "/favorite",
     name: "favorite",
-    component: () => import("./pages/MyFavoriteRecipe")
+    component: () => import("./pages/MyFavoriteRecipe"),
   },
   {
     path: "/personalRecipe",
     name: "personalRecipe",
-    component: () => import("./pages/MySelfRecipe")
+    component: () => import("./pages/MySelfRecipe"),
   },
-  
+
   {
     path: "/MakeYourRecipe",
     name: "MakeYourRecipe",
-    component: () => import("./pages/CreateNewRecipe")
+    component: () => import("./pages/CreateNewRecipe"),
   },
   {
     path: "/recipe/:recipeType/:recipeId",
     name: "recipe",
-    component: () => import("./pages/FullRecipeViewPage")
+    component: () => import("./pages/FullRecipeViewPage"),
   },
   {
     path: "*",
     name: "notFound",
-    component: NotFound
-  }
+    component: NotFound,
+  },
+  {
+    path: "/testFull",
+    name: "testFull",
+    component: () => import("./components/FullRecipe"),
+  },
 ];
 
 export default routes;
