@@ -1,4 +1,4 @@
-<template>
+<template >
   <div id=div class="bg">
     <mdb-navbar color="default" dark>
       <mdb-navbar-brand :to="{ name: 'main' }">
@@ -55,13 +55,21 @@
               waves-fixed
               v-if="this.$store.loggedIn"
             >
-               <i class="fas fa-pizza-slice"></i> <strong>Hi {{this.$store.userInfo.firstname}} !</strong>
+                <!-- <img v-if="this.$store.userInfo.ProfilePicture === undefined" src="image_user" class="rounded-circle z-depth-0"
+                alt="avatar image" height="35"> <strong>Hi {{this.$store.userInfo.firstname}} !</strong>
+                <img  v-else :src="image_url" class="rounded-circle z-depth-0"
+                alt="avatar image" height="35"> <strong>Hi {{this.$store.userInfo.firstname}} !</strong> -->
+              <i class="fas fa-pizza-slice"></i>  <strong>Hi {{this.$store.userInfo.firstname}} !</strong>
             </mdb-dropdown-toggle>
             <mdb-dropdown-menu>
               <mdb-dropdown-item v-on:click="Logout()" >
                 Logout
                </mdb-dropdown-item
-              >                        
+              >    
+               <mdb-dropdown-item  >
+                Update Profile picture
+               </mdb-dropdown-item
+              >                                 
             </mdb-dropdown-menu>
           </mdb-dropdown>
     
@@ -146,7 +154,8 @@ export default {
     return {
       username: this.$store.userInfo.firstname,
       isloggedIn: this.$store.loggedIn,
-      image: require("@/assets/tback.jpg"),
+     image_url: this.$store.userInfo.ProfilePicture,
+     image_user: require('@/assets/user_icon.png'),
       counter:0,
 
     };
@@ -167,15 +176,17 @@ export default {
 
   methods: {
     Logout() {
+    
       this.$store.userInfo = undefined;
       this.$store.loggedIn = false;
       this.counter+=1;
-      this.$refs.MainPage.newRandom();
-      this.$root.toast("Logout", "User logged out successfully", "success");
+      // this.$refs.MainPage.newRandom();
+      this.$root.toast("Logout", "User logged out successfully", "info");
 
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
       });
+    
     },
   },
 };
@@ -186,27 +197,32 @@ export default {
 
 @import "@/scss/form-style.scss";
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  min-height: 100vh;
+// #app {
+//   font-family: Avenir, Helvetica, Arial, sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   color: #2c3e50;
+//   min-height: 100vh;
+// }
+
+
+html, body {
+ 
+  margin: 0;
 }
-
-
   .bg {
     /* The image used */
-    background-image: url("./assets/back1.png");
-
+    background-image: url("./assets/images.jpg");
+      width:100%;
+      height: 100%;
     /* Full height */
- 
+  
 
     /* Center and scale the image nicely */
     //background-position: center;
     background-repeat: repeat;
-    background-size: cover;
-    min-height: 700px;
+    // background-size: cover;
+   
   }
 
 //  #nav {

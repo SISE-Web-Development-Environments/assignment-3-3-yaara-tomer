@@ -21,7 +21,7 @@
         <div class="line1">
           <div class="d-flex justify-content-between ">
             <p>
-              <mdb-icon icon="clock" size="lg" class="blue-text pr-2" />
+              <mdb-icon icon="clock" size="lg" class="orange-text" />
               {{ recipe.readyInMinutes }} min
             </p>
             <p>
@@ -52,11 +52,11 @@
             ><mdb-icon far icon="star" size="lg" /> Add To Favorite</a
           >
           <a v-if="isFavorite" @click="handleFavorite" class="px-2"
-            ><mdb-icon class="blue-text" fas icon="star" size="lg" />
+            ><mdb-icon class="pink-text" fas icon="star" size="lg" />
             Favorite</a
           >
           <a v-if="isWatched" class="px-2"
-            ><mdb-icon class="black-text" fas icon="eye" size="lg" /> Watched</a
+            ><mdb-icon class="grey-text" fas icon="eye" size="lg" /> Watched</a
           >
         </div>
       </mdb-card-body>

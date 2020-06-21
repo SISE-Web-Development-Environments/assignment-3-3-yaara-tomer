@@ -1,5 +1,6 @@
 <template>
-    <div class="container">  
+    <div class="container" style=" background-color:  #ffe6e6 ;">  
+      <br>
       <h6  class="mb-14 " style=" color:#008080; font-size: 26px;text-align: center;">My Favorite Recipes: </h6>     
     <RecipePreviewGrid  :recipes="FavoriteRecipes"  />
   </div>
