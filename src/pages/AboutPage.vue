@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <mdb-jumbotron class="mb-0 text-center"  style=" background-color: #f3e5f5 ;">
+        <mdb-jumbotron class="mb-0 text-center"  style=" background-color:#ffe6ff ;">
           <mdb-card-title class="pb-2 h4"
             ><strong>Yaara Rumney</strong></mdb-card-title          >
           <mdb-view class="my-4" :src="image" alt="">

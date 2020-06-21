@@ -1,7 +1,9 @@
 <template>
-    <div class="container">  
+    <div class="container" style="background-color:#fff2e6;"> 
+      <br> 
     <h6  class="mb-14 " style=" color:#008080; font-size: 26px;text-align: center;">My Personal Recipes: </h6>     
     <RecipePreviewGrid  :recipes="PersonalRecipes"  />
+    <br>
   </div>
 </template>
 
