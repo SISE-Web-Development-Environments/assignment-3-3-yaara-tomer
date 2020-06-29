@@ -92,6 +92,7 @@ export default {
     if (this.$store.recipesMetaData[this.recipe.id]) {
       this.isFavorite = this.$store.recipesMetaData[this.recipe.id].favorite;
       this.isWatched = this.$store.recipesMetaData[this.recipe.id].watched;
+      console.log(this.$store.recipesMetaData[this.recipe.id]);
     }
   },
   data() {
