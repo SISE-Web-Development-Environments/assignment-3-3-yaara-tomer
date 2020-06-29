@@ -152,7 +152,7 @@
           </b-form-select>
         </div>
 
-        <RecipePreviewGrid :recipes="recipes" />
+        <RecipePreviewGrid :recipes="recipes" :itemsPerRow="3" />
       </b-overlay>
     </div>
   </div>
@@ -171,16 +171,6 @@ export default {
     if (this.$store.lastSearch) {
       this.recipes = this.$store.lastSearch.results;
       this.form = this.$store.lastSearch.form;
-
-      //if user loggedIn after search - get all recipes metadata
-      // if (this.$store.loggedIn === true) {
-      //   if (this.isLoggedIn === false) {
-      //     this.isLoggedIn = true;
-      //      await this.updateAllRecipesMetaData();
-      //   }
-      // } else {
-      //   this.isLoggedIn = false;
-      // }
     }
     console.log("search finish mounted");
   },
@@ -220,7 +210,7 @@ export default {
               n: this.form.number,
               cuisine: this.form.cuisine,
               diet: this.form.diet,
-              intolerances: this.form.diet,
+              intolerances: this.form.intolerances,
             },
           }
         );

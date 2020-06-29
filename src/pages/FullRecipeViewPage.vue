@@ -1,13 +1,16 @@
 <template>
-  <div class="container" >
-    <div class="jumbotron text-center" style="width:100%; background-color:#e6fff2;">
+  <div class="container">
+    <div
+      class="jumbotron text-center"
+      style="width:100%; background-color:#e6fff2;"
+    >
       <!-- Title -->
-      
-        <h4 class="indigo-text h5 mb-4">{{ recipe.title }}</h4>
-        <img :src="recipe.image" class="center" style=" border-radius: 25px;" />
-   
+
+      <h4 class="indigo-text h5 mb-4">{{ recipe.title }}</h4>
+      <img :src="recipe.image" class="center" style=" border-radius: 25px;" />
+
       <br />
-      <div class="row"  style="width:100%;">
+      <div class="row" style="width:100%;">
         <div class="col-md-2">
           <mdb-icon icon="clock" size="lg" class="orange-text" />
           {{ recipe.readyInMinutes }} min
@@ -53,37 +56,45 @@
       </div>
       <br />
 
-
-        <div class="row">
-           <div class="col-4">
-   <h4 class="indigo-text h5 mb-4">Ingredients:</h4>
-   <div style="  font-weight: normal; text-align: left; border-radius: 25px;padding :10px; 
-  background: #ffffe6;">
-   <ul style=" list-style-type: none;  ">
-              <li 
+      <div class="row">
+        <div class="col-4">
+          <h4 class="indigo-text h5 mb-4">Ingredients:</h4>
+          <div
+            style="  font-weight: normal; text-align: left; border-radius: 25px;padding :10px; 
+  background: #ffffe6;"
+          >
+            <ul style=" list-style-type: none;  ">
+              <li
                 v-for="(r, index) in recipe.extendedIngredients"
                 :key="index + '_' + r.id"
-              ><div style=" text-align: left; margin-left:-30px;  padding:4px 1px 4px 1px;">
-                {{ r.name }} </div>
-             
+              >
+                <div
+                  style=" text-align: left; margin-left:-30px;  padding:4px 1px 4px 1px;"
+                >
+                  {{ r.name }}
+                </div>
               </li>
             </ul>
-    </div></div>
-    <div class="col-8">
-      <h4 class="indigo-text h5 mb-4">Instructions:</h4>
+          </div>
+        </div>
+        <div class="col-8">
+          <h4 class="indigo-text h5 mb-4">Instructions:</h4>
 
-     <ol style="font-size: 18px; font-weight: bold; ">
-              <li v-for="s in recipe._instructions" :key="s.number">
-               <div  style="  font-weight: normal; text-align: left; border-radius: 25px;
+          <ol style="font-size: 18px; font-weight: bold; ">
+            <li v-for="s in recipe._instructions" :key="s.number">
+              <div
+                style="  font-weight: normal; text-align: left; border-radius: 25px;
   background: #ffffe6;
-  padding: 20px; "> {{ s.step }} </div> <br>
-              </li>
-            </ol>
+  padding: 20px; "
+              >
+                {{ s.step }}
+              </div>
+              <br />
+            </li>
+          </ol>
+        </div>
+      </div>
     </div>
-   
-  </div>
-    </div>
-   
   </div>
 </template>
 
@@ -118,11 +129,9 @@ export default {
             params: { id: this.$route.params.recipeId },
           }
         );
-
-        if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
         console.log("error.response.status", error.response.status);
-        //this.$router.replace("/");
+        this.$router.replace("/NotFound");
         return;
       }
       console.log(response);
@@ -140,8 +149,8 @@ export default {
         title,
         vegan,
         vegetarian,
-       } = response.data;
-     // } = this.$store.FullRecipeDemo;
+      } = response.data;
+      // } = this.$store.FullRecipeDemo;
 
       let _instructions = analyzedInstructions
         .map((fstep) => {
@@ -180,9 +189,15 @@ export default {
           this.isWatched = true;
         } else {
           let MetaDataresponse = await this.axios
-            .get(this.$store.server_domain + "user/recipeInfo/[" + this.recipe.id + "]", {
-              withCredentials: true,
-            })
+            .get(
+              this.$store.server_domain +
+                "user/recipeInfo/[" +
+                this.recipe.id +
+                "]",
+              {
+                withCredentials: true,
+              }
+            )
             .catch((error) => {
               console.log("failed get recipes metadata: " + error);
             });
@@ -216,16 +231,14 @@ export default {
     //     return;
     //   }
     // },
-        async handleFavorite() {
-
+    async handleFavorite() {
       //update icon display
       this.isFavorite = !this.isFavorite;
 
       //update local store
-      
+
       this.$store.recipesMetaData[this.recipe.id].favorite = !this.$store
         .recipesMetaData[this.recipe.id].favorite;
-      
 
       //update server
       if (this.isFavorite === true) {
