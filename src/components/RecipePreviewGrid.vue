@@ -20,14 +20,14 @@ export default {
       type: Array,
       required: true,
     },
+    itemsPerRow:{
+      type: Number,
+      default: 3,
+      required: false
+    }
+
   },
-  data() {
-    return {
-      itemsPerRow:3
-    };
-  },
-  
-  computed: {
+    computed: {
     rowCount: function() {
       return Math.ceil(this.recipes.length / this.itemsPerRow);
     },

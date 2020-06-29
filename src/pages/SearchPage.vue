@@ -152,7 +152,7 @@
           </b-form-select>
         </div>
 
-        <RecipePreviewGrid :recipes="recipes" />
+        <RecipePreviewGrid :recipes="recipes" :itemsPerRow="1" />
       </b-overlay>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <template>
-  <div class="container" style= "background-color:#ffe6f2">
-    <br>
+  <div class="container" style="background-color:#ffe6f2">
+    <br />
     <h6
       class="mb-14 "
       style=" color:#26c6da  ; font-size: 26px;text-align: center;"
@@ -58,7 +58,6 @@
 <script>
 import { mdbBtn } from "mdbvue";
 import RecipePreviewGrid from "../components/RecipePreviewGrid";
-import RecipePreviewList from "../components/RecipePreviewList";
 export default {
   components: {
     // RecipePreviewList,
@@ -135,7 +134,6 @@ export default {
     },
     async newRandom() {
       try {
-    
         //  const response1 = await this.axios.get(
         //           this.$store.server_domain + "recipes/randomRecipesPreview"
         //         );

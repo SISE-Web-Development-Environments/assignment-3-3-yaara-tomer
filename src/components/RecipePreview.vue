@@ -131,7 +131,6 @@ export default {
       this.isFavorite = !this.isFavorite;
 
       //update local store
-      
       this.$store.recipesMetaData[this.recipe.id].favorite = !this.$store
         .recipesMetaData[this.recipe.id].favorite;
       
@@ -142,8 +141,6 @@ export default {
       } else {
         this.removeFromFavorite();
       }
-
-      //update server
     },
     async addToFavorite() {
       const response = await this.axios

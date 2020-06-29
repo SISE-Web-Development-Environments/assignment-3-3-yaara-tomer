@@ -58,11 +58,6 @@ const routes = [
     name: "notFound",
     component: NotFound,
   },
-  {
-    path: "/testFull",
-    name: "testFull",
-    component: () => import("./components/FullRecipe"),
-  },
 ];
 
 export default routes;
