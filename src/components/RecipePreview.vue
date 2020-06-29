@@ -48,7 +48,7 @@
         <hr v-if="isLoggedIn" class="my-2" />
 
         <div v-if="isLoggedIn" class="d-flex justify-content-between ">
-          <a v-if="!isFavorite" @click="handleFavorite" class="px-2"
+          <a v-if="!isFavorite && recipe.type==='r'" @click="handleFavorite" class="px-2"
             ><mdb-icon far icon="star" size="lg" /> Add To Favorite</a
           >
           <a v-if="isFavorite" @click="handleFavorite" class="px-2"
@@ -92,7 +92,6 @@ export default {
     if (this.$store.recipesMetaData[this.recipe.id]) {
       this.isFavorite = this.$store.recipesMetaData[this.recipe.id].favorite;
       this.isWatched = this.$store.recipesMetaData[this.recipe.id].watched;
-      console.log(this.$store.recipesMetaData[this.recipe.id]);
     }
   },
   data() {

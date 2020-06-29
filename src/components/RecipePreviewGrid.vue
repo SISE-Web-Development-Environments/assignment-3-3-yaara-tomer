@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-row class="mb-5 mt-5" v-for="i in rowCount" :key="i">
+    <b-row class="mb-5 mt-3" v-for="i in rowCount" :key="i">
       <b-col cols="4" v-for="r in itemCountInRow(i)" :key="r.id">
         <RecipePreview :recipe="r"></RecipePreview>
       </b-col>
