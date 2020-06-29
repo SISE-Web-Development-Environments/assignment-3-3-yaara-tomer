@@ -52,7 +52,7 @@
             ><mdb-icon far icon="star" size="lg" /> Add To Favorite</a
           >
           <a v-if="isFavorite" @click="handleFavorite" class="px-2"
-            ><mdb-icon class="pink-text" fas icon="star" size="lg" />
+            ><mdb-icon class="blue-text" fas icon="star" size="lg" />
             Favorite</a
           >
           <a v-if="isWatched" class="px-2"
@@ -67,19 +67,12 @@
 <script>
 import {
   mdbContainer,
-  mdbRow,
-  mdbCol,
   mdbCard,
   mdbCardImage,
   mdbCardBody,
   mdbCardTitle,
-  mdbCardText,
   mdbIcon,
   mdbView,
-  mdbMask,
-  mdbBtn,
-  mdbTooltip,
-  mdbChip,
 } from "mdbvue";
 
 export default {
@@ -90,12 +83,8 @@ export default {
     mdbCardImage,
     mdbCardBody,
     mdbCardTitle,
-    // mdbCardText,
     mdbIcon,
     mdbView,
-    // mdbMask,
-    // mdbBtn,
-    // mdbChip,
   },
   mounted() {
     console.log("RecipePreview mounted!");

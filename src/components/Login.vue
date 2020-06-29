@@ -2,12 +2,10 @@
   <div class="container">
     <div
       class="jumbotron text-center"
-      style="width: 450px; background-color: #ccffff    ;"
+      style="width: 450px; background-color: #ccffff;"
     >
-    <img src="../assets/login-icon.png" alt="Girl in a jacket">
-    <br><br>
+      <img class="loginimg" src="../assets/login-icon.png" alt="Login icon" />
       <h1 class="title" style="color:#0097a7   ;">Login</h1>
-      <br />
       <b-form @submit.prevent="onLogin">
         <b-form-group
           id="input-group-Username"
@@ -65,16 +63,17 @@
           label="Spinning"
         ></b-spinner>
       </div>
+      <b-alert
+        class="mt-2"
+        v-if="form.submitError"
+        variant="warning"
+        dismissible
+        show
+      >
+        Login failed: {{ form.submitError }}
+      </b-alert>
     </div>
-    <b-alert
-      class="mt-2"
-      v-if="form.submitError"
-      variant="warning"
-      dismissible
-      show
-    >
-      Login failed: {{ form.submitError }}
-    </b-alert>
+
     <!-- <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card> -->
@@ -88,7 +87,7 @@ export default {
   name: "Login",
   data() {
     return {
-       image: require("@/assets/login-icon.png"),
+      image: require("@/assets/login-icon.png"),
       form: {
         username: "",
         password: "",
@@ -198,5 +197,10 @@ export default {
 <style lang="scss" scoped>
 .container {
   max-width: 400px;
+  height: 100vh;
+}
+.loginimg {
+  height: 30%;
+  width: 30%;
 }
 </style>

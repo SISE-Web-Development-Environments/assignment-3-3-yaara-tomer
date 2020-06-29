@@ -2,7 +2,7 @@
   <div class="container">
     <div
       class="jumbotron text-center"
-      style="width: 100%; background-color: #ffffcc    ;"
+      style="width: 100%; background-color: #ffffcc;"
     >
       <div class="row">
         <div class="col">
@@ -162,7 +162,7 @@
 import _ from "lodash";
 import RecipePreviewGrid from "../components/RecipePreviewGrid";
 export default {
-  name: "Search",
+  name: "search",
   components: {
     RecipePreviewGrid,
   },
@@ -171,7 +171,12 @@ export default {
     if (this.$store.lastSearch) {
       this.recipes = this.$store.lastSearch.results;
       this.form = this.$store.lastSearch.form;
+      if (!this.$store.lastSearch.loggedIn && this.$store.loggedIn) { //update meta data if loged in after search
+        this.updateRecipesMetaData();
+        this.$store.lastSearch.loggedIn = true;
+      }
     }
+
     console.log("search finish mounted");
   },
   data() {
@@ -220,11 +225,6 @@ export default {
         this.recipes = [];
         this.recipes.push(...SearchResultsRecipes);
 
-        //add recipe type to all recipe - (r=regular, p=personal, f=family)
-        this.recipes.forEach(function(recipe) {
-          recipe.type = "r";
-        });
-
         //save search result
         this.saveLastSearchResults();
 
@@ -263,6 +263,7 @@ export default {
           this.$store.recipesMetaData[recipe_id] =
             MetaDataresponse.data[recipe_id];
         });
+        console.log(this.$store.recipesMetaData);
       }
     },
     orderedRecipes() {
@@ -276,13 +277,11 @@ export default {
     },
     async saveLastSearchResults() {
       console.log("start saving results");
-      if (!this.$store.lastSearch) {
-        this.$store.lastSearch = {};
-        console.log("created lastsearch: " + this.$store.lastSearch);
-      }
+      this.$store.lastSearch = {};
 
       this.$store.lastSearch.results = this.recipes;
       this.$store.lastSearch.form = this.form;
+      this.$store.lastSearch.loggedIn = this.$store.loggedIn;
       console.log("saved results:" + this.$store.lastSearch);
     },
   },

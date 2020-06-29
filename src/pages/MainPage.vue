@@ -143,9 +143,7 @@ export default {
         //add recipe type to all recipe - (r=regular, p=personal, f=family)
 
         this.RandomRecipes = this.$store.demoRecipes;
-        this.recipes.forEach(function(recipe) {
-          recipe.type = "r";
-        });
+        
         if (this.$store.loggedIn) {
           this.updateRandomRecipesMetaData();
         }
