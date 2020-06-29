@@ -31,12 +31,12 @@
             </p>
           </div>
           <div class="d-flex justify-content-between ">
-            <p v-if="showVegan">
+            <p v-if="recipe.vegan || recipe.vegetarian">
               <mdb-icon icon="leaf" size="lg" class="green-text pr-2" />{{
-                leafText
+                recipe.vegan ? "Vegan" : "Vegetarian"
               }}
             </p>
-            <p v-if="showglutenFree">
+            <p v-if="recipe.glutenFree">
               <mdb-icon
                 icon="bread-slice"
                 size="lg"
@@ -99,9 +99,6 @@ export default {
   },
   mounted() {
     console.log("RecipePreview mounted!");
-    this.showVegan = this.recipe.vegan || this.recipe.vegetarian;
-    if (this.recipe.vegan === true) this.leafText = "Vegan";
-    this.showglutenFree = this.recipe.glutenFree;
     this.isLoggedIn = this.$store.loggedIn;
     if (this.$store.recipesMetaData[this.recipe.id]) {
       this.isFavorite = this.$store.recipesMetaData[this.recipe.id].favorite;
@@ -110,9 +107,6 @@ export default {
   },
   data() {
     return {
-      showVegan: true,
-      showglutenFree: true,
-      leafText: "Vegetarian",
       isFavorite: false,
       isWatched: false,
       isLoggedIn: false,
@@ -126,14 +120,12 @@ export default {
   },
   methods: {
     async handleFavorite() {
-
       //update icon display
       this.isFavorite = !this.isFavorite;
 
       //update local store
       this.$store.recipesMetaData[this.recipe.id].favorite = !this.$store
         .recipesMetaData[this.recipe.id].favorite;
-      
 
       //update server
       if (this.isFavorite === true) {
@@ -205,7 +197,10 @@ export default {
         });
     },
     handleEnterRecipe() {
-      this.$router.push({ name: 'recipe', params: { recipeType: this.recipe.type, recipeId: this.recipe.id } })
+      this.$router.push({
+        name: "recipe",
+        params: { recipeType: this.recipe.type, recipeId: this.recipe.id },
+      });
     },
   },
 };

@@ -20,7 +20,7 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: () => import("./pages/LoginPage"),
+    component: () => import("./components/Login"),
   },
   {
     path: "/about",
@@ -40,13 +40,7 @@ const routes = [
   {
     path: "/personalRecipe",
     name: "personalRecipe",
-    component: () => import("./pages/MySelfRecipe"),
-  },
-
-  {
-    path: "/MakeYourRecipe",
-    name: "MakeYourRecipe",
-    component: () => import("./pages/CreateNewRecipe"),
+    component: () => import("./pages/MyPersonalRecipe"),
   },
   {
     path: "/recipe/:recipeType/:recipeId",
