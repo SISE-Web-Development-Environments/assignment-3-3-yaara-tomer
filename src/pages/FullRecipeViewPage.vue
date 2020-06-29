@@ -4,13 +4,12 @@
       class="jumbotron text-center"
       style="width:100%; background-color:#e6fff2;"
     >
-      <!-- Title -->
-
       <h4 class="indigo-text h5 mb-4">{{ recipe.title }}</h4>
       <img :src="recipe.image" class="center" style=" border-radius: 25px;" />
 
       <br />
-      <div class="row" style="width:100%;">
+      <div class="row" style="width:100%; ">
+        <!-- background-color: lightblue; -->
         <div class="col-md-2">
           <mdb-icon icon="clock" size="lg" class="orange-text" />
           {{ recipe.readyInMinutes }} min
@@ -20,14 +19,12 @@
           {{ recipe.aggregateLikes }}
           Likes
         </div>
-
         <div class="col-md-2">
           <mdb-icon icon="users" size="lg" class=" purple-text pr-2" />
           {{ recipe.servings }}
           Servings
         </div>
-
-        <div class="col-md-2">
+        <div class="col-md-2" v-if="recipe.glutenFree">
           <p>
             <mdb-icon
               icon="bread-slice"
@@ -36,15 +33,15 @@
             />Gluten Free
           </p>
         </div>
-        <div class="col-md-2">
-          <p v-if="showVegan">
+        <div class="col-md-2" v-if="recipe.vegan || recipe.vegetarian">
+          <p>
             <mdb-icon icon="leaf" size="lg" class="green-text pr-2" />{{
-              leafText
+              recipe.vegan ? "Vegan" : "Vegetarian"
             }}
           </p>
         </div>
 
-        <div class="col  px-lg-1" v-if="isLoggedIn">
+        <div class="col  px-lg-1" v-if="isLoggedIn && type === 'r'">
           <a v-if="!isFavorite" @click="handleFavorite" class="px-2"
             ><mdb-icon far icon="star" size="lg" /> Add To Favorite</a
           >
@@ -60,8 +57,7 @@
         <div class="col-4">
           <h4 class="indigo-text h5 mb-4">Ingredients:</h4>
           <div
-            style="  font-weight: normal; text-align: left; border-radius: 25px;padding :10px; 
-  background: #ffffe6;"
+            style="  font-weight: normal; text-align: left; border-radius: 25px;padding :10px; background: #ffffe6;"
           >
             <ul style=" list-style-type: none;  ">
               <li
@@ -71,7 +67,7 @@
                 <div
                   style=" text-align: left; margin-left:-30px;  padding:4px 1px 4px 1px;"
                 >
-                  {{ r.name }}
+                  {{ r.originalString }}
                 </div>
               </li>
             </ul>
@@ -79,19 +75,29 @@
         </div>
         <div class="col-8">
           <h4 class="indigo-text h5 mb-4">Instructions:</h4>
-
-          <ol style="font-size: 18px; font-weight: bold; ">
-            <li v-for="s in recipe._instructions" :key="s.number">
-              <div
-                style="  font-weight: normal; text-align: left; border-radius: 25px;
-  background: #ffffe6;
-  padding: 20px; "
+          <div
+            v-for="(phase, index) in recipe.analyzedInstructions"
+            :key="index"
+            style="font-size: 18px; font-weight: bold; "
+          >
+            <h5
+              class="indigo-text h5 mb-2"
+              style="text-align: left; margin-left: 40px;"
+            >
+              {{ phase.name }}
+            </h5>
+            <ol>
+              <li
+                v-for="(s, index) in phase.steps"
+                :key="index"
+                style="  font-weight: normal; text-align: left; border-radius: 25px; background: #ffffe6; padding: 20px; "
+                class="mb-4"
               >
                 {{ s.step }}
-              </div>
-              <br />
-            </li>
-          </ol>
+                <br />
+              </li>
+            </ol>
+          </div>
         </div>
       </div>
     </div>
@@ -106,131 +112,64 @@ export default {
   },
   data() {
     return {
-      recipe: null,
+      recipe: {},
       isFamily: false,
       isLoggedIn: false,
-      showVegan: true,
-      showglutenFree: true,
-      leafText: "Vegetarian",
       isFavorite: false,
-      isWatched: true,
+      type: "",
+      isReady: false,
     };
   },
   async created() {
+    this.isLoggedIn = this.$store.loggedIn;
+    let response;
+    let type = this.$route.params.recipeType;
+    let recipeId = this.$route.params.recipeId;
+    this.type = type;
     try {
-      let response;
-      // response = this.$route.params.response;
-
-      try {
+      //get recipe from server
+      if (type === "r") {
         response = await this.axios.get(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
           this.$store.server_domain + "recipes/fullRecipeByid",
           {
-            params: { id: this.$route.params.recipeId },
+            params: { id: recipeId },
           }
         );
-      } catch (error) {
-        console.log("error.response.status", error.response.status);
-        this.$router.replace("/NotFound");
+      } else if (type === "p") {
+        response = await this.axios.get(
+          this.$store.server_domain + "user/personalRecipeByid?id=" + recipeId,
+          {
+            withCredentials: true,
+          }
+        );
+      } else if (type === "f") {
+        response = await this.axios.get(
+          this.$store.server_domain + "user/familyRecipeByid?id=" + recipeId,
+          {
+            withCredentials: true,
+          }
+        );
+      } else {
+        console.log("type error:", type);
+        this.$router.push("/NotFound");
         return;
       }
-      console.log(response);
-      this.isLoggedIn = this.$store.loggedIn;
-      let {
-        aggregateLikes,
-        analyzedInstructions,
-        extendedIngredients,
-        glutenFree,
-        id,
-        image,
-        instructions,
-        readyInMinutes,
-        servings,
-        title,
-        vegan,
-        vegetarian,
-      } = response.data;
-      // } = this.$store.FullRecipeDemo;
+    } catch (err) {
+      this.$router.push("/NotFound");
+      return;
+    }
 
-      let _instructions = analyzedInstructions
-        .map((fstep) => {
-          fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-          return fstep.steps;
-        })
-        .reduce((a, b) => [...a, ...b], []);
+    this.recipe = response.data; //this.$store.FullRecipeDemo;
 
-      let _recipe = {
-        instructions,
-        _instructions,
-        analyzedInstructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
-        id,
-        image,
-        title,
-        vegan,
-        vegetarian,
-        glutenFree,
-        servings,
-      };
+    if (this.isLoggedIn) {
+      //get metaData if needeed
+      this.updateRecipeMetadata();
 
-      this.recipe = _recipe;
-      this.showVegan = this.recipe.vegan || this.recipe.vegetarian;
-      if (this.recipe.vegan === true) this.leafText = "Vegan";
-      this.showglutenFree = this.recipe.glutenFree;
-      this.isLoggedIn = this.$store.loggedIn;
-      if (this.$store.loggedIn) {
-        if (this.$store.recipesMetaData[this.recipe.id]) {
-          // recipe alredy in metadata
-          this.isFavorite = this.$store.recipesMetaData[
-            this.recipe.id
-          ].favorite;
-          this.isWatched = true;
-        } else {
-          let MetaDataresponse = await this.axios
-            .get(
-              this.$store.server_domain +
-                "user/recipeInfo/[" +
-                this.recipe.id +
-                "]",
-              {
-                withCredentials: true,
-              }
-            )
-            .catch((error) => {
-              console.log("failed get recipes metadata: " + error);
-            });
-          this.$store.recipesMetaData[this.recipe.id] =
-            MetaDataresponse.data[this.recipe.id];
-          this.isFavorite = this.$store.recipesMetaData[
-            this.recipe.id
-          ].favorite;
-          this.isWatched = this.$store.recipesMetaData[this.recipe.id].watched;
-        }
-      }
-    } catch (error) {
-      console.log(error);
+      //mark As Watched
+      this.markAsWatched();
     }
   },
   methods: {
-    // async getRegularRecipe() {
-    //   try {
-    //     let response = await this.axios.get(
-    //       "https://test-for-3-2.herokuapp.com/recipes/info",
-    //       {
-    //         params: { id: this.$route.params.recipeId },
-    //       }
-    //     );
-
-    //     // console.log("response.status", response.status);
-    //     if (response.status !== 200) this.$router.replace("/NotFound");
-    //   } catch (error) {
-    //     console.log("error.response.status", error.response.status);
-    //     //this.$router.replace("/");
-    //     return;
-    //   }
-    // },
     async handleFavorite() {
       //update icon display
       this.isFavorite = !this.isFavorite;
@@ -310,6 +249,45 @@ export default {
             this.recipe.id
           ].favorite = this.isFavorite;
         });
+    },
+    async updateRecipeMetadata() {
+      if (this.$store.recipesMetaData[this.recipe.id]) {
+        // recipe alredy in metadata store
+        this.isFavorite = this.$store.recipesMetaData[this.recipe.id].favorite;
+      } else {
+        let MetaDataresponse = await this.axios
+          .get(
+            this.$store.server_domain +
+              "user/recipeInfo/[" +
+              this.recipe.id +
+              "]",
+            {
+              withCredentials: true,
+            }
+          )
+          .catch((error) => {
+            console.log("failed get recipes metadata: " + error);
+          });
+        this.$store.recipesMetaData[this.recipe.id] =
+          MetaDataresponse.data[this.recipe.id];
+        this.isFavorite = this.$store.recipesMetaData[this.recipe.id].favorite;
+      }
+      //update local store watched
+      this.$store.recipesMetaData[this.recipe.id].watched = true;
+    },
+    async markAsWatched() {
+      let response = await this.axios.post(
+        this.$store.server_domain +
+          "user/markAsWatched?id=" +
+          this.$route.params.recipeId +
+          "&type=" +
+          this.$route.params.recipeType,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("markAsWatched: " + response.status);
     },
   },
 };
