@@ -1,15 +1,14 @@
 <template>
   <div id="div" class="bg">
     <navbar />
-    <br />
-    <router-view/>
-    <footerB />
+    <router-view />
+    <MyFooter />
   </div>
 </template>
 
 <script>
 import navbar from "./components/Navbar";
-import footerB from "./components/Footer";
+import MyFooter from "./components/MyFooter";
 
 export default {
   name: "App",
@@ -18,13 +17,13 @@ export default {
       username: this.$store.userInfo.firstname,
       isloggedIn: this.$store.loggedIn,
       image_url: this.$store.userInfo.ProfilePicture,
-      image_user: require("@/assets/user_icon.png"),
+      image_user: require("@/assets/user_icon.png")
     };
   },
   components: {
     navbar,
-    footerB,
-  },
+    MyFooter
+  }
 };
 </script>
 
@@ -37,16 +36,19 @@ html,
 body {
   margin: 0;
 }
+
 .bg {
   /* The image used */
-  background-image: url("./assets/images.jpg");
+  background-image: url("./assets/food3.png");
   width: 100%;
-  height: 100%;
+   height: 100%;
+  //height: 100vh;
   /* Full height */
 
   /* Center and scale the image nicely */
   //background-position: center;
   background-repeat: repeat;
+
   // background-size: cover;
 }
 </style>

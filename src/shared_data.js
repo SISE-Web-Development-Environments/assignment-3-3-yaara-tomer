@@ -3,7 +3,7 @@ export const shared_data = {
 
   loggedIn: false,
 
-  userInfo: undefined,
+  userInfo: {},
 
   recipes: {},
 
@@ -25,7 +25,6 @@ export const shared_data = {
       favorite: true,
     },
   },
- 
 
   demoRecipes: [
     {
@@ -110,86 +109,86 @@ export const shared_data = {
     },
   ],
 
-
-  FullRecipeDemo : {
-    
-    "title": "Açaí Breakfast Bowl Recipe",
-    "readyInMinutes": "10",
-    "image": "https://res.cloudinary.com/dafevgodq/image/upload/v1591350629/webdev/AcaiBowlRecipe_rvfcbk.webp",
-    "vegan": "true",
-    "vegetarian": "true",
-    "glutenFree": "true",
-    "aggregateLikes": "30",
-    "ingredients": [
-        " strawberries",
-		"blueberries",
-		"mango",
-		"bananas",
-		"açaí",
-		"almond milk"
-        
+  FullRecipeDemo: {
+    title: "Açaí Breakfast Bowl Recipe",
+    readyInMinutes: "10",
+    image:
+      "https://res.cloudinary.com/dafevgodq/image/upload/v1591350629/webdev/AcaiBowlRecipe_rvfcbk.webp",
+    vegan: "true",
+    vegetarian: "true",
+    glutenFree: "true",
+    aggregateLikes: "30",
+    ingredients: [
+      " strawberries",
+      "blueberries",
+      "mango",
+      "bananas",
+      "açaí",
+      "almond milk",
     ],
-    "extendedIngredients": [
-        {
-            "name": "2 cups strawberries (frozen)",
-            "originalString": "strawberries",
-            "amount": "2",
-            "unit": "cup"
-        },
-        {
-            "name": "1/2 cup blueberries (frozen)",
-            "originalString": "blueberries",
-            "amount": "0.5",
-            "unit": "cup"
-        },
-        {
-            "name": "1/2 cup mango slices",
-            "originalString": "mango",
-            "amount": "0.5",
-            "unit": "cup"
-        },
-        {
-            "name": "2 ripe bananas (sliced and frozen)",
-            "originalString": "bananas",
-            "amount": "0.5",
-            "unit": "unit"
-        },
-        {
-            "name": "4 tablespoons organic açaí freeze-dried powder",
-            "originalString": "açaí",
-            "amount": "4",
-            "unit": "tablespoons"
-        },
-        {
-            "name": "1 cup unsweetened almond milk",
-            "originalString": "almond milk",
-            "amount": "1",
-            "unit": "cup"
-        }
+    extendedIngredients: [
+      {
+        name: "2 cups strawberries (frozen)",
+        originalString: "strawberries",
+        amount: "2",
+        unit: "cup",
+      },
+      {
+        name: "1/2 cup blueberries (frozen)",
+        originalString: "blueberries",
+        amount: "0.5",
+        unit: "cup",
+      },
+      {
+        name: "1/2 cup mango slices",
+        originalString: "mango",
+        amount: "0.5",
+        unit: "cup",
+      },
+      {
+        name: "2 ripe bananas (sliced and frozen)",
+        originalString: "bananas",
+        amount: "0.5",
+        unit: "unit",
+      },
+      {
+        name: "4 tablespoons organic açaí freeze-dried powder",
+        originalString: "açaí",
+        amount: "4",
+        unit: "tablespoons",
+      },
+      {
+        name: "1 cup unsweetened almond milk",
+        originalString: "almond milk",
+        amount: "1",
+        unit: "cup",
+      },
     ],
-    "instructions": "<string>",
-    "analyzedInstructions": [
-        {
-            "name": "<string>",
-            "steps": [
-                {
-                    "number": "1",
-                    "step": "The night before, wash and dry your fruits. Remove any leaves from the strawberries and stems from the blueberries. Slice the banana. Pop all the fruits pieces into a Ziploc bag and freeze for the next morning. You can also buy ready frozen fruits, which are always handy to keep in the freezer just in case."
-                },
-                {
-                    "number": "2",
-                    "step": "When you are ready for breakfast or a power-packed snack, blend the fruits using an immersion blender or food processor, with the açaí powder, the almond milk to create a thick, yogurt-like consistency. Do not over-process or the mixture can go slimy. If the puree is too thick, add a little more nut milk. Too thin, whizz again with another banana or more frozen fruits."
-                },
-                {
-                    "number": "3",
-                    "step": "Divide the açaí blend between two bowls, roomy enough to hold the toppings. Then pile on your chosen healthy topping; the choice is up to you. "
-                }
-            ]
-        }
+    instructions: "<string>",
+    analyzedInstructions: [
+      {
+        name: "<string>",
+        steps: [
+          {
+            number: "1",
+            step:
+              "The night before, wash and dry your fruits. Remove any leaves from the strawberries and stems from the blueberries. Slice the banana. Pop all the fruits pieces into a Ziploc bag and freeze for the next morning. You can also buy ready frozen fruits, which are always handy to keep in the freezer just in case.",
+          },
+          {
+            number: "2",
+            step:
+              "When you are ready for breakfast or a power-packed snack, blend the fruits using an immersion blender or food processor, with the açaí powder, the almond milk to create a thick, yogurt-like consistency. Do not over-process or the mixture can go slimy. If the puree is too thick, add a little more nut milk. Too thin, whizz again with another banana or more frozen fruits.",
+          },
+          {
+            number: "3",
+            step:
+              "Divide the açaí blend between two bowls, roomy enough to hold the toppings. Then pile on your chosen healthy topping; the choice is up to you. ",
+          },
+        ],
+      },
     ],
-    "servings": "2"
-},
-  
+    servings: "2",
+  },
 
   demoFullRecipe: {
     id: 631890,
@@ -316,5 +315,4 @@ export const shared_data = {
     ],
     servings: 1,
   },
-
 };

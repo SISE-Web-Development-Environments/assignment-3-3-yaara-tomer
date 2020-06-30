@@ -29,7 +29,7 @@
 <script>
 import { mdbNavbar, mdbNavbarToggler, mdbNavbarNav } from "mdbvue";
 export default {
-  name: "footer",
+  name: "MyFooter",
   components: {
     mdbNavbar,
     mdbNavbarToggler,

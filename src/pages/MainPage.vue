@@ -1,77 +1,66 @@
 <template>
-  <div class="container" style="background-color:#ffe6f2">
+  <div class="container" style=" background-color: #ccffff;">
     <br />
-    <h6
-      class="mb-14 "
-      style=" color:#26c6da  ; font-size: 26px;text-align: center;"
-    >
-      <strong>Explore these recipes! </strong>
-      <button
-        type="button"
-        v-on:click="newRandom()"
-        style=" margin-left: 120px; "
-        class="btn btn-info btn-rounded"
-      >
-        New Random!
-      </button>
-    </h6>
+    <div class="row">
+      <div class="col">
+        <h6
+          class="mb-14"
+          style=" color:#26c6da  ; font-size: 26px; text-align: center; align-items: center; justify-content: center;"
+        >
+          <strong>Explore these recipes!</strong>
+        </h6>
+        <RecipePreviewGrid :recipes="RandomRecipes" :itemsPerRow="1" style="margin-left:100px;" />
+        <button
+          type="button"
+          v-on:click="newRandom()"
+          style=" margin-left: 200px; "
+          class="btn btn-info btn-rounded"
+        >New Random!</button>
+      </div>
+      <div class="col-6" style=" align-items: center; text-align: center; justify-content: center;">
+     
 
-    <RecipePreviewGrid :recipes="RandomRecipes" />
+         <Login v-on:when-Log-in="updateWatch"  v-if="!this.isloggedIn" />
 
-    <h4
-      v-if="!this.$store.loggedIn"
-      class="mb-14 "
-      style=" color:#008080; font-size: 26px;"
-    >
-      If you want to see this, you need to
-      <b-link :to="{ name: 'login' }" class="text-success">Login</b-link>
-    </h4>
+    
+       
+        <h6
+          class="mb-14"
+          v-if="this.$store.loggedIn"
+          style=" color:#008080; font-size: 26px;text-align: center;"
+        > <strong>Last Watched Recipes:</strong></h6>
+        <RecipePreviewGrid        
+          :recipes="LastWatchedRecipes" :itemsPerRow="1"
+         v-if="this.$store.loggedIn" ></RecipePreviewGrid>
+       
+
+      </div>
+    </div>
     <br />
-    <h6
-      class="mb-14 "
-      v-if="!this.$store.loggedIn"
-      style=" color:#008080; font-size: 26px;
-   text-align: center;  filter: blur(3px);"
-    >
-      Last Watched Recipes:
-    </h6>
-    <h6
-      class="mb-14 "
-      v-if="this.$store.loggedIn"
-      style=" color:#008080; font-size: 26px;text-align: center;"
-    >
-      Last Watched Recipes:
-    </h6>
-    <RecipePreviewGrid
-      :class="{
-        RandomRecipes: true,
-        blur: !this.$store.loggedIn,
-        center: true,
-      }"
-      disabled
-      :recipes="LastWatchedRecipes"
-    >
-    </RecipePreviewGrid>
   </div>
 </template>
 
 <script>
 import { mdbBtn } from "mdbvue";
 import RecipePreviewGrid from "../components/RecipePreviewGrid";
+import Login from "../components/Login";
 export default {
   components: {
     // RecipePreviewList,
     RecipePreviewGrid,
+    Login
   },
   data() {
     return {
       RandomRecipes: [],
       LastWatchedRecipes: [],
-      isloggedIn: this.$store.loggedIn,
+      isloggedIn: this.$store.loggedIn
     };
   },
 
   async created() {
+          
+    
     try {
       //  const response1 = await this.axios.get(
       //           this.$store.server_domain + "recipes/randomRecipesPreview"
@@ -87,46 +76,41 @@ export default {
       if (this.$store.loggedIn) {
         this.updateRandomRecipesMetaData();
       }
+       if (this.$store.loggedIn) {
+
+       this.getlastWatchRecipe();
+       }
+
       // this.RandomRecipes.push(...RandomRecipesResult);
     } catch (error) {
       console.log(error);
     }
-    try {
-      if (this.$store.LoggedIn) {
-        const response2 = await this.axios.get(
-          this.$store.server_domain + " /user/lastWatchedRecipesPreview",
-          {
-            withCredentials: true,
-          }
-        );
-        const LastWatchedResult = response2.data;
-        this.LastWatchedRecipes = LastWatchedResult;
-        //TODO send to meta data also?
-      }
-    } catch (error) {
-      console.log(error);
-    }
+   
   },
   methods: {
+    async updateWatch(){
+       
+         this.getlastWatchRecipe();
+    },
     async updateRandomRecipesMetaData() {
       //search results recipes ids
-      let all_ids = this.RandomRecipes.map((recipe) => recipe.id);
+      let all_ids = this.RandomRecipes.map(recipe => recipe.id);
 
       //filter only recipes we dont have meta data on in store memory
-      let ids = all_ids.filter((id) => !this.$store.recipesMetaData[id]);
+      let ids = all_ids.filter(id => !this.$store.recipesMetaData[id]);
       console.log("relevant ids: " + ids);
       //get meta data from server for new recipes
       if (ids.length > 0) {
         let MetaDataresponse = await this.axios
           .get(this.$store.server_domain + "user/recipeInfo/[" + ids + "]", {
-            withCredentials: true,
+            withCredentials: true
           })
-          .catch((error) => {
+          .catch(error => {
             console.log("failed get recipes metadata: " + error);
           });
 
         // add New recipes meta data to shared store
-        ids.map((recipe_id) => {
+        ids.map(recipe_id => {
           this.$store.recipesMetaData[recipe_id] =
             MetaDataresponse.data[recipe_id];
         });
@@ -143,7 +127,7 @@ export default {
         //add recipe type to all recipe - (r=regular, p=personal, f=family)
 
         this.RandomRecipes = this.$store.demoRecipes;
-        
+
         if (this.$store.loggedIn) {
           this.updateRandomRecipesMetaData();
         }
@@ -152,6 +136,29 @@ export default {
         console.log(error);
       }
     },
+    async getlastWatchRecipe() {
+      try {
+  
+        if (this.$store.loggedIn) {
+         
+          const response2 = await this.axios.get(
+            this.$store.server_domain + "user/lastWatchedRecipesPreview",
+            {
+              withCredentials: true
+            }
+          );
+          const LastWatchedResult = response2.data;
+       console.log(LastWatchedResult);
+          this.LastWatchedRecipes = LastWatchedResult;
+        // this.LastWatchedRecipes = this.$store.demoRecipes;
+          //TODO send to meta data also?
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+  
   },
 };
 </script>
@@ -168,4 +175,8 @@ export default {
   pointer-events: none;
   cursor: default;
 }
+// .container {
+
+//   height: 100vh;
+// }
 </style>

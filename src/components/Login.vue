@@ -1,10 +1,7 @@
 <template>
   <div class="container">
-    <div
-      class="jumbotron text-center"
-      style="width: 450px; background-color: #ccffff;"
-    >
-      <img class="loginimg" src="../assets/login-icon.png" alt="Login icon" />
+  <br>
+      <img class="loginimg"  src="../assets/login-icon.png" alt="Login icon" />
       <h1 class="title" style="color:#0097a7   ;">Login</h1>
       <b-form @submit.prevent="onLogin">
         <b-form-group
@@ -72,7 +69,7 @@
       >
         Login failed: {{ form.submitError }}
       </b-alert>
-    </div>
+  
 
     <!-- <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
@@ -133,7 +130,8 @@ export default {
           this.updateAllExistRecipesMetaData(),
         ]);
 
-        this.$router.push("/");
+        this.$emit('when-Log-in');
+     
       } catch (err) {
         console.log(err);
         this.form.submitError = err.response.data.message;
@@ -197,10 +195,7 @@ export default {
 <style lang="scss" scoped>
 .container {
   max-width: 400px;
-  height: 100vh;
+ height: 100%;
 }
-.loginimg {
-  height: 30%;
-  width: 30%;
-}
+
 </style>
