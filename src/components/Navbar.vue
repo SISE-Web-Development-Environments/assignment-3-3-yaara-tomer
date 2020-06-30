@@ -133,7 +133,7 @@ export default {
         {},
         { withCredentials: true }
       );
-      this.$store.userInfo = undefined;
+      this.$store.userInfo = {};
       this.$store.loggedIn = false;
       this.$store.recipesMetaData = undefined;
       this.$store.lastSearch = undefined;
