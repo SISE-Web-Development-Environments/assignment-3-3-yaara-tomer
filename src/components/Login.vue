@@ -129,7 +129,8 @@ export default {
           this.updateUserInfo(),
           this.updateAllExistRecipesMetaData(),
         ]);
-
+        var text = this.form.username +" logged in successfully!";
+        this.$root.toast("Login", text, "info");
         this.$emit('when-Log-in');
      
       } catch (err) {

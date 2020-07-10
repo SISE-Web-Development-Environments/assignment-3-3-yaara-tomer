@@ -1,13 +1,13 @@
 <template>
-  <div class="container" style=" background-color: #ccffff;">
+  <div class="container" style=" background-color: #e6ffff;">
     <br />
     <div class="row">
       <div class="col">
         <h6
           class="mb-14"
-          style=" color:#26c6da  ; font-size: 26px; text-align: center; align-items: center; justify-content: center;"
+          style=" color:#6495ED ; font-family: Impact, Charcoal, sans-serif; font-size: 26px; text-align: center; align-items: center; justify-content: center;"
         >
-          <strong>Explore these recipes!</strong>
+         Explore these recipes!
         </h6>
         <RecipePreviewGrid :recipes="RandomRecipes" :itemsPerRow="1" style="margin-left:100px;" />
         <button
@@ -17,25 +17,25 @@
           class="btn btn-info btn-rounded"
         >New Random!</button>
       </div>
+
       <div class="col-6" style=" align-items: center; text-align: center; justify-content: center;">
-     
+        <Login v-on:when-Log-in="updateWatch" v-if="!this.isloggedIn" />
 
-         <Login v-on:when-Log-in="updateWatch"  v-if="!this.isloggedIn" />
-
-    
-       
         <h6
           class="mb-14"
           v-if="this.$store.loggedIn"
-          style=" color:#008080; font-size: 26px;text-align: center;"
-        > <strong>Last Watched Recipes:</strong></h6>
-        <RecipePreviewGrid        
-          :recipes="LastWatchedRecipes" :itemsPerRow="1"
-         v-if="this.$store.loggedIn" ></RecipePreviewGrid>
-       
-
+          style=" color:#008080; font-size: 26px;text-align: center; color:#6495ED;  text-align: center; align-items: center; justify-content: center;  font-family: Impact, Charcoal, sans-serif;"
+        >
+         Last Watched Recipes:
+        </h6>
+        <RecipePreviewGrid
+          :recipes="LastWatchedRecipes"
+          :itemsPerRow="1" style="margin-left:100px;"
+          v-if="this.$store.loggedIn"
+        ></RecipePreviewGrid>
       </div>
     </div>
+    <br />
     <br />
   </div>
 </template>
@@ -59,8 +59,6 @@ export default {
   },
 
   async created() {
-          
-    
     try {
       //  const response1 = await this.axios.get(
       //           this.$store.server_domain + "recipes/randomRecipesPreview"
@@ -76,21 +74,18 @@ export default {
       if (this.$store.loggedIn) {
         this.updateRandomRecipesMetaData();
       }
-       if (this.$store.loggedIn) {
-
-       this.getlastWatchRecipe();
-       }
+      if (this.$store.loggedIn) {
+        this.getlastWatchRecipe();
+      }
 
       // this.RandomRecipes.push(...RandomRecipesResult);
     } catch (error) {
       console.log(error);
     }
-   
   },
   methods: {
-    async updateWatch(){
-       
-         this.getlastWatchRecipe();
+    async updateWatch() {
+      this.getlastWatchRecipe();
     },
     async updateRandomRecipesMetaData() {
       //search results recipes ids
@@ -138,9 +133,7 @@ export default {
     },
     async getlastWatchRecipe() {
       try {
-  
         if (this.$store.loggedIn) {
-         
           const response2 = await this.axios.get(
             this.$store.server_domain + "user/lastWatchedRecipesPreview",
             {
@@ -148,18 +141,16 @@ export default {
             }
           );
           const LastWatchedResult = response2.data;
-       console.log(LastWatchedResult);
+          console.log(LastWatchedResult);
           this.LastWatchedRecipes = LastWatchedResult;
-        // this.LastWatchedRecipes = this.$store.demoRecipes;
+          // this.LastWatchedRecipes = this.$store.demoRecipes;
           //TODO send to meta data also?
         }
       } catch (error) {
         console.log(error);
       }
-    },
-
-  
-  },
+    }
+  }
 };
 </script>
 
