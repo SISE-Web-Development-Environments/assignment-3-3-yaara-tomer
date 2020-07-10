@@ -24,7 +24,7 @@
               <mdb-icon icon="clock" size="lg" class="orange-text" />
               {{ recipe.readyInMinutes }} min
             </p>
-            <p>
+            <p v-if="recipe.type==='r'">
               <mdb-icon icon="thumbs-up" size="lg" class=" blue-text pr-2" />
               {{ recipe.aggregateLikes }}
               Likes

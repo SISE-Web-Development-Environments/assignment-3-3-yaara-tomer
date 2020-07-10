@@ -8,23 +8,23 @@
       <img :src="recipe.image" class="center" style=" border-radius: 25px;" />
 
       <br />
-      <div class="row" style="width:100%; ">
+      <div class="row" style="width:100%;">
         <!-- background-color: lightblue; -->
-        <div class="col-md-2">
+        <div class="col-md-auto">
           <mdb-icon icon="clock" size="lg" class="orange-text" />
           {{ recipe.readyInMinutes }} min
         </div>
-        <div class="col-md-2">
+        <div v-if="type === 'r'" class="col-md-2">
           <mdb-icon icon="thumbs-up" size="lg" class=" blue-text pr-2" />
           {{ recipe.aggregateLikes }}
           Likes
         </div>
-        <div class="col-md-2">
+        <div class="col-md-auto">
           <mdb-icon icon="users" size="lg" class=" purple-text pr-2" />
           {{ recipe.servings }}
           Servings
         </div>
-        <div class="col-md-2" v-if="recipe.glutenFree">
+        <div class="col-md-auto" v-if="recipe.glutenFree">
           <p>
             <mdb-icon
               icon="bread-slice"
@@ -33,7 +33,7 @@
             />Gluten Free
           </p>
         </div>
-        <div class="col-md-2" v-if="recipe.vegan || recipe.vegetarian">
+        <div class="col-md-auto" v-if="recipe.vegan || recipe.vegetarian">
           <p>
             <mdb-icon icon="leaf" size="lg" class="green-text pr-2" />{{
               recipe.vegan ? "Vegan" : "Vegetarian"
@@ -46,11 +46,20 @@
             ><mdb-icon far icon="star" size="lg" /> Add To Favorite</a
           >
           <a v-if="isFavorite" @click="handleFavorite" class="px-2"
-            ><mdb-icon class="pink-text" fas icon="star" size="lg" />
+            ><mdb-icon class="blue-text" fas icon="star" size="lg" />
             Favorite</a
           >
         </div>
       </div>
+      <br />
+      <div class="row">
+        <div class="col-12">
+          <h4 class="indigo-text h5 mb-2  ">
+            Made By: {{ recipe.byWho }}, {{ recipe.when }}
+          </h4>
+        </div>
+      </div>
+
       <br />
 
       <div class="row">

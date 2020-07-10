@@ -22,6 +22,7 @@ export default {
   },
   async created() {
     try {
+      console.log("created");
       const response1 = await this.axios.get(
         this.$store.server_domain + "user/favoriteRecipesPreview",
         {
@@ -31,10 +32,35 @@ export default {
       console.log(response1.data);
       const favoriteRecipesResult = response1.data;
       this.FavoriteRecipes = favoriteRecipesResult;
-      // this.RandomRecipes.push(...RandomRecipesResult);
+      this.updateRecipesMetaData();
     } catch (error) {
       console.log(error);
     }
+  },
+  methods:{
+    async updateRecipesMetaData() {
+      console.log("update Favorive Recipes MetaDta started");
+
+      //search results recipes ids
+      let ids = this.FavoriteRecipes.map((recipe) => recipe.id);
+
+      //get meta data from server for new recipes
+      if (ids.length > 0) {
+        let MetaDataresponse = await this.axios
+          .get(this.$store.server_domain + "user/recipeInfo/[" + ids + "]", {
+            withCredentials: true,
+          })
+          .catch((error) => {
+            console.log("failed get recipes metadata: " + error);
+          });
+
+        // add New recipes meta data to shared store
+        ids.map((recipe_id) => {
+          this.$store.recipesMetaData[recipe_id] =
+            MetaDataresponse.data[recipe_id];
+        });
+      }
+    },
   }
 };
 </script>
