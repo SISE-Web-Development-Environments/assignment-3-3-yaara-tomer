@@ -8,14 +8,6 @@ export const shared_data = {
   recipes: {},
 
   recipesMetaData: {
-    "111": {
-      watched: true,
-      favorite: false,
-    },
-    "222": {
-      watched: false,
-      favorite: true,
-    },
     "638342": {
       watched: true,
       favorite: true,

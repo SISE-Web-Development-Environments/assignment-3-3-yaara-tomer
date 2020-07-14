@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;">
     <div class="jumbotron text-center" style="width: 500px; background-color: #ccffff;">
-      <Login v-on:when-Log-in="gotohome" />
+      <Login @loginSucces="gotohome" />
     </div>
   </div>
 </template>

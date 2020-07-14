@@ -6,7 +6,7 @@
           <mdb-card-image
             top
             class="zoom"
-            :src="recipe.image"
+            :src="recipeImage"
             alt="Card image cap"
           />
         </a>
@@ -100,6 +100,19 @@ export default {
       isWatched: false,
       isLoggedIn: false,
     };
+  },
+  computed: {
+    isloggedIn() {
+      return this.$store.loggedIn
+    },
+    recipeImage(){
+      if(this.recipe.image){
+        return this.recipe.image
+      }
+      else{
+        return "https://visualsound.com/wp-content/uploads/2019/05/unavailable-image.jpg";
+      }
+    }
   },
   props: {
     recipe: {

@@ -2,9 +2,13 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <mdb-jumbotron class="mb-0 text-center"  style=" background-color:#ffe6ff ;">
+        <mdb-jumbotron
+          class="mb-0 text-center"
+          style=" background-color:#ffe6ff ;"
+        >
           <mdb-card-title class="pb-2 h4"
-            ><strong>Yaara Rumney</strong></mdb-card-title          >
+            ><strong>Yaara Rumney</strong></mdb-card-title
+          >
           <mdb-view class="my-4" :src="image" alt="">
             <a><mdb-mask waves overlay="white-slight"/></a>
           </mdb-view>
@@ -52,15 +56,14 @@
         </mdb-jumbotron>
       </div>
       <div class="col">
-        <mdb-jumbotron class="mb-0 text-center"  style=" background-color: #e0f7fa  ;">
+        <mdb-jumbotron
+          class="mb-0 text-center"
+          style=" background-color: #e0f7fa  ;"
+        >
           <mdb-card-title class="pb-2 h4"
             ><strong>Tomer Godelli</strong></mdb-card-title
           >
-          <mdb-view
-            class="my-4"
-            src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"
-            alt=""
-          >
+          <mdb-view class="my-4" :src="tomerImage" alt="">
             <a><mdb-mask waves overlay="white-slight"/></a>
           </mdb-view>
           <h5 class="indigo-text h5 mb-4">About Me</h5>
@@ -114,6 +117,7 @@ export default {
   data() {
     return {
       image: require("@/assets/p1.jpg"),
+      tomerImage: require("@/assets/tomer.png"),
     };
   },
 };

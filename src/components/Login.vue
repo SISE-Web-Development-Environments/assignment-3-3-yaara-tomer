@@ -1,75 +1,74 @@
 <template>
   <div class="container">
-  <br>
-      <img class="loginimg"  src="../assets/login-icon.png" alt="Login icon" />
-      <h1 class="title" style="color:#0097a7   ;">Login</h1>
-      <b-form @submit.prevent="onLogin">
-        <b-form-group
-          id="input-group-Username"
-          label-cols-sm="3"
-          label="Username:"
-          style="  font-weight: bold; color:#00796b "
-          label-for="Username"
-        >
-          <b-form-input
-            id="Username"
-            v-model="$v.form.username.$model"
-            type="text"
-            :state="validateState('username')"
-          ></b-form-input>
-          <b-form-invalid-feedback v-if="!$v.form.username.required">
-            Username is required
-          </b-form-invalid-feedback>
-          <b-form-invalid-feedback v-if="!$v.form.username.alpha">
-            Username must contain only English letters
-          </b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group
-          id="input-group-Password"
-          label-cols-sm="3"
-          label="Password:"
-          style="  font-weight: bold; color:#00796b"
-          label-for="Password"
-        >
-          <b-form-input
-            id="Password"
-            type="password"
-            v-model="$v.form.password.$model"
-            :state="validateState('password')"
-          ></b-form-input>
-          <b-form-invalid-feedback>
-            Password is required
-          </b-form-invalid-feedback>
-        </b-form-group>
-
-        <b-button type="submit" variant="success" style="width:100px;  "
-          >Login</b-button
-        >
-
-        <div class="mt-2">
-          Do not have an account yet?
-          <router-link to="register"> Register in here</router-link>
-        </div>
-      </b-form>
-
-      <div class="d-flex justify-content-center mb-3">
-        <b-spinner
-          v-if="isLoading"
-          class="m-4"
-          variant="primary"
-          label="Spinning"
-        ></b-spinner>
-      </div>
-      <b-alert
-        class="mt-2"
-        v-if="form.submitError"
-        variant="warning"
-        dismissible
-        show
+    <br />
+    <img class="loginimg" src="../assets/login-icon.png" alt="Login icon" />
+    <h1 class="title" style="color:#0097a7   ;">Login</h1>
+    <b-form @submit.prevent="onLogin">
+      <b-form-group
+        id="input-group-Username"
+        label-cols-sm="3"
+        label="Username:"
+        style="  font-weight: bold; color:#00796b "
+        label-for="Username"
       >
-        Login failed: {{ form.submitError }}
-      </b-alert>
-  
+        <b-form-input
+          id="Username"
+          v-model="$v.form.username.$model"
+          type="text"
+          :state="validateState('username')"
+        ></b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.username.required">
+          Username is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.username.alpha">
+          Username must contain only English letters
+        </b-form-invalid-feedback>
+      </b-form-group>
+      <b-form-group
+        id="input-group-Password"
+        label-cols-sm="3"
+        label="Password:"
+        style="  font-weight: bold; color:#00796b"
+        label-for="Password"
+      >
+        <b-form-input
+          id="Password"
+          type="password"
+          v-model="$v.form.password.$model"
+          :state="validateState('password')"
+        ></b-form-input>
+        <b-form-invalid-feedback>
+          Password is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-button type="submit" variant="success" style="width:100px;  "
+        >Login</b-button
+      >
+
+      <div class="mt-2">
+        Do not have an account yet?
+        <router-link to="register"> Register in here</router-link>
+      </div>
+    </b-form>
+
+    <div class="d-flex justify-content-center mb-3">
+      <b-spinner
+        v-if="isLoading"
+        class="m-4"
+        variant="primary"
+        label="Spinning"
+      ></b-spinner>
+    </div>
+    <b-alert
+      class="mt-2"
+      v-if="form.submitError"
+      variant="warning"
+      dismissible
+      show
+    >
+      Login failed: {{ form.submitError }}
+    </b-alert>
 
     <!-- <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
@@ -123,15 +122,14 @@ export default {
           },
           { withCredentials: true }
         );
+        this.$emit("loginSucces");
 
         //if login succseed get from server user data and metaData for exist recipes
         await Promise.all([
           this.updateUserInfo(),
           this.updateAllExistRecipesMetaData(),
         ]);
-
-        this.$emit('when-Log-in');
-     
+        
       } catch (err) {
         console.log(err);
         this.form.submitError = err.response.data.message;
@@ -145,13 +143,10 @@ export default {
       if (this.$v.form.$anyError) {
         return;
       }
-      console.log("login method go");
 
       this.Login();
     },
     async updateAllExistRecipesMetaData() {
-      console.log("updateAllRecipesMetaDta started");
-
       if (this.$store.lastSearch) {
         //search results recipes ids
         let ids = this.$store.lastSearch.results.map((recipe) => recipe.id);
@@ -185,9 +180,6 @@ export default {
       //update shared data
       this.$store.userInfo = userInfoResponse.data;
       this.$store.loggedIn = true;
-
-      console.log("sharedData loggedin: " + this.$store.loggedIn);
-      console.log(this.$store.userInfo);
     },
   },
 };
@@ -195,7 +187,6 @@ export default {
 <style lang="scss" scoped>
 .container {
   max-width: 400px;
- height: 100%;
+  height: 100%;
 }
-
 </style>
