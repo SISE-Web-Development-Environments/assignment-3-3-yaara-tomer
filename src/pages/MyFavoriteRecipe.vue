@@ -3,9 +3,10 @@
     <br />
     <h6
       class="mb-14"
-      style=" color:#008080; font-size: 26px;text-align: center;"
+      style=" color:#DB7093; font-size: 26px;text-align: center; font-family: Impact, Charcoal, sans-serif;"
     >My Favorite Recipes:</h6>
     <RecipePreviewGrid :recipes="FavoriteRecipes" />
+    <br>
   </div>
 </template>
 

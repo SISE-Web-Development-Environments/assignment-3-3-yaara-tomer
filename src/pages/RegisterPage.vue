@@ -1,7 +1,7 @@
 <template>
   <div class="container">
      <div class="jumbotron text-center" style="width: 500px; background-color: #e6ffe6 ;">
-    <h1 class="title" style="color:#0097a7" >Register</h1>
+    <h1 class="title" style="color:#0097a7;  font-family: Impact, Charcoal, sans-serif; " >Register</h1>
     <br>
     <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
       <b-form-group

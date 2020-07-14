@@ -52,7 +52,7 @@
             ><mdb-icon far icon="star" size="lg" /> Add To Favorite</a
           >
           <a v-if="isFavorite" @click="handleFavorite" class="px-2"
-            ><mdb-icon class="blue-text" fas icon="star" size="lg" />
+            ><mdb-icon class="pink-text" fas icon="star" size="lg" />
             Favorite</a
           >
           <a v-if="isWatched" class="px-2"

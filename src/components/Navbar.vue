@@ -1,7 +1,7 @@
 <template>
   <mdb-navbar color="default" dark>
     <mdb-navbar-brand :to="{ name: 'main' }">
-      <strong>Our Recipe Website!</strong>
+     <i class="fas fa-utensils"></i> <strong> T&Y Website!</strong>
     </mdb-navbar-brand>
     <mdb-navbar-toggler>
       <mdb-navbar-nav>

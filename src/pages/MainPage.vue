@@ -1,13 +1,13 @@
 <template>
-  <div class="container" style=" background-color: #ccffff;">
+  <div class="container" style=" background-color: #e6ffff;">
     <br />
     <div class="row">
       <div class="col">
         <h6
           class="mb-14"
-          style=" color:#26c6da  ; font-size: 26px; text-align: center; align-items: center; justify-content: center;"
+          style=" color:#6495ED ; font-family: Impact, Charcoal, sans-serif; font-size: 26px; text-align: center; align-items: center; justify-content: center;"
         >
-          <strong>Explore these recipes!</strong>
+         Explore these recipes!
         </h6>
         <RecipePreviewGrid
           :recipes="RandomRecipes"
@@ -40,9 +40,11 @@
           :recipes="LastWatchedRecipes"
           :itemsPerRow="1"
           v-if="isloggedIn"
+
         ></RecipePreviewGrid>
       </div>
     </div>
+    <br />
     <br />
   </div>
 </template>
@@ -68,7 +70,6 @@ export default {
     },
   },
   async created() {
-    console.log("mainpage created");
     try {
       await this.getRandomRecipes();
 
@@ -85,7 +86,6 @@ export default {
   },
   methods: {
     async updateWatch() {
-      console.log("update watch");
       this.getlastWatchRecipe();
     },
     async updateRecipesMetaData(array) {
@@ -155,12 +155,14 @@ export default {
           await this.updateRecipesMetaData(LastWatchedResult); //update recipes metadata
           this.LastWatchedRecipes = LastWatchedResult; //update local data
           console.log("update lastwatched array");
+
         }
       } catch (error) {
         console.log(error);
       }
     },
   },
+
 };
 </script>
 

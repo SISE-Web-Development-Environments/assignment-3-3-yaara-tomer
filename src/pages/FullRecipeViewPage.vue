@@ -2,12 +2,12 @@
   <div class="container">
     <div
       class="jumbotron text-center"
-      style="width:100%; background-color:#e6fff2;"
+      style="width:100%; background-color:#ecdfec;"
     >
-      <h4 class="indigo-text h5 mb-4">{{ recipe.title }}</h4>
+      <h4 class="title" style="color: #a871a8 ;font-family: Impact, Charcoal, sans-serif;">{{ recipe.title }}</h4> <br />
       <img :src="recipe.image" class="center" style=" border-radius: 25px;" />
 
-      <br />
+      <br />   <br />
       <div class="row" style="width:100%;">
         <!-- background-color: lightblue; -->
         <div class="col-md-auto">
@@ -46,7 +46,7 @@
             ><mdb-icon far icon="star" size="lg" /> Add To Favorite</a
           >
           <a v-if="isFavorite" @click="handleFavorite" class="px-2"
-            ><mdb-icon class="blue-text" fas icon="star" size="lg" />
+            ><mdb-icon class="pink-text" fas icon="star" size="lg" />
             Favorite</a
           >
         </div>
@@ -54,7 +54,7 @@
       <br />
       <div class="row" v-if="isFamily">
         <div class="col-12">
-          <h4 class="indigo-text h5 mb-2  ">
+          <h4 style="color: #d65cad">
             Made By: {{ recipe.byWho }}, {{ recipe.when }}
           </h4>
         </div>
@@ -64,7 +64,7 @@
 
       <div class="row">
         <div class="col-4">
-          <h4 class="indigo-text h5 mb-4">Ingredients:</h4>
+          <h4 style="color: #d65cad">Ingredients:</h4>
           <div
             style="  font-weight: normal; text-align: left; border-radius: 25px;padding :10px; background: #ffffe6;"
           >
@@ -83,7 +83,7 @@
           </div>
         </div>
         <div class="col-8">
-          <h4 class="indigo-text h5 mb-4">Instructions:</h4>
+          <h4 style="color: #d65cad">Instructions:</h4>
           <div
             v-for="(phase, index) in recipe.analyzedInstructions"
             :key="index"

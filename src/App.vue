@@ -1,7 +1,8 @@
 <template>
-  <div id="div" class="bg">
+  <div id="app" >
     <navbar />
     <router-view />
+    
     <MyFooter />
   </div>
 </template>
@@ -34,21 +35,18 @@ export default {
 
 html,
 body {
-  margin: 0;
-}
+ background-image: url("./assets/food3.png");
+  width: 100%;
+   height: 100%;
+   background-repeat: repeat;
 
-.bg {
-  /* The image used */
-  background-image: url("./assets/food3.png");
+}
+.bg{
+      background-image: url("./assets/food3.png");
   width: 100%;
   height: 100%;
-  //height: 100vh;
-  /* Full height */
-
-  /* Center and scale the image nicely */
-  //background-position: center;
   background-repeat: repeat;
 
-  // background-size: cover;
-}
+    }
+
 </style>
