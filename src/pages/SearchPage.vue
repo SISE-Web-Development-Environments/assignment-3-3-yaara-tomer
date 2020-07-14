@@ -1,23 +1,20 @@
 <template>
   <div style="height: 100vh;">
-    <div style="background-color: #ffffcc;" class="container pb-3">
+    <div
+      style="background-color: #ffffcc;"
+      class="container pb-3"
+    >
       <b-container>
         <b-row class="mb-2 mt-2 pt-3">
-          <b-col cols="4">
+          <b-col>
             <b-form-input
               id="search-query"
               v-model="form.query"
               type="search"
               placeholder="Enter your search key word"
-             
             ></b-form-input>
-          </b-col> 
-          <b-col cols="5"></b-col>
-          <b-col>
-            <b-button block type="button" class="btn btn-amber" style="  border-color: transparent; " @click="onSearch">Search  <i class="fas fa-search white-text mr-lg-4"></i></b-button>
           </b-col>
         </b-row>
-        <br>
         <b-row class="mb-2">
           <b-col>
             <b-form-select
@@ -108,16 +105,13 @@
             ></b-form-select>
           </b-col>
         </b-row>
-        <b-row class="ml-0 mr-0" style="width:40%">
-         
+        <b-row class="ml-0 mr-0">
+          <b-button block variant="primary" @click="onSearch">Search</b-button>
         </b-row>
-
-
-
         <b-overlay :show="loading" rounded="sm" class="mt-4">
           <b-row class="mt-3" v-if="recipes.length > 0">
             <b-col
-              >{{ recipes.length }} recipe results for "{{ resultText }}"</b-col
+              >{{ recipes.length }} recipe results for "{{ form.query }}"</b-col
             >
             <b-col></b-col>
             <b-col class="text-right">Sort By:</b-col>
@@ -187,10 +181,11 @@ export default {
         intolerance: null,
         number: 5,
       },
-      resultText: "",
+      // show: false,
       loading: false,
       isLoggedIn: false,
       recipes: [],
+      demoRecipes: this.$store.demoRecipes,
       sortBy: {
         key: "",
         order: "",
@@ -233,13 +228,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.resultText = this.form.query;
       this.loading = false;
-
-      //notice user if no results found
-      if (this.recipes.length === 0) {
-        this.$root.toast("Sorry..", "We couldn't find any match for your search \""+this.resultText+"\"", "secondary");
-      }
     },
     async updateRecipesMetaData() {
       console.log("updateRecipesMetaDta started");
