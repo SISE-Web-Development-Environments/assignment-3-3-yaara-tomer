@@ -4,9 +4,11 @@
     <h6
       class="mb-14"
       style=" color:#DB7093; font-size: 26px;text-align: center; font-family: Impact, Charcoal, sans-serif;"
-    >My Favorite Recipes:</h6>
+    >
+      My Favorite Recipes:
+    </h6>
     <RecipePreviewGrid :recipes="FavoriteRecipes" />
-    <br>
+    <br />
   </div>
 </template>
 
@@ -14,11 +16,11 @@
 import RecipePreviewGrid from "../components/RecipePreviewGrid";
 export default {
   components: {
-    RecipePreviewGrid
+    RecipePreviewGrid,
   },
   data() {
     return {
-      FavoriteRecipes: []
+      FavoriteRecipes: [],
     };
   },
   async created() {
@@ -27,23 +29,23 @@ export default {
       const response1 = await this.axios.get(
         this.$store.server_domain + "user/favoriteRecipesPreview",
         {
-          withCredentials: true
+          withCredentials: true,
         }
       );
       console.log(response1.data);
       const favoriteRecipesResult = response1.data;
+      await this.updateRecipesMetaData(favoriteRecipesResult);
       this.FavoriteRecipes = favoriteRecipesResult;
-      this.updateRecipesMetaData();
     } catch (error) {
       console.log(error);
     }
   },
-  methods:{
-    async updateRecipesMetaData() {
+  methods: {
+    async updateRecipesMetaData(array) {
       console.log("update Favorive Recipes MetaDta started");
 
       //search results recipes ids
-      let ids = this.FavoriteRecipes.map((recipe) => recipe.id);
+      let ids = array.map((recipe) => recipe.id);
 
       //get meta data from server for new recipes
       if (ids.length > 0) {
@@ -62,9 +64,8 @@ export default {
         });
       }
     },
-  }
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

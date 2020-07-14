@@ -121,13 +121,13 @@ export default {
     },
     async getRandomRecipes() {
       try {
-        const response1 = await this.axios.get(
-          this.$store.server_domain + "recipes/randomRecipesPreview"
-        );
-        const RandomRecipesResult = response1.data;
-        this.RandomRecipes = RandomRecipesResult;
+        // const response1 = await this.axios.get(
+        //   this.$store.server_domain + "recipes/randomRecipesPreview"
+        // );
+        // const RandomRecipesResult = response1.data;
+        // this.RandomRecipes = RandomRecipesResult;
 
-        // this.RandomRecipes = this.$store.demoRecipes;
+        this.RandomRecipes = this.$store.demoRecipes;
 
         if (this.$store.loggedIn) {
           this.updateRecipesMetaData(this.RandomRecipes);
