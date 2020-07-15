@@ -57,9 +57,9 @@
             <mdb-dropdown-item v-on:click="Logout()">
               Logout
             </mdb-dropdown-item>
-            <mdb-dropdown-item>
+            <!-- <mdb-dropdown-item>
               Update Profile picture
-            </mdb-dropdown-item>
+            </mdb-dropdown-item> -->
           </mdb-dropdown-menu>
         </mdb-dropdown>
 
