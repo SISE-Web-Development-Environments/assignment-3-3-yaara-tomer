@@ -29,12 +29,12 @@
       >
         <Login @loginSucces="updateWatch" v-if="!isloggedIn"></Login>
 
+        
         <h6
           class="mb-14"
-          v-if="isloggedIn"
-          style=" color:#008080; font-size: 26px;text-align: left;"
-        >
-          <strong>Last Watched Recipes:</strong>
+          style=" color:#6495ED ; font-family: Impact, Charcoal, sans-serif; font-size: 26px;  margin-left:-200px;  text-align: center; align-items: center; justify-content: center;"
+        > 
+         Last Watched Recipes:
         </h6>
         <RecipePreviewGrid
           :recipes="LastWatchedRecipes"

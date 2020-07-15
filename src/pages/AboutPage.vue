@@ -71,6 +71,7 @@
             <a><mdb-mask waves overlay="white-slight"/></a>
 
           </mdb-view>
+          <br>
           <h5 class="indigo-text h5 mb-4">About Me</h5>
           <p class="card-text">
             Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium
