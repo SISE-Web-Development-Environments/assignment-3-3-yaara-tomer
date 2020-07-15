@@ -25,7 +25,7 @@
               {{ recipe.readyInMinutes }} min
             </p>
             <p v-if="recipe.type==='r'">
-              <mdb-icon icon="thumbs-up" size="lg" class=" blue-text pr-2" />
+              <mdb-icon icon="thumbs-up" size="lg" class=" cyan-text pr-2" />
               {{ recipe.aggregateLikes }}
               Likes
             </p>
@@ -42,6 +42,13 @@
                 size="lg"
                 class="amber-text pr-1"
               />Gluten Free
+            </p>
+            <p v-else>
+              <mdb-icon
+                icon="bread-slice"
+                size="lg"
+                class="amber-text pr-1"
+              />with Gluten
             </p>
           </div>
         </div>

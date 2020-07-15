@@ -13,7 +13,14 @@
               type="search"
               placeholder="Enter your search key word"
             ></b-form-input>
+
+          </b-col> 
+          
+          <b-col cols="2">
+            <b-button block type="button" class="btn btn-amber" style="margin-left:-30px;  border-color: transparent;  width: 140px; text-align:center;" @click="onSearch">Search <i class="fas fa-search white-text mr-lg-4"></i> </b-button>
+
           </b-col>
+          <b-col cols="5"></b-col>
         </b-row>
         <b-row class="mb-2">
           <b-col>
