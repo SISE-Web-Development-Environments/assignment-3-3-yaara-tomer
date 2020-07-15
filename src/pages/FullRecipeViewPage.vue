@@ -61,7 +61,7 @@
         </div>
       </div>
       <br />
-      <div class="row">
+      <div class="row" v-if="isFamily">
         <div class="col-12">
           <h4 style="color: #d65cad">
             Made By: {{ recipe.byWho }}, {{ recipe.when }}
@@ -161,6 +161,7 @@ export default {
           }
         );
       } else if (type === "f") {
+        this.isFamily=true;
         response = await this.axios.get(
           this.$store.server_domain + "user/familyRecipeByid?id=" + recipeId,
           {
@@ -294,6 +295,10 @@ export default {
       this.$store.recipesMetaData[this.recipe.id].watched = true;
     },
     async markAsWatched() {
+      //update local shared store queue
+      this.$store.lastWatched = this.$store.lastWatched.filter( rec => rec.id !== this.recipe.id); //remove recipe if already exist in queue
+      this.$store.lastWatched.unshift(this.recipe); //add it to top
+      //update server
       let response = await this.axios.post(
         this.$store.server_domain +
           "user/markAsWatched?id=" +

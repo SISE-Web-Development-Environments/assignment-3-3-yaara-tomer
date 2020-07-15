@@ -9,29 +9,38 @@
         >
          Explore these recipes!
         </h6>
-        <RecipePreviewGrid :recipes="RandomRecipes" :itemsPerRow="1" style="margin-left:100px;" />
+        <RecipePreviewGrid
+          :recipes="RandomRecipes"
+          :itemsPerRow="1"
+          style="margin-left:100px;"
+        />
         <button
           type="button"
-          v-on:click="newRandom()"
-          style=" margin-left: 200px; "
-          class="btn btn-info btn-rounded"
-        >New Random!</button>
+          v-on:click="getRandomRecipes()"
+          style="margin-left: 200px; "
+          class="btn btn-info btn-rounded mb-4"
+        >
+          Explore More!
+        </button>
       </div>
-
-      <div class="col-6" style=" align-items: center; text-align: center; justify-content: center;">
-        <Login v-on:when-Log-in="updateWatch" v-if="!this.isloggedIn" />
+      <div
+        class="col-6"
+        style=" align-items: center; text-align: center; justify-content: center;"
+      >
+        <Login @loginSucces="updateWatch" v-if="!isloggedIn"></Login>
 
         <h6
           class="mb-14"
-          v-if="this.$store.loggedIn"
-          style=" color:#008080; font-size: 26px;text-align: center; color:#6495ED;  text-align: center; align-items: center; justify-content: center;  font-family: Impact, Charcoal, sans-serif;"
+          v-if="isloggedIn"
+          style=" color:#008080; font-size: 26px;text-align: left;"
         >
-         Last Watched Recipes:
+          <strong>Last Watched Recipes:</strong>
         </h6>
         <RecipePreviewGrid
           :recipes="LastWatchedRecipes"
-          :itemsPerRow="1" style="margin-left:100px;"
-          v-if="this.$store.loggedIn"
+          :itemsPerRow="1"
+          v-if="isloggedIn"
+
         ></RecipePreviewGrid>
       </div>
     </div>
@@ -46,39 +55,31 @@ import RecipePreviewGrid from "../components/RecipePreviewGrid";
 import Login from "../components/Login";
 export default {
   components: {
-    // RecipePreviewList,
     RecipePreviewGrid,
-    Login
+    Login,
   },
   data() {
     return {
       RandomRecipes: [],
       LastWatchedRecipes: [],
-      isloggedIn: this.$store.loggedIn
     };
   },
-
+  computed: {
+    isloggedIn() {
+      return this.$store.loggedIn
+    },
+  },
   async created() {
     try {
-      //  const response1 = await this.axios.get(
-      //           this.$store.server_domain + "recipes/randomRecipesPreview"
-      //         );
-      //          console.log(response1.data);
+      await this.getRandomRecipes();
 
-      //         const RandomRecipesResult = response1.data;
-      //  this.RandomRecipes = RandomRecipesResult;
-      this.RandomRecipes = this.$store.demoRecipes;
-      this.RandomRecipes.forEach(function(recipe) {
-        recipe.type = "r";
-      });
       if (this.$store.loggedIn) {
-        this.updateRandomRecipesMetaData();
+        await Promise.all([
+          this.updateRecipesMetaData(this.RandomRecipes),
+          this.getlastWatchRecipe(),
+        ]);
+        console.log("mainpage creation after get lastwatched");
       }
-      if (this.$store.loggedIn) {
-        this.getlastWatchRecipe();
-      }
-
-      // this.RandomRecipes.push(...RandomRecipesResult);
     } catch (error) {
       console.log(error);
     }
@@ -87,70 +88,81 @@ export default {
     async updateWatch() {
       this.getlastWatchRecipe();
     },
-    async updateRandomRecipesMetaData() {
-      //search results recipes ids
-      let all_ids = this.RandomRecipes.map(recipe => recipe.id);
+    async updateRecipesMetaData(array) {
+      console.log("updatemetadata for" + array);
+      console.log(array);
 
-      //filter only recipes we dont have meta data on in store memory
-      let ids = all_ids.filter(id => !this.$store.recipesMetaData[id]);
+      //search results recipes ids
+      let all_ids = array.map((recipe) => recipe.id);
+
+      //filter only recipes we dont have meta data on in store memory and regular one (numeric id)
+      let ids = all_ids.filter(
+        (id) => !this.$store.recipesMetaData[id] && /^\d+$/.test(id)
+      );
       console.log("relevant ids: " + ids);
+
       //get meta data from server for new recipes
       if (ids.length > 0) {
         let MetaDataresponse = await this.axios
           .get(this.$store.server_domain + "user/recipeInfo/[" + ids + "]", {
-            withCredentials: true
+            withCredentials: true,
           })
-          .catch(error => {
+          .catch((error) => {
             console.log("failed get recipes metadata: " + error);
           });
 
         // add New recipes meta data to shared store
-        ids.map(recipe_id => {
+        ids.map((recipe_id) => {
           this.$store.recipesMetaData[recipe_id] =
             MetaDataresponse.data[recipe_id];
         });
+        console.log(this.$store.recipesMetaData);
       }
     },
-    async newRandom() {
+    async getRandomRecipes() {
       try {
-        //  const response1 = await this.axios.get(
-        //           this.$store.server_domain + "recipes/randomRecipesPreview"
-        //         );
-        //          console.log(response1.data);
-        //         const RandomRecipesResult = response1.data;
-        //  this.RandomRecipes = RandomRecipesResult;
-        //add recipe type to all recipe - (r=regular, p=personal, f=family)
+        // const response1 = await this.axios.get(
+        //   this.$store.server_domain + "recipes/randomRecipesPreview"
+        // );
+        // const RandomRecipesResult = response1.data;
+        // this.RandomRecipes = RandomRecipesResult;
 
         this.RandomRecipes = this.$store.demoRecipes;
 
         if (this.$store.loggedIn) {
-          this.updateRandomRecipesMetaData();
+          this.updateRecipesMetaData(this.RandomRecipes);
         }
-        // this.RandomRecipes.push(...RandomRecipesResult);
       } catch (error) {
         console.log(error);
       }
     },
     async getlastWatchRecipe() {
       try {
-        if (this.$store.loggedIn) {
+        //already exist in shared store
+        if (this.$store.lastWatched) {
+          this.LastWatchedRecipes = this.$store.lastWatched.slice(0, 3);
+        } else {
+          //first time - get from server
           const response2 = await this.axios.get(
             this.$store.server_domain + "user/lastWatchedRecipesPreview",
             {
-              withCredentials: true
+              withCredentials: true,
             }
           );
           const LastWatchedResult = response2.data;
           console.log(LastWatchedResult);
-          this.LastWatchedRecipes = LastWatchedResult;
-          // this.LastWatchedRecipes = this.$store.demoRecipes;
-          //TODO send to meta data also?
+          this.$store.lastWatched = LastWatchedResult; //add to shared store too for later use
+          await this.updateRecipesMetaData(LastWatchedResult); //update recipes metadata
+          this.LastWatchedRecipes = LastWatchedResult; //update local data
+          console.log("update lastwatched array");
+
         }
       } catch (error) {
         console.log(error);
       }
-    }
-  }
+    },
+  },
+
 };
 </script>
 

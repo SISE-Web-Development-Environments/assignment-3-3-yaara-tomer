@@ -18,13 +18,13 @@ export default {
       username: this.$store.userInfo.firstname,
       isloggedIn: this.$store.loggedIn,
       image_url: this.$store.userInfo.ProfilePicture,
-      image_user: require("@/assets/user_icon.png")
+      image_user: require("@/assets/user_icon.png"),
     };
   },
   components: {
     navbar,
-    MyFooter
-  }
+    MyFooter,
+  },
 };
 </script>
 
@@ -44,8 +44,8 @@ body {
 .bg{
       background-image: url("./assets/food3.png");
   width: 100%;
-   height: 100%;
-   background-repeat: repeat;
+  height: 100%;
+  background-repeat: repeat;
 
     }
 
