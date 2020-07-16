@@ -122,6 +122,7 @@ export default {
           },
           { withCredentials: true }
         );
+        this.$store.loggedIn = true;
         this.$emit("loginSucces");
 
         //if login succseed get from server user data and metaData for exist recipes
@@ -129,7 +130,6 @@ export default {
           this.updateUserInfo(),
           this.updateAllExistRecipesMetaData(),
         ]);
-        
       } catch (err) {
         console.log(err);
         this.form.submitError = err.response.data.message;

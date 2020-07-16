@@ -1,8 +1,14 @@
 <template>
-  <div class="container" style="  display: flex;
+  <div
+    class="container"
+    style="  display: flex;
   align-items: center;
-  justify-content: center;">
-    <div class="jumbotron text-center" style="width: 500px; background-color: #ccffff;">
+  justify-content: center;"
+  >
+    <div
+      class="jumbotron text-center"
+      style="width: 500px; background-color: #ccffff;"
+    >
       <Login @loginSucces="gotohome" />
     </div>
   </div>
@@ -12,15 +18,14 @@
 import Login from "../components/Login";
 export default {
   components: {
-    Login
+    Login,
   },
-  methods:{
-    gotohome(){
-         this.$router.push("/");
+  methods: {
+    gotohome() {
+      this.$router.push("/");
     },
-  }
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>
