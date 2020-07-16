@@ -162,6 +162,7 @@ export default {
     if (this.$store.lastSearch) {
       this.recipes = this.$store.lastSearch.results;
       this.form = this.$store.lastSearch.form;
+      this.resultText = this.form.query;
       if (!this.$store.lastSearch.loggedIn && this.$store.loggedIn) {
         //update meta data if loged in after search
         this.updateRecipesMetaData();

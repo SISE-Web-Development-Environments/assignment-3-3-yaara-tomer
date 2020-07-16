@@ -7,7 +7,7 @@
           class="mb-14"
           style=" color:#6495ED ; font-family: Impact, Charcoal, sans-serif; font-size: 26px; text-align: center; align-items: center; justify-content: center;"
         >
-         Explore these recipes!
+          Explore these recipes!
         </h6>
         <RecipePreviewGrid
           :recipes="RandomRecipes"
@@ -29,18 +29,16 @@
       >
         <Login @loginSucces="updateWatch" v-if="!isloggedIn"></Login>
 
-        
         <h6
           class="mb-14"
           style=" color:#6495ED ; font-family: Impact, Charcoal, sans-serif; font-size: 26px;  margin-left:-200px;  text-align: center; align-items: center; justify-content: center;"
-        > 
-         Last Watched Recipes:
+        >
+          Last Watched Recipes:
         </h6>
         <RecipePreviewGrid
           :recipes="LastWatchedRecipes"
           :itemsPerRow="1"
           v-if="isloggedIn"
-
         ></RecipePreviewGrid>
       </div>
     </div>
@@ -66,7 +64,7 @@ export default {
   },
   computed: {
     isloggedIn() {
-      return this.$store.loggedIn
+      return this.$store.loggedIn;
     },
   },
   async created() {
@@ -78,7 +76,6 @@ export default {
           this.updateRecipesMetaData(this.RandomRecipes),
           this.getlastWatchRecipe(),
         ]);
-        console.log("mainpage creation after get lastwatched");
       }
     } catch (error) {
       console.log(error);
@@ -89,9 +86,6 @@ export default {
       this.getlastWatchRecipe();
     },
     async updateRecipesMetaData(array) {
-      console.log("updatemetadata for" + array);
-      console.log(array);
-
       //search results recipes ids
       let all_ids = array.map((recipe) => recipe.id);
 
@@ -155,14 +149,12 @@ export default {
           await this.updateRecipesMetaData(LastWatchedResult); //update recipes metadata
           this.LastWatchedRecipes = LastWatchedResult; //update local data
           console.log("update lastwatched array");
-
         }
       } catch (error) {
         console.log(error);
       }
     },
   },
-
 };
 </script>
 
