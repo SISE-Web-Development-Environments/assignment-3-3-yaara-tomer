@@ -1,7 +1,7 @@
 <template>
   <mdb-navbar color="default" dark>
     <mdb-navbar-brand :to="{ name: 'main' }">
-     <i class="fas fa-utensils"></i> <strong> T&Y Website!</strong>
+      <i class="fas fa-utensils"></i> <strong> T&Y Website!</strong>
     </mdb-navbar-brand>
     <mdb-navbar-toggler>
       <mdb-navbar-nav>
@@ -133,9 +133,12 @@ export default {
       );
       this.$store.userInfo = {};
       this.$store.loggedIn = false;
-      this.$store.recipesMetaData = undefined;
+      this.$store.recipesMetaData = {};
       this.$store.lastSearch = undefined;
+      this.$store.lastWatched = undefined;
       this.$root.toast("Logout", "User logged out successfully", "info");
+      console.log("stored data:");
+      console.log(this.$store);
 
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
