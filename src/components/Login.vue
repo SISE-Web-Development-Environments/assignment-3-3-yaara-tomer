@@ -138,6 +138,8 @@ export default {
     },
     onLogin() {
       console.log("login method called");
+      console.log(this.$store);
+
       this.form.submitError = undefined;
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {

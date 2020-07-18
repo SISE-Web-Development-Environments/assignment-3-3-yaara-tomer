@@ -27,7 +27,10 @@
         class="col-6"
         style=" align-items: center; text-align: center; justify-content: center;"
       >
-        <Login @loginSucces="updateWatch" v-if="!isloggedIn"></Login>
+        <Login
+          @loginSucces="updateWatchAfterLogedIn"
+          v-if="!isloggedIn"
+        ></Login>
 
         <h6
           class="mb-14"
@@ -82,8 +85,13 @@ export default {
     }
   },
   methods: {
-    async updateWatch() {
-      this.getlastWatchRecipe();
+    async updateWatchAfterLogedIn() {
+      this.LastWatchedRecipes = [];
+
+      await Promise.all([
+        this.updateRecipesMetaData(this.RandomRecipes),
+        this.getlastWatchRecipe(),
+      ]);
     },
     async updateRecipesMetaData(array) {
       //search results recipes ids
@@ -115,13 +123,13 @@ export default {
     },
     async getRandomRecipes() {
       try {
-        // const response1 = await this.axios.get(
-        //   this.$store.server_domain + "recipes/randomRecipesPreview"
-        // );
-        // const RandomRecipesResult = response1.data;
-        // this.RandomRecipes = RandomRecipesResult;
+        const response1 = await this.axios.get(
+          this.$store.server_domain + "recipes/randomRecipesPreview"
+        );
+        const RandomRecipesResult = response1.data;
+        this.RandomRecipes = RandomRecipesResult;
 
-        this.RandomRecipes = this.$store.demoRecipes;
+        // this.RandomRecipes = this.$store.demoRecipes;
 
         if (this.$store.loggedIn) {
           this.updateRecipesMetaData(this.RandomRecipes);
@@ -146,6 +154,8 @@ export default {
           const LastWatchedResult = response2.data;
           console.log(LastWatchedResult);
           this.$store.lastWatched = LastWatchedResult; //add to shared store too for later use
+          console.log("before update metadata of lastwatched:");
+
           await this.updateRecipesMetaData(LastWatchedResult); //update recipes metadata
           this.LastWatchedRecipes = LastWatchedResult; //update local data
           console.log("update lastwatched array");

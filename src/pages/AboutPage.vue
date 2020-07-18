@@ -74,8 +74,8 @@
           <br>
           <h5 class="indigo-text h5 mb-4">About Me</h5>
           <p class="card-text">
-            Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium
-            doloremque laudantium, totam rem aperiam.
+            third-year students of Software and Information System Engineering, at the Ben-Gurion University.
+            
           </p>
           <br />
           <h5 class="indigo-text h5 mb-4">My Web Projects:</h5>
