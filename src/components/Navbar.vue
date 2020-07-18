@@ -57,9 +57,7 @@
             <mdb-dropdown-item v-on:click="Logout()">
               Logout
             </mdb-dropdown-item>
-            <!-- <mdb-dropdown-item>
-              Update Profile picture
-            </mdb-dropdown-item> -->
+          
           </mdb-dropdown-menu>
         </mdb-dropdown>
 
@@ -122,8 +120,8 @@ export default {
     return {
       username: this.$store.userInfo.firstname,
       isloggedIn: this.$store.loggedIn,
-      image_url: this.$store.userInfo.ProfilePicture,
-      image_user: require("@/assets/user_icon.png"),
+      image_url: this.$store.userInfo.ProfilePicture
+    
     };
   },
   methods: {
