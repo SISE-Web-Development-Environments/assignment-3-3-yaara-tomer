@@ -76,9 +76,9 @@
             <b-form-select
               id="search-intolerance"
               class="mb-2 mr-sm-2 mb-sm-0"
-              v-model="form.intolerance"
+              v-model="form.intolerances"
               :options="[
-                { text: 'Filter by Intolerance', value: null },
+                { text: 'Filter by Intolerances', value: null },
                 'Dairy',
                 'Egg',
                 'Gluten',
@@ -178,7 +178,7 @@ export default {
         query: "",
         cuisine: null,
         diet: null,
-        intolerance: null,
+        intolerances: null,
         number: 5,
       },
       resultText: "",
