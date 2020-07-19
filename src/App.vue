@@ -1,8 +1,8 @@
 <template>
-  <div id="app" >
+  <div id="app">
     <navbar />
-    <router-view />
-    
+    <router-view class="mt-5" />
+
     <MyFooter />
   </div>
 </template>
@@ -23,21 +23,17 @@ export default {
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
 
-
 html,
 body {
- background-image: url("./assets/food3.png");
-  width: 100%;
-   height: 100%;
-   background-repeat: repeat;
-
-}
-.bg{
-      background-image: url("./assets/food3.png");
+  background-image: url("./assets/food3.png");
   width: 100%;
   height: 100%;
   background-repeat: repeat;
-
-    }
-
+}
+.bg {
+  background-image: url("./assets/food3.png");
+  width: 100%;
+  height: 100%;
+  background-repeat: repeat;
+}
 </style>

@@ -35,6 +35,7 @@
         <h6
           class="mb-14"
           style=" color:#6495ED ; font-family: Impact, Charcoal, sans-serif; font-size: 26px;  margin-left:-200px;  text-align: center; align-items: center; justify-content: center;"
+          v-if="isloggedIn"
         >
           Last Watched Recipes:
         </h6>
