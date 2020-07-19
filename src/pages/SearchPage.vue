@@ -1,16 +1,16 @@
 <template>
   <div style="height: 100vh;">
-    <div style="background-color: #ffffcc;" class="container pb-3">
-      <b-container>
-        <br>
-         <h6
+    <div style="background-color: #ffffcc;" class="container pb-4">
+      <b-container class="pt-3">
+        <br />
+        <h6
           class="mb-14"
           style=" color: #ff9999 ; font-family: Impact, Charcoal, sans-serif; font-size: 26px;   text-align: center; align-items: center; justify-content: center;"
-        > 
-         Search:
+        >
+          Search:
         </h6>
-        <b-row class="mb-2 mt-2 pt-3">
-          <b-col cols="4">
+        <b-row class="mb-2 mt-2 pt-2">
+          <b-col>
             <b-form-input
               id="search-query"
               v-model="form.query"
@@ -18,12 +18,8 @@
               placeholder="Enter your search key word"
             ></b-form-input>
           </b-col>
-          <b-col cols="2">
-            <b-button block type="button" class="btn btn-amber" style="margin-left:-30px;  border-color: transparent;  width: 140px; text-align:center;" @click="onSearch">Search <i class="fas fa-search white-text mr-lg-4"></i> </b-button>
-
-          </b-col>
         </b-row>
- <br>
+
         <b-row class="mb-2">
           <b-col>
             <b-form-select
@@ -87,9 +83,9 @@
             <b-form-select
               id="search-intolerance"
               class="mb-2 mr-sm-2 mb-sm-0"
-              v-model="form.intolerances"
+              v-model="form.intolerance"
               :options="[
-                { text: 'Filter by Intolerances', value: null },
+                { text: 'Filter by Intolerance', value: null },
                 'Dairy',
                 'Egg',
                 'Gluten',
@@ -114,9 +110,9 @@
             ></b-form-select>
           </b-col>
         </b-row>
-        <!-- <b-row class="ml-0 mr-0">
-          <b-button block variant="primary" @click="onSearch">Search</b-button>
-        </b-row> -->
+        <b-row class="ml-0 mr-0">
+          <b-button block class="btn btn-amber" @click="onSearch"><i class="fas fa-search white-text mr-lg-2"></i>Search</b-button>
+        </b-row>
 
         <b-overlay :show="loading" rounded="sm" class="mt-4">
           <b-row class="mt-3" v-if="recipes.length > 0">
@@ -189,7 +185,7 @@ export default {
         query: "",
         cuisine: null,
         diet: null,
-        intolerances: null,
+        intolerance: null,
         number: 5,
       },
       resultText: "",
@@ -293,6 +289,7 @@ export default {
     async saveLastSearchResults() {
       // console.log("start saving results");
       this.$store.lastSearch = {};
+
       this.$store.lastSearch.results = this.recipes;
       this.$store.lastSearch.form = this.form;
       this.$store.lastSearch.loggedIn = this.$store.loggedIn;
