@@ -50,14 +50,20 @@
             waves-fixed
             v-if="this.$store.loggedIn"
           >
-            <i class="fas fa-pizza-slice"></i>
+            <!-- <i class="fas fa-pizza-slice"></i> -->
+            <img
+              :src="avatarImage"
+              class="rounded-circle z-depth-0 mr-2"
+              alt="avatar image"
+              height="35"
+              @error="imageUrlAlt"
+            />
             <strong>Hi {{ this.$store.userInfo.firstname }} !</strong>
           </mdb-dropdown-toggle>
           <mdb-dropdown-menu>
             <mdb-dropdown-item v-on:click="Logout()">
               Logout
             </mdb-dropdown-item>
-          
           </mdb-dropdown-menu>
         </mdb-dropdown>
 
@@ -70,7 +76,14 @@
             waves-fixed
             v-if="!this.$store.loggedIn"
           >
-            <i class="fas fa-pizza-slice"></i> <strong>Hi Guest ! </strong>
+            <img
+              :src="avatarImage"
+              class="rounded-circle z-depth-0 mr-2"
+              alt="avatar image"
+              height="35"
+            />
+            <!-- <i class="fas fa-pizza-slice"></i> -->
+            <strong>Hi Guest ! </strong>
           </mdb-dropdown-toggle>
           <mdb-dropdown-menu>
             <mdb-dropdown-item :to="{ name: 'login' }">
@@ -120,11 +133,23 @@ export default {
     return {
       username: this.$store.userInfo.firstname,
       isloggedIn: this.$store.loggedIn,
-      image_url: this.$store.userInfo.ProfilePicture
-    
+      image_url: this.$store.userInfo.ProfilePicture,
     };
   },
+  computed: {
+    avatarImage() {
+      if (this.$store.loggedIn && this.$store.userInfo.profilePicture) {
+        return this.$store.userInfo.profilePicture;
+      } else {
+        return require("@/assets/user_icon.png");
+      }
+    },
+  },
   methods: {
+    imageUrlAlt(event) {
+      console.log("img errror");
+      event.target.src = require("@/assets/user_icon.png");
+    },
     async Logout() {
       const response = await this.axios.post(
         this.$store.server_domain + "logout",
