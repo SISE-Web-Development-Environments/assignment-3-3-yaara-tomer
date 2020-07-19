@@ -190,7 +190,7 @@ export default {
           }
         );
       } else {
-        console.log("type error:", type);
+        // console.log("type error:", type);
         this.$router.push("/NotFound");
         return;
       }
@@ -241,9 +241,9 @@ export default {
         .then((response) => {
           //if server failed restore previous value
           if (response.status !== 200) {
-            console.log(
-              " not 200 server failed to set as favorite. id: " + recipe.id
-            );
+            // console.log(
+            //   " not 200 server failed to set as favorite. id: " + recipe.id
+            // );
             this.isFavorite = !this.isFavorite;
             this.$store.recipesMetaData[
               this.recipe.id
@@ -251,9 +251,9 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(
-            "error server failed to set as favorite. id: " + recipe.id
-          );
+          // console.log(
+          //   "error server failed to set as favorite. id: " + recipe.id
+          // );
           this.isFavorite = !this.isFavorite;
           this.$store.recipesMetaData[
             this.recipe.id
@@ -272,9 +272,9 @@ export default {
         .then((response) => {
           //if server failed restore previous value
           if (response.status !== 200) {
-            console.log(
-              " not 200 server failed to set as favorite. id: " + recipe.id
-            );
+            // console.log(
+            //   " not 200 server failed to set as favorite. id: " + recipe.id
+            // );
             this.isFavorite = !this.isFavorite;
             this.$store.recipesMetaData[
               this.recipe.id
@@ -282,9 +282,9 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(
-            "error server failed to set as favorite. id: " + recipe.id
-          );
+          // console.log(
+          //   "error server failed to set as favorite. id: " + recipe.id
+          // );
           this.isFavorite = !this.isFavorite;
           this.$store.recipesMetaData[
             this.recipe.id
@@ -307,7 +307,7 @@ export default {
             }
           )
           .catch((error) => {
-            console.log("failed get recipes metadata: " + error);
+            // console.log("failed get recipes metadata: " + error);
           });
         this.$store.recipesMetaData[this.recipe.id] =
           MetaDataresponse.data[this.recipe.id];
@@ -332,7 +332,7 @@ export default {
           withCredentials: true,
         }
       );
-      console.log("markAsWatched: " + response.status);
+      // console.log("markAsWatched: " + response.status);
     },
   },
 };
