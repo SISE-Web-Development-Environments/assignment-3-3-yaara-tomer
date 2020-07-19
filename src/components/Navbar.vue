@@ -55,7 +55,7 @@
               :src="avatarImage"
               class="rounded-circle z-depth-0 mr-2"
               alt="avatar image"
-              height="35"
+              height="30"
               @error="imageUrlAlt"
             />
             <strong>Hi {{ this.$store.userInfo.firstname }} !</strong>
