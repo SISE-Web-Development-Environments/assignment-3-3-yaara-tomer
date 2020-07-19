@@ -2,9 +2,9 @@
   <div class="container">
     <div
       class="jumbotron text-center"
-      style="width:100%; background-color:#ecdfec;"
+      style="width:100%; background-color:#ffddcc;"
     >
-      <h4 class="title" style="color: #a871a8 ;font-family: Impact, Charcoal, sans-serif;">{{ recipe.title }}</h4> <br />
+      <h4 class="title" style="color: #d65cad ;font-family: Impact, Charcoal, sans-serif;">{{ recipe.title }}</h4> <br />
       <img :src="recipe.image" class="center" style=" border-radius: 25px;" />
 
       <br />   <br />
@@ -62,14 +62,25 @@
       </div>
       <br />
       <div class="row" v-if="isFamily">
-        <div class="col-12">
-          <h4 style="color: #d65cad">
-            Made By: {{ recipe.byWho }}, {{ recipe.when }}
+        <div class="col-8" style=" border-radius: 25px;padding :10px; background: #ffffe6;margin-left:165px;" >
+          <h4 style="color: #d65cad; text-align: left">
+            Made By: {{ recipe.byWho }}, {{ recipe.when }}.
           </h4>
+           <h4 style="color: #d65cad ; text-align: left">
+          Origin cousine: {{ recipe.country }}      
+           <img
+              :src="flagImage"
+              class=" z-depth-0 mr-2"
+              alt="image"
+              height="26"
+            />
+         
+          </h4> 
         </div>
       </div>
 
       <br />
+ <br />
 
       <div class="row">
         <div class="col-4">
@@ -131,12 +142,22 @@ export default {
   data() {
     return {
       recipe: {},
+      flag_url:"",
       isFamily: false,
       isLoggedIn: false,
       isFavorite: false,
       type: "",
       isReady: false,
     };
+  },
+    computed: {
+    flagImage() {
+      if (this.$store.loggedIn && this.recipe.flag) {
+        return this.recipe.flag
+      } else {
+        return undefined
+      }
+    },
   },
   async created() {
     this.isLoggedIn = this.$store.loggedIn;
@@ -179,11 +200,12 @@ export default {
     }
 
     this.recipe = response.data; //this.$store.FullRecipeDemo;
-
+    this.flag = this.recipe.flag;
     if (this.isLoggedIn) {
+      if (type === "r"){
       //get metaData if needeed
       this.updateRecipeMetadata();
-
+    }
       //mark As Watched
       this.markAsWatched();
     }

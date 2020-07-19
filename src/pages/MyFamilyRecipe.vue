@@ -1,7 +1,7 @@
 <template>
   <div class="container" style=" background-color: #f3e5f5 ;">
     <br>
-    <h6 class="mb-14" style=" color:#bb90bb; font-size: 26px; font-family: Impact, Charcoal, sans-serif;text-align: center;">My Family Recipes:</h6>
+    <h6 class="mb-14" style="  font-size: 26px; color: #a871a8 ;font-family: Impact, Charcoal, sans-serif;  text-align: center; align-items: center; justify-content: center;">My Family Recipes:</h6>
     <RecipePreviewGrid :recipes="FamilyRecipes" />
     <br>
   </div>
