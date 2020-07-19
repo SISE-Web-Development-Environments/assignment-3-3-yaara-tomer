@@ -24,7 +24,7 @@ data(){
                this.$store.server_domain + "user/PersonalRecipesPreview" ,{
             withCredentials: true,
           });
-         console.log(response1.data);
+        //  console.log(response1.data);
          //add recipe type to all recipe - (r=regular, p=personal, f=family)
     
         const PersonalRecipesResult = response1.data;
@@ -34,7 +34,7 @@ data(){
         });
         // this.RandomRecipes.push(...RandomRecipesResult);
    } catch (error) {
-        console.log(error);
+        // console.log(error);
   }
   }
 };

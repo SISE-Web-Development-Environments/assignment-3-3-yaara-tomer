@@ -25,24 +25,24 @@ export default {
   },
   async created() {
     try {
-      console.log("created");
+      // console.log("created");
       const response1 = await this.axios.get(
         this.$store.server_domain + "user/favoriteRecipesPreview",
         {
           withCredentials: true,
         }
       );
-      console.log(response1.data);
+      // console.log(response1.data);
       const favoriteRecipesResult = response1.data;
       await this.updateRecipesMetaData(favoriteRecipesResult);
       this.FavoriteRecipes = favoriteRecipesResult;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   },
   methods: {
     async updateRecipesMetaData(array) {
-      console.log("update Favorive Recipes MetaDta started");
+      // console.log("update Favorive Recipes MetaDta started");
 
       //search results recipes ids
       let ids = array.map((recipe) => recipe.id);
@@ -54,7 +54,7 @@ export default {
             withCredentials: true,
           })
           .catch((error) => {
-            console.log("failed get recipes metadata: " + error);
+            // console.log("failed get recipes metadata: " + error);
           });
 
         // add New recipes meta data to shared store

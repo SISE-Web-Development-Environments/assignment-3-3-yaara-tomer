@@ -94,7 +94,7 @@ export default {
     mdbView,
   },
   mounted() {
-    console.log("RecipePreview mounted!");
+    // console.log("RecipePreview mounted!");
     this.isLoggedIn = this.$store.loggedIn;
     if (this.$store.recipesMetaData[this.recipe.id]) {
       this.isFavorite = this.$store.recipesMetaData[this.recipe.id].favorite;
@@ -155,9 +155,9 @@ export default {
         .then((response) => {
           //if server failed restore previous value
           if (response.status !== 200) {
-            console.log(
-              " not 200 server failed to set as favorite. id: " + recipe.id
-            );
+            // console.log(
+            //   " not 200 server failed to set as favorite. id: " + recipe.id
+            // );
             this.isFavorite = !this.isFavorite;
             this.$store.recipesMetaData[
               this.recipe.id
@@ -165,9 +165,9 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(
-            "error server failed to set as favorite. id: " + recipe.id
-          );
+          // console.log(
+          //   "error server failed to set as favorite. id: " + recipe.id
+          // );
           this.isFavorite = !this.isFavorite;
           this.$store.recipesMetaData[
             this.recipe.id
@@ -186,9 +186,9 @@ export default {
         .then((response) => {
           //if server failed restore previous value
           if (response.status !== 200) {
-            console.log(
-              " not 200 server failed to set as favorite. id: " + recipe.id
-            );
+            // console.log(
+            //   " not 200 server failed to set as favorite. id: " + recipe.id
+            // );
             this.isFavorite = !this.isFavorite;
             this.$store.recipesMetaData[
               this.recipe.id
@@ -196,9 +196,9 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(
-            "error server failed to set as favorite. id: " + recipe.id
-          );
+          // console.log(
+          //   "error server failed to set as favorite. id: " + recipe.id
+          // );
           this.isFavorite = !this.isFavorite;
           this.$store.recipesMetaData[
             this.recipe.id
