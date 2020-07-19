@@ -82,7 +82,7 @@ export default {
         ]);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   },
   methods: {
@@ -102,7 +102,7 @@ export default {
       let ids = all_ids.filter(
         (id) => !this.$store.recipesMetaData[id] && /^\d+$/.test(id)
       );
-      console.log("relevant ids: " + ids);
+      // console.log("relevant ids: " + ids);
 
       //get meta data from server for new recipes
       if (ids.length > 0) {
@@ -111,7 +111,7 @@ export default {
             withCredentials: true,
           })
           .catch((error) => {
-            console.log("failed get recipes metadata: " + error);
+            // console.log("failed get recipes metadata: " + error);
           });
 
         // add New recipes meta data to shared store
@@ -119,7 +119,7 @@ export default {
           this.$store.recipesMetaData[recipe_id] =
             MetaDataresponse.data[recipe_id];
         });
-        console.log(this.$store.recipesMetaData);
+        // console.log(this.$store.recipesMetaData);
       }
     },
     async getRandomRecipes() {
@@ -136,7 +136,7 @@ export default {
           this.updateRecipesMetaData(this.RandomRecipes);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     },
     async getlastWatchRecipe() {
@@ -153,16 +153,16 @@ export default {
             }
           );
           const LastWatchedResult = response2.data;
-          console.log(LastWatchedResult);
+          // console.log(LastWatchedResult);
           this.$store.lastWatched = LastWatchedResult; //add to shared store too for later use
-          console.log("before update metadata of lastwatched:");
+          // console.log("before update metadata of lastwatched:");
 
           await this.updateRecipesMetaData(LastWatchedResult); //update recipes metadata
           this.LastWatchedRecipes = LastWatchedResult; //update local data
-          console.log("update lastwatched array");
+          // console.log("update lastwatched array");
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     },
   },

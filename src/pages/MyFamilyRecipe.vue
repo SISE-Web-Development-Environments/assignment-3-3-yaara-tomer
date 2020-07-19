@@ -27,7 +27,7 @@ export default {
                this.$store.server_domain + "user/familyRecipesPreview" ,{
             withCredentials: true,
           });
-         console.log(response1.data);
+        //  console.log(response1.data);
          //add recipe type to all recipe - (r=regular, p=personal, f=family)
      
         const familyRecipesResult = response1.data;
@@ -37,7 +37,7 @@ export default {
         });
         // this.RandomRecipes.push(...RandomRecipesResult);
    } catch (error) {
-        console.log(error);
+        // console.log(error);
   }
 
   }

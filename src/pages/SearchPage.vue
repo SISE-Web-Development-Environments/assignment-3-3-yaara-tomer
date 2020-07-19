@@ -181,7 +181,7 @@ export default {
       }
     }
 
-    console.log("search finish mounted");
+    // console.log("search finish mounted");
   },
   data() {
     return {
@@ -237,7 +237,7 @@ export default {
           this.updateRecipesMetaData();
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
       this.resultText = this.form.query;
       this.loading = false;
@@ -254,15 +254,15 @@ export default {
       }
     },
     async updateRecipesMetaData() {
-      console.log("updateRecipesMetaDta started");
+      // console.log("updateRecipesMetaDta started");
 
       //search results recipes ids
       let all_ids = this.recipes.map((recipe) => recipe.id);
-      console.log("all ids: " + all_ids);
+      // console.log("all ids: " + all_ids);
 
       //filter only recipes we dont have meta data on in store memory
       let ids = all_ids.filter((id) => !this.$store.recipesMetaData[id]);
-      console.log("relevant ids: " + ids);
+      // console.log("relevant ids: " + ids);
 
       //get meta data from server for new recipes
       if (ids.length > 0) {
@@ -271,7 +271,7 @@ export default {
             withCredentials: true,
           })
           .catch((error) => {
-            console.log("failed get recipes metadata: " + error);
+            // console.log("failed get recipes metadata: " + error);
           });
 
         // add New recipes meta data to shared store
@@ -291,13 +291,12 @@ export default {
       }
     },
     async saveLastSearchResults() {
-      console.log("start saving results");
+      // console.log("start saving results");
       this.$store.lastSearch = {};
-
       this.$store.lastSearch.results = this.recipes;
       this.$store.lastSearch.form = this.form;
       this.$store.lastSearch.loggedIn = this.$store.loggedIn;
-      console.log("saved results:" + this.$store.lastSearch);
+      // console.log("saved results:" + this.$store.lastSearch);
     },
   },
 };

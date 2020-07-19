@@ -332,7 +332,7 @@ export default {
         this.$router.push("/login");
         // console.log(response);
       } catch (err) {
-        console.log(err.response);
+        // console.log(err.response);
         this.form.submitError = err.response.data.message;
       }
     },

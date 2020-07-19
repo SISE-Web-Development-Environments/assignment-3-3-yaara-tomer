@@ -133,14 +133,14 @@ export default {
 
 
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         this.form.submitError = err.response.data.message;
       }
       this.isLoading = false;
     },
     onLogin() {
-      console.log("login method called");
-      console.log(this.$store);
+      // console.log("login method called");
+      // console.log(this.$store);
 
       this.form.submitError = undefined;
       this.$v.form.$touch();
@@ -154,7 +154,7 @@ export default {
       if (this.$store.lastSearch) {
         //search results recipes ids
         let ids = this.$store.lastSearch.results.map((recipe) => recipe.id);
-        console.log("all ids: " + ids);
+        // console.log("all ids: " + ids);
 
         //get meta data from server for new recipes
         if (ids.length > 0) {
@@ -163,7 +163,7 @@ export default {
               withCredentials: true,
             })
             .catch((error) => {
-              console.log("failed get recipes metadata: " + error);
+              // console.log("failed get recipes metadata: " + error);
             });
 
           // add New recipes meta data to shared store
@@ -171,7 +171,7 @@ export default {
             this.$store.recipesMetaData[recipe_id] =
               MetaDataresponse.data[recipe_id];
           });
-          console.log("updateAllRecipesMetaDta finish");
+          // console.log("updateAllRecipesMetaDta finish");
         }
       }
     },

@@ -147,7 +147,7 @@ export default {
   },
   methods: {
     imageUrlAlt(event) {
-      console.log("img errror");
+      // console.log("img errror");
       event.target.src = require("@/assets/user_icon.png");
     },
     async Logout() {
@@ -162,8 +162,6 @@ export default {
       this.$store.lastSearch = undefined;
       this.$store.lastWatched = undefined;
       this.$root.toast("Logout", "User logged out successfully", "info");
-      console.log("stored data:");
-      console.log(this.$store);
 
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
