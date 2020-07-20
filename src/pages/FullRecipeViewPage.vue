@@ -8,7 +8,7 @@
       <img :src="recipe.image" class="center" style=" border-radius: 25px;" />
 
       <br />   <br />
-      <div class="row" style="width:100%;">
+      <div class="row" style="width:100%;margin-left:100px; ">
         <!-- background-color: lightblue; -->
         <div class="col-md-auto">
           <mdb-icon icon="clock" size="lg" class="orange-text" />
@@ -50,7 +50,7 @@
           </p>
         </div>
 
-        <div class="col  px-lg-1" v-if="isLoggedIn && type === 'r'">
+        <div class="ol-md-auto" v-if="isLoggedIn && type === 'r'">
           <a v-if="!isFavorite" @click="handleFavorite" class="px-2"
             ><mdb-icon far icon="star" size="lg" /> Add To Favorite</a
           >
@@ -62,8 +62,8 @@
       </div>
       <br />
       <div class="row" v-if="isFamily">
-        <div class="col-8" style=" border-radius: 25px;padding :10px; background: #ffffe6;margin-left:165px;" >
-          <h4 style="color: #d65cad; text-align: left">
+        <div class="col-11" style=" border-radius: 25px;padding:20px 40px 20px 20px; background: #ffffe6;margin-left:40px;" >
+          <h4 style="color: #d65cad; text-align: left; padding:">
             Made By: {{ recipe.byWho }}, {{ recipe.when }}.
           </h4>
            <h4 style="color: #d65cad ; text-align: left">

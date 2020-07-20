@@ -110,8 +110,9 @@
             ></b-form-select>
           </b-col>
         </b-row>
+        
         <b-row class="ml-0 mr-0">
-          <b-button block class="btn btn-amber" @click="onSearch"><i class="fas fa-search white-text mr-lg-2"></i>Search</b-button>
+          <b-button block style="border-style: none;" class="btn btn-amber" @click="onSearch"><i class="fas fa-search white-text mr-lg-2"></i>Search</b-button>
         </b-row>
 
         <b-overlay :show="loading" rounded="sm" class="mt-4">
